@@ -1,0 +1,16 @@
+﻿                  Reflexion :
+
+class Villes {
+  Variable:
+    String nom; /* Nom de la ville qui est unique. */
+    boolean ecole; /* Si posséde ou non une école. */
+
+  Fonction:
+    
+}
+
+class CA {
+  Villes[] aglo; /* Permet de liste toutes les villes de l'aglo et leurs indice serat l'indice
+                  * utiliser pour la matrice. */
+  boolean [][]matrice; /* Matrice d'adjacence. */
+}
