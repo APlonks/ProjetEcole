@@ -6,11 +6,35 @@ class Villes {
     boolean ecole; /* Si posséde ou non une école. */
 
   Fonction:
-    
+    set ecole;
+    get ecole;
+    /* Normalement on n'as pas besoin du nom. */
+    comparableTo; /* Utiliser le comparable des String, même nom, même ville. */
 }
 
 class CA {
-  Villes[] aglo; /* Permet de liste toutes les villes de l'aglo et leurs indice serat l'indice
-                  * utiliser pour la matrice. */
-  boolean [][]matrice; /* Matrice d'adjacence. */
+  Variable:
+    Villes[] aglo; /* Permet de liste toutes les villes de l'aglo et leurs indice serat l'indice
+     * utiliser pour la matrice. */
+    boolean [][]matrice; /* Matrice d'adjacence. */
+
+  Fonction:
+    retireEcole/ajouteEcole; /* Appel aux fonction de villes. */
+    ajouteRoute; /* Ajoute sur la matrice d'adjacence. */
+
+  Constructeur:
+    Demande le nombre de ville comme cela on ignitialise le tableau.
+    Puis demande demande a l'utilisateur de nommer les villes. /* Peut être que cela n'est pas
+     * necessaire actuellement. Mais après serat primordiale car devrat verifier que les noms des
+     * villes soit diff et plus ou moins long. */
+}
+
+class Scanner {
+  Variable:
+    static Scanner; /* On creer un scanner qu'on utilise tout le long du programme.
+     * le même partour, pour tout. Et on le ferme uniquement a la fin. */
+
+  Fonction:
+    lireInt;
+    lireString;
 }
