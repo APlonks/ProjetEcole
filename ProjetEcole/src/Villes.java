@@ -29,7 +29,7 @@ public class Villes {
 		boolean arretMenu2 = false;
 		Scanner scan= new Scanner(System.in);
 		do {
-			System.out.println("Entrez le nombre de villes de la communauté d'agglomération\n");
+			System.out.println("Entrez le nombre de villes de la communaute d'agglomeration\n");
 			nombreVilles = scan.nextInt();	
 		}
 		while(nombreVilles < 0 || nombreVilles > 26);
@@ -73,7 +73,11 @@ public class Villes {
 		}
 		while(arretMenu2 == false);
 		scan.close();
-		
+		System.out.println("Selectionner une option :");
+		System.out.println("1) ajouter une route;\n");
+		System.out.println("2) fin.\n");
+
+		scan.close();
 	}
 
 }
