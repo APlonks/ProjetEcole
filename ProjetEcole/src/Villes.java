@@ -72,6 +72,7 @@ public class Villes {
 			}
 		}
 		while(arretMenu2 == false);
+		scan.close();
 		
 	}
 
