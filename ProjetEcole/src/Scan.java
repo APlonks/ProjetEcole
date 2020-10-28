@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 /**
- * Classe static et final du scanner. Serat utiliser pour faie les entrers claviers.
+ * Classe static et final du scanner. Sera utilisé pour faire les entrers claviers.
  * @param s Scanner de la class.
  */
 public class Scan {

@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Villes {
@@ -27,13 +28,34 @@ public class Villes {
 		int nombreVilles = 0;
 		boolean arretMenu1 = false;
 		boolean arretMenu2 = false;
+		char codeAscii = (int) 'A';
 		Scanner scan= new Scanner(System.in);
 		do {
 			System.out.println("Entrez le nombre de villes de la communauté d'agglomération\n");
 			nombreVilles = scan.nextInt();	
 		}
 		while(nombreVilles < 0 || nombreVilles > 26);
+		
+		Commune commune = new Commune(nombreVilles);
+		for(int i=0; i<nombreVilles; i++) {
+			commune.addVille(new Agglomeration(codeAscii));
+			codeAscii++;
+		}
+		
 		System.out.println("Vous avez choisi " + nombreVilles + " Villes\n");
+
+            
+		/*
+		HashMap<String, Character> commune = new HashMap<>();
+		for (int i=0; i<nombreVilles; i++) {
+			commune.put("Ville", codeAscii);
+			codeAscii++;
+		}
+		System.out.println("Vous avez choisi " + commune.size() + " Villes\n");
+		for (String i : commune.keySet()) {
+			System.out.println(i + " " + commune.get(i));
+		}
+		*/
 		
 		do {
 			switch(menu1()) {
