@@ -17,6 +17,10 @@ public class Commune {
 	
 	public void addVille(Agglomeration v) {
 		villes.add(v);
-	}		
-       
+	}
+	public void affiche() {
+		for (int i=0; i<villes.size(); i++) {
+			System.out.println(villes.get(i));
+		}
+	}
 }
