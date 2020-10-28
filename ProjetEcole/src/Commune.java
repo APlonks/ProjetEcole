@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Commune {
-	private List<Agglomeration>villes;
+	private static List<Agglomeration>villes;
 	private int nombresVilles;
 	private Agglomeration ville;
 	
@@ -18,7 +18,7 @@ public class Commune {
 	public void addVille(Agglomeration v) {
 		villes.add(v);
 	}
-	public void affiche() {
+	public static void affiche() {
 		for (int i=0; i<villes.size(); i++) {
 			System.out.println(villes.get(i));
 		}

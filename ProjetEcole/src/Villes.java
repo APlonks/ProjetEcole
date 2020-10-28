@@ -43,6 +43,8 @@ public class Villes {
 		}
 		
 		System.out.println("Vous avez choisi " + nombreVilles + " Villes\n");
+		
+		Commune.affiche();
 
             
 		/*
