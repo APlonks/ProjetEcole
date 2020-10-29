@@ -23,4 +23,13 @@ public class Commune {
 			System.out.println(villes.get(i));
 		}
 	}
+	
+	public Agglomeration getVille(char c) {
+		for(Agglomeration a : villes) {
+			if(a.getNomVille() == c) {
+				return a;
+			}
+		}
+		return null;
+	}
 }

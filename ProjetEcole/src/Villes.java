@@ -29,6 +29,8 @@ public class Villes {
 		boolean arretMenu1 = false;
 		boolean arretMenu2 = false;
 		char codeAscii = (int) 'A';
+		char nomVille;
+		
 		Scanner scan= new Scanner(System.in);
 		do {
 			System.out.println("Entrez le nombre de villes de la communauté d'agglomération\n");
@@ -79,11 +81,25 @@ public class Villes {
 		do {
 			switch(menu2()) {
 			case 1 :
-				System.out.println("Vous avez ajouté une école\n");
+				System.out.println("Dans quel ville voulez-vous ajouter une école?\n");
+				nomVille = scan.next().charAt(0);
+				if(commune.getVille(nomVille).getEcole() == true) {
+					System.out.println("Cette ville possède déja une école !\n");
+				}
+				else {
+					commune.getVille(nomVille).addEcole();
+				}
 			break;
 			
 			case 2 : 
-				System.out.println("Vous avez retiré une école\n");
+				System.out.println("Dans quel ville voulez-vous retirer une école?\n");
+				nomVille = scan.next().charAt(0);
+				if(commune.getVille(nomVille).getEcole() == false) {
+					System.out.println("Cette ville ne possède aucune école !\n");
+				}
+				else {
+					commune.getVille(nomVille).retireEcole();
+				}
 			break;
 			
 			case 3 :
