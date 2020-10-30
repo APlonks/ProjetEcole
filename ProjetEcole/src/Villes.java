@@ -13,7 +13,7 @@ public class Villes {
 		return option1;
 	}
 	
-	public static int menu2() { //Menu2 demandant a l'utilisateur quel option il souhaite effectuer et renvoie sa selection via un scan
+	public static int menu2() { //Menu2 demandant a l'utilisateur quel option il souhaite effectuer et renvoie sa selection via un scan.
 		int option2 = 0;
 		Scanner scan= new Scanner(System.in);
 		System.out.println("\n Sélectionner une option :\n");
