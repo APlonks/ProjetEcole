@@ -6,7 +6,7 @@ public class Commune {
 	private static List<Agglomeration>villes;
 	private int nombresVilles;
 	private Agglomeration ville;
-	
+
 	public Commune(int nombresVilles) {
 		this.nombresVilles = nombresVilles;
 		villes= new ArrayList<Agglomeration>(nombresVilles);
@@ -25,9 +25,9 @@ public class Commune {
 		}
 	}
 	
-	public Agglomeration getVille(char c) {//Methode permettant de renvoyer le nom de la ville
+	public Agglomeration getVille(String c) {//Methode permettant de renvoyer le nom de la ville
 		for(Agglomeration a : villes) {
-			if(a.getNomVille() == c) {
+			if(a.getNomVille().equals(c)) {
 				return a;
 			}
 		}

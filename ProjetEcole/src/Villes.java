@@ -2,23 +2,25 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class Villes {
-	
-	public static int menu1() { //Menu1 demandant a l'utilisateur quel option il souhaite effectuer et renvoie sa selection via un scan
+	/* Menu1 demandant a l'utilisateur quel option il souhaite effectuer et renvoie sa selection
+	 * via un scan. */
+	public static int menu1() {
 		int option1 = 0;
 		Scanner scan= new Scanner(System.in);
-		System.out.println("Sélectionner une option :");
+		System.out.println("Selectionner une option :");
 		System.out.println("1) Ajouter une route;\n");
 		System.out.println("2) Fin.\n");
 		option1 = scan.nextInt();
 		return option1;
 	}
-	
-	public static int menu2() { //Menu2 demandant a l'utilisateur quel option il souhaite effectuer et renvoie sa selection via un scan.
+	/* Menu2 demandant a l'utilisateur quel option il souhaite effectuer et renvoie sa selection
+	 * via un scan. */
+		public static int menu2() {
 		int option2 = 0;
 		Scanner scan= new Scanner(System.in);
-		System.out.println("\n Sélectionner une option :\n");
-		System.out.println("1) Ajouter une école;\n");
-		System.out.println("2) Retirer une école;\n");
+		System.out.println("\n Selectionner une option :\n");
+		System.out.println("1) Ajouter une ecole;\n");
+		System.out.println("2) Retirer une ecole;\n");
 		System.out.println("3) Fin.\n");
 		option2 = scan.nextInt();
 		return option2;
@@ -30,30 +32,30 @@ public class Villes {
 		boolean arretMenu1 = false;
 		boolean arretMenu2 = false;
 		char codeAscii = (int) 'A';
-		char nomVille;
+		String nomVille;
 		char nomVilleAscii = (int) 'A';
 		
 		//Scanner permettant a l'utilisateur de choisir le nombre de villes.
 		Scanner scan= new Scanner(System.in);
 		do {
-			System.out.println("Entrez le nombre de villes de la communauté d'agglomération\n");
+			System.out.println("Entrez le nombre de villes de la communaute d'agglomeration\n");
 			nombreVilles = scan.nextInt();	
 		}
 		while(nombreVilles < 1 || nombreVilles > 26);//Le nombre de villes est pour l'instant compris entre 1 et 26
 		
 		/*
-		Creation de la liste de villes en fonction du nombre de villes sélectionner par l'utilisateur
-		De plus chaque ville sera nommée en fonction d'une lettre de l'alphabet commençant par 'A'
+		Creation de la liste de villes en fonction du nombre de villes selectionner par l'utilisateur
+		De plus chaque ville sera nommee en fonction d'une lettre de l'alphabet commeneant par 'A'
 		*/
 		Commune commune = new Commune(nombreVilles);
 		for(int i=0; i<nombreVilles; i++) {
 			commune.addVille(new Agglomeration(codeAscii));
 			codeAscii++;
 		}
-		
-		//Ajoute par défaut une école dans chacune des villes.
+
+		//Ajoute par defaut une ecole dans chacune des villes.
 		for (int i=0; i<nombreVilles; i++) {
-			nomVille = nomVilleAscii;
+			nomVille = Character.toString(nomVilleAscii);
 			commune.getVille(nomVille).addEcole();
 			nomVilleAscii++;
 		}
@@ -62,7 +64,6 @@ public class Villes {
 		
 		Commune.affiche();//Affiche la liste de villes, A RETIRER PLUS TARD!!
 
-            
 		/*
 		HashMap<String, Character> commune = new HashMap<>();
 		for (int i=0; i<nombreVilles; i++) {
@@ -96,22 +97,22 @@ public class Villes {
 		//Affiche le menu2 et effectue une action en fonction du choix de l'option de l'utilisateur.
 		do {
 			switch(menu2()) {
-			case 1 : //Permet d'ajouter une école dans une ville si il n'y en a pas deja une.
-				System.out.println("Dans quel ville voulez-vous ajouter une école?\n");
-				nomVille = scan.next().charAt(0);
+			case 1 : //Permet d'ajouter une ecole dans une ville si il n'y en a pas deja une.
+				System.out.println("Dans quel ville voulez-vous ajouter une ecole?\n");
+				nomVille = Character.toString(scan.next().charAt(0));
 				if(commune.getVille(nomVille).getEcole() == true) {
-					System.out.println("Cette ville possède déja une école !\n");
+					System.out.println("Cette ville possede deja une ecole !\n");
 				}
 				else {
 					commune.getVille(nomVille).addEcole();
 				}
 			break;
 			
-			case 2 : //Permet de retirer une école d'une ville.
-				System.out.println("Dans quel ville voulez-vous retirer une école?\n");
-				nomVille = scan.next().charAt(0);
+			case 2 : //Permet de retirer une ecole d'une ville.
+				System.out.println("Dans quel ville voulez-vous retirer une ecole?\n");
+				nomVille = Character.toString(scan.next().charAt(0));
 				if(commune.getVille(nomVille).getEcole() == false) {
-					System.out.println("Cette ville ne possède aucune école !\n");
+					System.out.println("Cette ville ne possede aucune ecole !\n");
 				}
 				else {
 					commune.getVille(nomVille).retireEcole();
