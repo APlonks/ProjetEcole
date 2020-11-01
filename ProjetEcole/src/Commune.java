@@ -29,8 +29,7 @@ public class Commune {
 	public void addVille(Agglomeration v) {
 		if (!(commune.containsKey(v))) {
 			/* Ville nom deja presente. */
-			ArrayList<Agglomeration> oui = new ArrayList<Agglomeration>();
-			commune.put(v,oui);
+			commune.put(v,new ArrayList<Agglomeration>());
 		} else {
 			/* Affichage pour qu'on pense a l'enlever. */
 			System.out.println("Ville deja existante.");
