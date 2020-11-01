@@ -160,11 +160,6 @@ public class Scan {
 	 * @return String mot cle reconnue.
 	 */
 	public static String questionReponse(String question, String rA, String ... a) {
-		System.out.print(rA);
-		for (String i : a) {
-			System.out.print(" "+i);
-		}
-		System.out.print("\n");
 		System.out.print(question);
 		String reponse;
 		/* Lis l'entrer utilisateur. */

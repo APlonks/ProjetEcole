@@ -45,20 +45,20 @@ public class Agglomeration {
 	public void retireEcole() {
 		this.ecole = false;
 	}
-	@Override
 	/**
 	 * Redéfinition de hashCode pour pouvoir redifinir equals et sont utilisation dans les
 	 * fonctions de hashMap.
 	 * @return hashCode(nom)
 	 */
+	@Override
 	public int hashCode() {
 		return nom.hashCode();
 	}
-	@Override
 	/**
 	 * @param Agglomeration
 	 * @return Agglomeration.getNomVille() == this.getNomVille()
 	 */
+	@Override
 	public boolean equals(Object v) {
 		if (v==null && !(v instanceof Agglomeration)) {
 			return false;
