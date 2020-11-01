@@ -2,27 +2,37 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class Villes {
-	/* Menu1 demandant a l'utilisateur quel option il souhaite effectuer et renvoie sa selection
-	 * via un scan. */
-	public static int menu1() {
-		int option1 = 0;
-		Scanner scan= new Scanner(System.in);
-		System.out.println("Selectionner une option :");
-		System.out.println("1) Ajouter une route;\n");
-		System.out.println("2) Fin.\n");
-		option1 = scan.nextInt();
-		return option1;
-	}
+// 	/* Menu1 demandant a l'utilisateur quel option il souhaite effectuer et renvoie sa selection
+// 	 * via un scan. */
+// 	public static int menu1() {
+// 		int option1 = 0;
+// 		do {
+// 			System.out.println("Selectionner une option :");
+// 			System.out.println("1) Ajouter une route;\n");
+// 			System.out.println("2) Fin.\n");
+// 			try {
+// 				option1 = Scan.lireEntier();
+// 			} catch (ScanException e) {
+// 				System.out.println(e.getMessage());
+// 			}
+// 		} while (option1 == 0);
+// 		return option1;
+// 	}
 	/* Menu2 demandant a l'utilisateur quel option il souhaite effectuer et renvoie sa selection
 	 * via un scan. */
 		public static int menu2() {
 		int option2 = 0;
-		Scanner scan= new Scanner(System.in);
-		System.out.println("\n Selectionner une option :\n");
-		System.out.println("1) Ajouter une ecole;\n");
-		System.out.println("2) Retirer une ecole;\n");
-		System.out.println("3) Fin.\n");
-		option2 = scan.nextInt();
+		do {
+			System.out.println("\n Selectionner une option :\n");
+			System.out.println("1) Ajouter une ecole;\n");
+			System.out.println("2) Retirer une ecole;\n");
+			System.out.println("3) Fin.\n");
+			try {
+				option2 = Scan.lireEntier();
+			} catch (ScanException e) {
+				System.out.println(e.getMessage());
+			}
+		} while (option2 == 0);
 		return option2;
 	}
 
@@ -34,7 +44,7 @@ public class Villes {
 		char codeAscii = (int) 'A';
 		String nomVille;
 		char nomVilleAscii = (int) 'A';
-		
+
 		//Scanner permettant a l'utilisateur de choisir le nombre de villes.
 		Scanner scan= new Scanner(System.in);
 		do {
@@ -49,17 +59,10 @@ public class Villes {
 		*/
 		Commune commune = new Commune(nombreVilles);
 		for(int i=0; i<nombreVilles; i++) {
-			commune.addVille(new Agglomeration(codeAscii));
+			commune.addVille(new Agglomeration(codeAscii,true));
 			codeAscii++;
 		}
 
-		//Ajoute par defaut une ecole dans chacune des villes.
-		for (int i=0; i<nombreVilles; i++) {
-			nomVille = Character.toString(nomVilleAscii);
-			commune.getVille(nomVille).addEcole();
-			nomVilleAscii++;
-		}
-		
 		System.out.println("Vous avez choisi " + nombreVilles + " Villes\n");
 		
 		Commune.affiche();//Affiche la liste de villes, A RETIRER PLUS TARD!!
@@ -76,25 +79,20 @@ public class Villes {
 		}
 		*/
 		
-		//Affiche le menu1 et effectue une action en fonction du choix de l'option de l'utilisateur 
+		//Affiche le menu1 et effectue une action en fonction du choix de l'option de l'utilisateur
 		do {
-			switch(menu1()) {
-			case 1 :
+			switch(Scan.questionReponse("Option :\n\tAjouter une route (ajouter)\n\tFin (fin)\n",
+				"ajouter","fin")) {
+			case "ajouter" :
 				System.out.println("Vous avez ajouter une route\n");
 			break;
-			
-			case 2 : 
+			case "fin" : 
 				arretMenu1 = true;
-			break;
-			
-			default :
-				System.out.println("Veuillez choisir l'option 1 ou 2\n");
-			break;
 			}
-		}
-		while(arretMenu1 == false);	
-		
-		//Affiche le menu2 et effectue une action en fonction du choix de l'option de l'utilisateur.
+		} while(arretMenu1 == false);
+
+		//Affiche le menu2 et effectue une action en fonction du choix de l'option de
+		//l'utilisateur.
 		do {
 			switch(menu2()) {
 			case 1 : //Permet d'ajouter une ecole dans une ville si il n'y en a pas deja une.
@@ -129,7 +127,8 @@ public class Villes {
 			}
 		}
 		while(arretMenu2 == false);
-		scan.close();
+		
+		Scan.fermer();
 	}
 
 }

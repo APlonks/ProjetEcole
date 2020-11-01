@@ -14,6 +14,10 @@ public class Agglomeration {
 	public Agglomeration(char nom) {
 		this.nom = Character.toString(nom);
 	}
+	public Agglomeration(char nom, boolean ecole) {
+		this.nom = Character.toString(nom);
+		this.ecole = ecole;
+	}
 
 	/**
 	 * Getter.

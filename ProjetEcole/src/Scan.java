@@ -18,7 +18,7 @@ public class Scan {
 		try {
 			ligne.append(s.nextLine());
 		} catch(Exception e) {
-			throw new ScanException("Entrer vide");
+			throw new ScanException("Entrer vide.");
 		}
 		retireEspc();
 	}
@@ -41,6 +41,12 @@ public class Scan {
 	}
 
 	/**
+	 * Ferme le Scanner, on ne peut plus utiliser la class Scan.
+	 */
+	public static void fermer() {
+		s.close();
+	}
+	/**
 	 * Permet de savoir si le buffer de l'entrer utilisateur est vide.
 	 */
 	public static boolean estVide() {
@@ -60,7 +66,7 @@ public class Scan {
 		String retour;
 		int fin = ligne.indexOf(" ");
 		if (estVide()) {
-			throw new ScanException("Entrer vide");
+			throw new ScanException("Entrer vide.");
 		} else if (fin != -1) {
 			/* Il y a un espace dans la ligne. */
 			retour = ligne.subSequence(0,fin).toString();
@@ -78,7 +84,7 @@ public class Scan {
 	public static String motSuivant() throws ScanException {
 		if (estVide()) {
 			/* Ereur, il n'y as plus rien a lire. */
-			throw new ScanException("Plus rien a lire");
+			throw new ScanException("Plus rien a lire.");
 		}
 		String retour;
 		int fin = ligne.indexOf(" ");
@@ -112,7 +118,7 @@ public class Scan {
 		for (int i=0; i<mot.length(); i++) {
 			lettre = mot.charAt(i);
 			if (lettre<'0' || lettre>'9') {
-				throw new ScanException("L'entrer n'est pas un entier");
+				throw new ScanException("L'entrer n'est pas un entier.");
 			} else {
 				retour = retour*10+lettre-'0';
 			}
@@ -139,11 +145,48 @@ public class Scan {
 		for (int i=0; i<mot.length(); i++) {
 			lettre = mot.charAt(i);
 			if (lettre<'0' || lettre>'9') {
-				throw new ScanException("L'entrer n'est pas un entier");
+				throw new ScanException("L'entrer n'est pas un entier.");
 			} else {
 				retour = retour*10+lettre-'0';
 			}
 		}
 		return retour;
+	}
+	/**
+	 * Pose une question a l'utilisateur jusqu'a que ce dernier donne une reponse correcte.
+	 * @param question Question poser a l'utilisateur.
+	 * @param rA Reponse accepter, permet d'etre sure qu'il y a aux moins une reponse.
+	 * @param ...a Ensemble des mot cles accepter.
+	 * @return String mot cle reconnue.
+	 */
+	public static String questionReponse(String question, String rA, String ... a) {
+		System.out.print(rA);
+		for (String i : a) {
+			System.out.print(" "+i);
+		}
+		System.out.print("\n");
+		System.out.print(question);
+		String reponse;
+		/* Lis l'entrer utilisateur. */
+		try {
+			reponse = lireMot();
+		} catch (Exception e) {
+			/* Enonce l'ereur de l'utilisateur et attend une nouvelle reponse. */
+			System.out.println(e.getMessage());
+			return questionReponse(question,rA,a);
+		}
+		/* Recherche d'un match. */
+		if (reponse.equals(rA)) {
+			return rA;
+		}
+		for (String i : a) {
+			if (reponse.equals(i)) {
+				return reponse;
+			}
+		}
+		/* Aucun match, annonce que l'entrer est invalide.
+		 * Demande une nouvelle reponse. */
+		System.out.println("Aucune reponse valide.");
+		return questionReponse(question,rA,a);
 	}
 }
