@@ -69,11 +69,15 @@ public class Villes {
 		//Affiche le menu1 et effectue une action en fonction du choix de l'option de l'utilisateur
 		do {
 			switch(Scan.questionReponse("Option :\n\tAjouter une route (ajouter)\n\tFin (fin)\n",
-				"ajouter","fin")) {
+				"ajouter","fin","a","f","1","2")) {
 			case "ajouter" :
+			case "a" :
+			case "1" :
 				System.out.println("Vous avez ajouter une route.");
 			break;
 			case "fin" : 
+			case "f" :
+			case "2" :
 				arretMenu1 = true;
 			}
 		} while(arretMenu1 == false);
@@ -83,8 +87,14 @@ public class Villes {
 		do {
 			switch(menu2()) {
 			case 1 : //Permet d'ajouter une ecole dans une ville si il n'y en a pas deja une.
-				System.out.println("Dans quel ville voulez-vous ajouter une ecole ?");
-				nomVille = Character.toString(scan.next().charAt(0));
+				do {
+					System.out.println("Dans quel ville voulez-vous ajouter une ecole ?");
+					nomVille = Character.toString(scan.next().charAt(0));
+					if (commune.getVille(nomVille) == null) {
+						System.out.println("Cette ville n'existe pas !");
+					}
+				} while (commune.getVille(nomVille) == null);
+				
 				if(commune.getVille(nomVille).getEcole() == true) {
 					System.out.println("Cette ville possede deja une ecole !");
 				}
@@ -94,8 +104,15 @@ public class Villes {
 			break;
 			
 			case 2 : //Permet de retirer une ecole d'une ville.
-				System.out.println("Dans quel ville voulez-vous retirer une ecole ?");
-				nomVille = Character.toString(scan.next().charAt(0));
+				do {
+					System.out.println("Dans quel ville voulez-vous retirer une ecole ?");
+					nomVille = Character.toString(scan.next().charAt(0));
+					if (commune.getVille(nomVille) == null) {
+						System.out.println("Cette ville n'existe pas !");
+					}
+				} while (commune.getVille(nomVille) == null);
+				
+			
 				if(commune.getVille(nomVille).getEcole() == false) {
 					System.out.println("Cette ville ne possede aucune ecole !");
 				}
