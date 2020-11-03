@@ -20,7 +20,7 @@ public class Villes {
 // 	}
 	/* Menu2 demandant a l'utilisateur quel option il souhaite effectuer et renvoie sa selection
 	 * via un scan. */
-		public static int menu2() {
+/*		public static int menu2() {
 		int option2 = 0;
 		do {
 			System.out.println("Selectionner une option :");
@@ -35,7 +35,7 @@ public class Villes {
 		} while (option2 == 0);
 		return option2;
 	}
-
+*/
 	public static void main(String[] args) {
 		//Initialisation des variables
 		int nombreVilles = 0;
@@ -68,7 +68,7 @@ public class Villes {
 
 		//Affiche le menu1 et effectue une action en fonction du choix de l'option de l'utilisateur
 		do {
-			switch(Scan.questionReponse("Option :\n\tAjouter une route (ajouter)\n\tFin (fin)\n",
+			switch(Scan.questionReponse("Sélectionner une option :\n\t1) Ajouter une route (ajouter)\n\t2) Fin (fin)\n",
 				"ajouter","fin","a","f","1","2")) {
 			case "ajouter" :
 			case "a" :
@@ -85,8 +85,11 @@ public class Villes {
 		//Affiche le menu2 et effectue une action en fonction du choix de l'option de
 		//l'utilisateur.
 		do {
-			switch(menu2()) {
-			case 1 : //Permet d'ajouter une ecole dans une ville si il n'y en a pas deja une.
+			switch(Scan.questionReponse("Sélectionner une options :\n\t1) Ajouter une école (ajouter)\n\t2) Retirer une école (retirer)\n\t3) Fin (fin)\n", 
+					"ajouter","a","1","retirer","r","2","fin","f","3")) {
+			case "ajouter" : //Permet d'ajouter une ecole dans une ville si il n'y en a pas deja une.
+			case "a" :
+			case "1" :
 				do {
 					System.out.println("Dans quel ville voulez-vous ajouter une ecole ?");
 					nomVille = Character.toString(scan.next().charAt(0));
@@ -101,9 +104,12 @@ public class Villes {
 				else {
 					commune.getVille(nomVille).addEcole();
 				}
+				Commune.afficheEcole();
 			break;
 			
-			case 2 : //Permet de retirer une ecole d'une ville.
+			case "retirer" : //Permet de retirer une ecole d'une ville.
+			case "r" :
+			case "2" :
 				do {
 					System.out.println("Dans quel ville voulez-vous retirer une ecole ?");
 					nomVille = Character.toString(scan.next().charAt(0));
@@ -119,9 +125,12 @@ public class Villes {
 				else {
 					commune.getVille(nomVille).retireEcole();
 				}
+				Commune.afficheEcole();
 			break;
 			
-			case 3 :
+			case "fin" :
+			case "f" :
+			case "3" :	
 				arretMenu2 = true;
 			break;
 			

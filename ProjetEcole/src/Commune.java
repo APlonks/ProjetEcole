@@ -44,6 +44,15 @@ public class Commune {
 		}
 		System.out.print("\n");
 	}
+	
+	public static void afficheEcole() {
+		for (Agglomeration k : commune.keySet()) {
+			if (k.getEcole() == true) {
+				System.out.print(k+" ");
+			}
+		}
+		System.out.print("\n");
+	}
 	/**
 	 * Methode permettant de renvoyer le nom de la ville.
 	 * @return Agglomeration recherche si elle existe, null sinon.
