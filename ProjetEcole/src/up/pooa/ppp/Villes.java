@@ -109,7 +109,14 @@ public class Villes {
 			case "2" :
 				System.out.println("Dans quel ville voulez-vous retirer une ecole ?");
 				try {
+					if (Scan.estVide()) {
 					commune.retireEcole(Scan.lireMot());
+					}
+					else {
+						while (!Scan.estVide()) {
+							commune.retireEcole(Scan.motSuivant());
+						}
+					}
 				} catch (ScanException e) {
 					System.out.println(e.getMessage());
 				}
