@@ -39,7 +39,7 @@ public class Commune {
 		return false;
 	}
 	/**
-	 * @param agA 1 ville de départ.
+	 * @param agA 1 ville de depart.
 	 * @param agB 1 ville adjacente a agA.
 	 * @return true si agA contient une ecole ou si une ville adjacence a agA autre que
 	 * 		agB contient une ecole.
@@ -89,7 +89,7 @@ public class Commune {
 	}
 	
 	/**
-	 * Affiche la liste de villes possédant une ecole.
+	 * Affiche la liste de villes possedant une ecole.
 	 */
 	public void afficheEcole() {
 		for (Agglomeration k : commune.keySet()) {

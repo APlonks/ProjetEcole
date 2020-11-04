@@ -35,7 +35,7 @@ public class Villes {
 
 		//Affiche le menu1 et effectue une action en fonction du choix de l'option de l'utilisateur
 		do {
-			switch(Scan.questionReponse("Selectionner une option :\n\t1) Ajouter une route (ajouter)\n\t2) Fin (fin)\n\t3) Afficher les routes d'une ville (afficher)\n\t4) Supprimer une route\n",
+			switch(Scan.questionReponse("Selectionner une option :\n\t1) Ajouter une route (ajouter)\n\t2) Fin (fin)\n\t3) Afficher les routes d'une ville (afficher)\n\t4) Supprimer une route (supprimer)\n",
 				"ajouter","fin","afficher","supprimer","a","f","af","s","1","2","3","4")) {
 			case "ajouter" :
 			case "a" :
@@ -82,7 +82,7 @@ public class Villes {
 		//l'utilisateur.
 		do {
 			switch(Scan.questionReponse("Selectionner une options :\n\t1) Ajouter une ecole"+
-				"(ajouter)\n\t2) Retirer une ecole (retirer)\n\t3) Fin (fin)\n", 
+				" (ajouter)\n\t2) Retirer une ecole (retirer)\n\t3) Fin (fin)\n", 
 				"ajouter","a","1","retirer","r","2","fin","f","3")) {
 			case "ajouter" : //Permet d'ajouter une ecole dans une ville si il n'y en a pas deja une.
 			case "a" :
@@ -107,6 +107,7 @@ public class Villes {
 			case "retirer" : //Permet de retirer une ecole d'une ville.
 			case "r" :
 			case "2" :
+				System.out.println("Dans quel ville voulez-vous retirer une ecole ?");
 				try {
 					commune.retireEcole(Scan.lireMot());
 				} catch (ScanException e) {
