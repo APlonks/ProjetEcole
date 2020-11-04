@@ -14,7 +14,7 @@ public class Villes {
 		Scanner scan= new Scanner(System.in);
 		do {
 			System.out.print("Entrez le nombre de villes de la communaute d'agglomeration "+
-				"(entre 1 et 26).");
+				"(entre 1 et 26): ");
 			try {
 				nombreVilles = Scan.lireEntier();
 				if (nombreVilles<1 || nombreVilles>26) {
@@ -24,12 +24,13 @@ public class Villes {
 				System.out.println(e.getMessage());
 			}
 		}
-		while(nombreVilles < 1 || nombreVilles > 26);//Le nombre de villes est pour l'instant compris entre 1 et 26
+		while(nombreVilles < 1 || nombreVilles > 26);
+		//Le nombre de villes est pour l'instant compris entre 1 et 26
 		
-		/*
-		Creation de la liste de villes en fonction du nombre de villes selectionner par l'utilisateur
-		De plus chaque ville sera nommee en fonction d'une lettre de l'alphabet commeneant par 'A'
-		*/
+		/* Creation de la liste de villes en fonction du nombre de villes selectionner par
+		 * l'utilisateur.
+		 * De plus chaque ville sera nommee en fonction d'une lettre de l'alphabet commeneant par
+		 * 'A'. */
 		Commune commune = new Commune(nombreVilles);
 		for(int i=0; i<nombreVilles; i++) {
 			commune.addVille(new Agglomeration(codeAscii,true));
@@ -41,8 +42,10 @@ public class Villes {
 
 		//Affiche le menu1 et effectue une action en fonction du choix de l'option de l'utilisateur
 		do {
-			switch(Scan.questionReponse("Selectionner une option :\n\t1) Ajouter une route (ajouter)\n\t2) Fin (fin)\n\t3) Afficher les routes d'une ville (afficher)\n\t4) Supprimer une route (supprimer)\n",
-				"ajouter","fin","afficher","supprimer","a","f","af","s","1","2","3","4")) {
+			switch(Scan.questionReponse("Selectionner une option :\n\t1) Ajouter une route "+
+				"(ajouter)\n\t2) Fin (fin)\n\t3) Afficher les routes d'une ville (afficher)\n\t4)"
+				+" Supprimer une route (supprimer)\n","ajouter","fin","afficher","supprimer"
+				,"a","f","af","s","1","2","3","4")) {
 			case "ajouter" :
 			case "a" :
 			case "1" :
@@ -50,12 +53,14 @@ public class Villes {
 				String y;//Ville d'arrivee
 				
 				System.out.println("Votre ville depart ?");
-				x = Character.toString(scan.next().charAt(0));//L'utilisateur entre le nom de la ville de depart.
+				x = Character.toString(scan.next().charAt(0));
+				//L'utilisateur entre le nom de la ville de depart.
 				System.out.println("Votre ville d'arrivee ?");
-				y = Character.toString(scan.next().charAt(0));//L'utilisateur entre le nom de la ville d'arrivee.
-				if(commune.verifieVilleExiste(x, y)){//Si la route n'existe pas on l'a cree
-					commune.addRoute(x,y);//Appel la methode pour creer une route de la ville de depart vers la ville d'arrivee
-				}
+				y = Character.toString(scan.next().charAt(0));
+				//L'utilisateur entre le nom de la ville d'arrivee.
+				/* Appel la methode pour creer une route de la ville de depart vers la ville
+				 * d'arrivee. */
+				commune.addRoute(x,y);
 			break;
 			case "fin" :
 			case "f" :
@@ -72,14 +77,17 @@ public class Villes {
 			case "supprimer" :
 			case "s" :
 			case "4" :
-				System.out.println("Selectionner les deux villes liees a la route que vous voulez supprimer :");
+				System.out.println("Selectionner les deux villes liees a la route que vous voulez"
+					+" supprimer :");
 				System.out.println("Votre ville depart ?");
-				x = Character.toString(scan.next().charAt(0));//L'utilisateur entre le nom de la ville de depart.
+				x = Character.toString(scan.next().charAt(0));
+				//L'utilisateur entre le nom de la ville de depart.
 				System.out.println("Votre ville d'arrivee ?");
-				y = Character.toString(scan.next().charAt(0));//L'utilisateur entre le nom de la ville d'arrivee.
-				if(commune.verifieVilleExiste(x, y)) {
-				commune.supprimerRoute(x,y);//Appel la methode pour supprimer une route de la ville de depart a la ville d'arrivee et dans l'autre sens
-				}
+				y = Character.toString(scan.next().charAt(0));
+				//L'utilisateur entre le nom de la ville d'arrivee.
+				commune.supprimerRoute(x,y);
+				/* Appel la methode pour supprimer une route de la ville de depart a la ville
+				 * d'arrivee et dans l'autre sens. */
 			break;
 			}
 		} while(arretMenu1 == false);
@@ -90,9 +98,10 @@ public class Villes {
 			switch(Scan.questionReponse("Selectionner une options :\n\t1) Ajouter une ecole"+
 				" (ajouter)\n\t2) Retirer une ecole (retirer)\n\t3) Fin (fin)\n", 
 				"ajouter","a","1","retirer","r","2","fin","f","3")) {
-			case "ajouter" : //Permet d'ajouter une ecole dans une ville si il n'y en a pas deja une.
+			case "ajouter" :
 			case "a" :
 			case "1" :
+				//Permet d'ajouter une ecole dans une ville si il n'y en a pas deja une.
 				do {
 					System.out.println("Dans quel ville voulez-vous ajouter une ecole ?");
 					nomVille = Character.toString(scan.next().charAt(0));
@@ -131,7 +140,7 @@ public class Villes {
 			
 			case "fin" :
 			case "f" :
-			case "3" :	
+			case "3" :
 				arretMenu2 = true;
 			break;
 			

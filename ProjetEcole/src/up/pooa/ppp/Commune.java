@@ -1,7 +1,7 @@
 package up.pooa.ppp;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Set;
+// import java.util.Iterator;
+// import java.util.Set;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -113,87 +113,81 @@ public class Commune {
 		return null;
 	}
 	/**
-	 * Cette methode verifie si les villes entrees par l'utilisateur existent ou non.
-	 * @param x La Ville de depart
-	 * @param y La ville d'arrivee
-	 * @return true si les 2 villes existes, false sinon.
-	 */
-	public boolean verifieVilleExiste(String x, String y) {
-		boolean existe =true;
-		Agglomeration depart=getVille(x);//On recupere la ville de depart.
-		Agglomeration arrivee = getVille(y);//On recupere la ville d'arrivee.
-		if(!commune.containsKey(depart)) { //On verifie si la ville de depart existe.
-			System.out.println("La ville "+x+" n'existe pas.");
-			existe = false;
-		}
-		if(!commune.containsKey(arrivee)) {//On verifie si la la ville d'arrivee existe.
-			System.out.println("La ville "+y+" n'existe pas.");
-			existe = false;
-		}
-		System.out.println("Avant l'ajout ou le retrait d'une route : ");	//Ces trois lignes
-		afficherHashMap();												//sont ici pour check les ArrayList 
-		System.out.println("--------------------\n");						//lors des test
-		return(existe);
-	}
-	
-	/**
 	 * Ajoute une route entre deux villes (de x vers y et de y vers x ).
 	 * @param x La Ville de depart.
 	 * @param y La ville d'arrivee. 
 	 */
 	public void addRoute(String x, String y) {
-		Agglomeration depart=getVille(x);//On recupere la ville de depart.
-		Agglomeration arrivee = getVille(y);//On recupere la ville d'arrivee.
-		if((commune.get(depart).contains(arrivee))&&(commune.get(arrivee).contains(depart))) //On verifie si il existe une route de la ville de depart à la ville d'arriver.il me semble que l'on peut tester seulement dans un sens
-			System.out.println("La route de la ville "+depart+" a la ville "+arrivee+" existe deja donc on ne peut pas en ajouter une.");
-		else {
-			commune.get(depart).add(arrivee);
-			commune.get(arrivee).add(depart);
-			System.out.println("Vous avez ajoute une route entre la ville "+x+" et la ville "+y+".");
+		Agglomeration depart, arriver;
+		if ((depart=getVille(x))==null) {
+			System.out.println("La ville "+x+" n'existe pas.");
+		} else if ((arriver=getVille(y))==null) {
+			System.out.println("La ville "+y+" n'existe pas.");
+		} else if (arriver.equals(depart)) {
+			System.out.println("Les villes d'arriver et de depart sont les meme. Demande"+
+				" incoherente.");
+		} else if ((commune.get(depart).contains(arriver)) &&
+			(commune.get(arriver).contains(depart))) {
+			/* On verifie si il existe une route de la ville de depart à la ville d'arriver.
+			 * On ne verifie qu'un sens de la route car la liste d'adjacence est symetrique. */
+			System.out.println("La route de la ville "+depart+" a la ville "+arriver+
+				" existe deja donc on ne peut pas en ajouter une.");
+		} else {
+			/* Ajoute chaque ville a la liste d'adjacence de l'autre. */
+			commune.get(depart).add(arriver);
+			commune.get(arriver).add(depart);
+			System.out.println("Vous avez ajoute une route entre la ville "+x
+				+" et la ville "+y+".");
 		}
-		afficherHashMap();//Ici pour check les ArrayList lors des test
 	}
-	
 	/**
 	 * Supprime une route entre deux villes (de x vers y et de y vers x ).
 	 * @param x La ville de depart.
 	 * @param y La ville d'arrivee.
 	 */
 	public void supprimerRoute (String x, String y) {
-		Agglomeration depart=getVille(x);//On recupere la ville de depart.
-		Agglomeration arrivee = getVille(y);//On recupere la ville d'arrivee.
-		if(!(commune.get(depart).contains(arrivee))||!(commune.get(arrivee).contains(depart)))	//Dans le cas ou il n'existe pas de route.il me semble que l'on peut tester seulement dans un sens
-			System.out.println("Il n'y a pas de route de la ville "+depart+" a la ville "+arrivee+" donc elle ne peut pas etre supprimee.");
-		else {
-			commune.get(depart).remove(arrivee);//Supprime la ville d'arrivee de l'ArrayList de la ville de depart, c'est a dire qu'on supprime la route de la ville de depart vers la route d'arrivee
-			commune.get(arrivee).remove(depart);//Supprime la ville de depart de l'ArrayList de la ville d'arrivee, c'est a dire qu'on supprime la route de la ville d'arrivee vers la route de depart
-			System.out.print("Vous avez supprime une route entre la ville "+x+" et la ville "+y+".\n");
+		Agglomeration depart, arriver;
+		if ((depart=getVille(x))==null) {
+			System.out.println("La ville "+x+" n'existe pas.");
+		} else if ((arriver=getVille(y))==null) {
+			System.out.println("La ville "+y+" n'existe pas.");
+		} else if (arriver.equals(depart)) {
+			System.out.println("Les villes d'arriver et de depart sont les meme. Demande"+
+			" incoherente.");
+		} else if ((commune.get(depart).contains(arriver)) &&
+			(commune.get(arriver).contains(depart))) {
+			/* On verifie si il existe une route de la ville de depart à la ville d'arriver.
+			 * On ne verifie qu'un sens de la route car la liste d'adjacence est symetrique. */
+			System.out.println("Il n'y a pas de route de la ville "+depart+" a la ville "+arriver
+				+" donc elle ne peut pas etre supprimee.");
+		} else {
+			/* Retire chaque ville de la liste d'adjacence de l'autre. */
+			commune.get(depart).remove(arriver);
+			commune.get(arriver).remove(depart);
+			System.out.println("Vous avez supprime une route entre la ville "+x+" et la ville "
+				+y+".");
 		}
-		afficherHashMap();//Ici pour check les ArrayList lors des test
 	}
-	
 	/**
 	 * Affiche les routes liees a une ville.
 	 * @param x la ville choisie.
 	 */
 	public void afficheRoute(String x) {
-		Agglomeration depart=getVille(x);//On recupere la ville
-		if(commune.containsKey(depart)) {//On verifie si la ville existe dans la commune
+		Agglomeration depart;
+		if ((depart=getVille(x))==null) {
+			System.out.println("La ville "+x+" n'existe pas.");
+		} else {
 			System.out.println(commune.get(depart));
 		}
-		else
-			System.out.println("La ville "+x+" n'existe pas.");
-		}
-	/*
-	 * Permet d'afficher la liste d'adjacence c'est a dire qu'elle affiche les villes qui sont liees entre elles.
-	 * La methode se trouve dans verifieVilleExiste, Addroute, SupprimerRoute
-	 * (et je viens d'y penser il faudra choisir si on met les nom de methodes en anglais ou francais et aussi pour les variable je pense)
-	 * 
+	}
+	/**
+	 * Permet d'afficher la liste d'adjacence.
 	 */
 	public void afficherHashMap() {
 		for(Entry<Agglomeration,ArrayList<Agglomeration>> element : commune.entrySet()) {
-			System.out.println("La ville "+element.getKey()+" est liee aux villes"+element.getValue());	
-		}	
+			System.out.println("La ville "+element.getKey()+" est liee aux villes"
+				+element.getValue());
+		}
 		System.out.println();
 	}
 	/**
@@ -223,5 +217,12 @@ public class Commune {
 				System.out.println("On ne retire donc pas l'ecole.");
 			}
 		}
+	}
+	/**
+	 * @return true si commune est connexe false sinon.
+	 * On considere une commune vide comme etant non connexe.
+	 */
+	public boolean estConnexe() {
+		return true;
 	}
 }
