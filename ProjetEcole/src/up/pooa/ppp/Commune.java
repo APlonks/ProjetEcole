@@ -1,3 +1,4 @@
+package up.pooa.ppp;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
@@ -14,9 +15,7 @@ public class Commune {
 	private HashMap<Agglomeration,ArrayList<Agglomeration>> commune;
 	private int nombresVilles;
 
-	/**
-	 * Constructeur.
-	 */
+	 //Constructeurs.
 	public Commune() {
 		commune = new HashMap<Agglomeration,ArrayList<Agglomeration>>();
 		nombresVilles = 0;
@@ -27,7 +26,8 @@ public class Commune {
 	}
 
 	/**
-	 * @return true si il existe a dans lst avec a possÃ©dant une ecole.
+	 * @param lst Liste des villes adjacentes (Lie par une route)
+	 * @return true si il existe 'a' dans lst avec 'a' possedant une ecole.
 	 * 		false sinon.
 	 */
 	private boolean contientEcole(ArrayList<Agglomeration> lst) {
@@ -39,6 +39,8 @@ public class Commune {
 		return false;
 	}
 	/**
+	 * @param agA 1 ville de départ.
+	 * @param agB 1 ville adjacente a agA.
 	 * @return true si agA contient une ecole ou si une ville adjacence a agA autre que
 	 * 		agB contient une ecole.
 	 */
@@ -56,7 +58,8 @@ public class Commune {
 	}
 
 	/**
-	 * Ajout d'une agglomeration dans la commune.
+	 * @param v Une nouvelle ville
+	 * Ajoute une ville a l'agglomeration
 	 */
 	public void addVille(Agglomeration v) {
 		if (!(commune.containsKey(v))) {
@@ -68,6 +71,14 @@ public class Commune {
 		}
 	}
 	/**
+	 * @param nom Une nouvelle ville
+	 * Ajoute une ville a l'aglomeration
+	 */
+	public void addVille(String nom) {
+		Agglomeration v = new Agglomeration(nom);
+		addVille(v);
+	}
+	/**
 	 * Affiche la liste des villes (en ligne).
 	 */
 	public void affiche() {
@@ -77,6 +88,9 @@ public class Commune {
 		System.out.print("\n");
 	}
 	
+	/**
+	 * Affiche la liste de villes possédant une ecole.
+	 */
 	public void afficheEcole() {
 		for (Agglomeration k : commune.keySet()) {
 			if (k.getEcole() == true) {
@@ -87,6 +101,7 @@ public class Commune {
 	}
 	/**
 	 * Methode permettant de renvoyer le nom de la ville.
+	 * @param recherche Un nom de ville
 	 * @return Agglomeration recherche si elle existe, null sinon.
 	 */
 	public Agglomeration getVille(String recherche) {
@@ -101,13 +116,13 @@ public class Commune {
 	 * Cette methode verifie si les villes entrees par l'utilisateur existent ou non.
 	 * @param x La Ville de depart
 	 * @param y La ville d'arrivee
-	 * @return
+	 * @return true si les 2 villes existes, false sinon.
 	 */
-	public boolean verifieVilleexiste(String x, String y) {
+	public boolean verifieVilleExiste(String x, String y) {
 		boolean existe =true;
 		Agglomeration depart=getVille(x);//On recupere la ville de depart.
 		Agglomeration arrivee = getVille(y);//On recupere la ville d'arrivee.
-		if(!commune.containsKey(depart)) { //On verifie si la la ville de depart existe.
+		if(!commune.containsKey(depart)) { //On verifie si la ville de depart existe.
 			System.out.println("La ville "+x+" n'existe pas.");
 			existe = false;
 		}
@@ -116,7 +131,7 @@ public class Commune {
 			existe = false;
 		}
 		System.out.println("Avant l'ajout ou le retrait d'une route : ");	//Ces trois lignes
-		afficherlaHashMap();												//sont ici pour check les ArrayList 
+		afficherHashMap();												//sont ici pour check les ArrayList 
 		System.out.println("--------------------\n");						//lors des test
 		return(existe);
 	}
@@ -136,7 +151,7 @@ public class Commune {
 			commune.get(arrivee).add(depart);
 			System.out.println("Vous avez ajoute une route entre la ville "+x+" et la ville "+y+".");
 		}
-		afficherlaHashMap();//Ici pour check les ArrayList lors des test
+		afficherHashMap();//Ici pour check les ArrayList lors des test
 	}
 	
 	/**
@@ -154,7 +169,7 @@ public class Commune {
 			commune.get(arrivee).remove(depart);//Supprime la ville de depart de l'ArrayList de la ville d'arrivee, c'est a dire qu'on supprime la route de la ville d'arrivee vers la route de depart
 			System.out.print("Vous avez supprime une route entre la ville "+x+" et la ville "+y+".\n");
 		}
-		afficherlaHashMap();//Ici pour check les ArrayList lors des test
+		afficherHashMap();//Ici pour check les ArrayList lors des test
 	}
 	
 	/**
@@ -175,7 +190,7 @@ public class Commune {
 	 * (et je viens d'y penser il faudra choisir si on met les nom de methodes en anglais ou francais et aussi pour les variable je pense)
 	 * 
 	 */
-	public void afficherlaHashMap() {
+	public void afficherHashMap() {
 		for(Entry<Agglomeration,ArrayList<Agglomeration>> element : commune.entrySet()) {
 			System.out.println("La ville "+element.getKey()+" est liee aux villes"+element.getValue());	
 		}	
@@ -183,6 +198,7 @@ public class Commune {
 	}
 	/**
 	 * Retire une ecole si cela est possible.
+	 * @param x une Ville
 	 */
 	public void retireEcole(String x) {
 		Agglomeration ville;

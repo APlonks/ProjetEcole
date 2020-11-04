@@ -1,3 +1,4 @@
+package up.pooa.ppp;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -30,7 +31,7 @@ public class Villes {
 		}
 
 		System.out.println("Vous avez choisi " + nombreVilles + " Villes.");
-		commune.affiche();//Affiche la liste de villes, A RETIRER PLUS TARD!!
+		commune.affiche();//Affiche la liste de villes
 
 		//Affiche le menu1 et effectue une action en fonction du choix de l'option de l'utilisateur
 		do {
@@ -46,7 +47,7 @@ public class Villes {
 				x = Character.toString(scan.next().charAt(0));//L'utilisateur entre le nom de la ville de depart.
 				System.out.println("Votre ville d'arrivee ?");
 				y = Character.toString(scan.next().charAt(0));//L'utilisateur entre le nom de la ville d'arrivee.
-				if(commune.verifieVilleexiste(x, y)){//Si la route n'existe pas on l'a cree
+				if(commune.verifieVilleExiste(x, y)){//Si la route n'existe pas on l'a cree
 					commune.addRoute(x,y);//Appel la methode pour creer une route de la ville de depart vers la ville d'arrivee
 				}
 			break;
@@ -70,7 +71,7 @@ public class Villes {
 				x = Character.toString(scan.next().charAt(0));//L'utilisateur entre le nom de la ville de depart.
 				System.out.println("Votre ville d'arrivee ?");
 				y = Character.toString(scan.next().charAt(0));//L'utilisateur entre le nom de la ville d'arrivee.
-				if(commune.verifieVilleexiste(x, y)) {
+				if(commune.verifieVilleExiste(x, y)) {
 				commune.supprimerRoute(x,y);//Appel la methode pour supprimer une route de la ville de depart a la ville d'arrivee et dans l'autre sens
 				}
 			break;

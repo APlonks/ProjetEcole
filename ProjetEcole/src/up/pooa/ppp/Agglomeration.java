@@ -1,3 +1,4 @@
+package up.pooa.ppp;
 /**
  * Creation de la classe aglomeration.
  * @param nom Nom de la ville.
