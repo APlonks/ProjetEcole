@@ -27,6 +27,35 @@ public class Commune {
 	}
 
 	/**
+	 * @return true si il existe a dans lst avec a possÃ©dant une ecole.
+	 * 		false sinon.
+	 */
+	private boolean contientEcole(ArrayList<Agglomeration> lst) {
+		for (Agglomeration a : lst) {
+			if (a.getEcole()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	/**
+	 * @return true si agA contient une ecole ou si une ville adjacence a agA autre que
+	 * 		agB contient une ecole.
+	 */
+	private boolean accesAutreEcole(Agglomeration agA, Agglomeration agB) {
+		if (agA.getEcole()) {
+			return true;
+		} else {
+			for (Agglomeration b : commune.get(agA)) {
+				if (b.getEcole() && !b.equals(agB)) {
+					return true;
+				}
+			}
+			return false;
+		}
+	}
+
+	/**
 	 * Ajout d'une agglomeration dans la commune.
 	 */
 	public void addVille(Agglomeration v) {
@@ -69,20 +98,20 @@ public class Commune {
 		return null;
 	}
 	/**
-	 * Cette méthode vérifie si les villes entrées par l'utilisateur existent ou non.
-	 * @param x La Ville de départ
-	 * @param y La ville d'arrivée
+	 * Cette methode verifie si les villes entrees par l'utilisateur existent ou non.
+	 * @param x La Ville de depart
+	 * @param y La ville d'arrivee
 	 * @return
 	 */
 	public boolean verifieVilleexiste(String x, String y) {
 		boolean existe =true;
-		Agglomeration depart=getVille(x);//On récupère la ville de départ.
-		Agglomeration arrivee = getVille(y);//On récupère la ville d'arrivée.
-		if(!commune.containsKey(depart)) { //On vérifie si la la ville de départ existe.
+		Agglomeration depart=getVille(x);//On recupere la ville de depart.
+		Agglomeration arrivee = getVille(y);//On recupere la ville d'arrivee.
+		if(!commune.containsKey(depart)) { //On verifie si la la ville de depart existe.
 			System.out.println("La ville "+x+" n'existe pas.");
 			existe = false;
 		}
-		if(!commune.containsKey(arrivee)) {//On vérifie si la la ville d'arrivée existe.
+		if(!commune.containsKey(arrivee)) {//On verifie si la la ville d'arrivee existe.
 			System.out.println("La ville "+y+" n'existe pas.");
 			existe = false;
 		}
@@ -94,62 +123,89 @@ public class Commune {
 	
 	/**
 	 * Ajoute une route entre deux villes (de x vers y et de y vers x ).
-	 * @param x La Ville de départ.
-	 * @param y La ville d'arrivée. 
+	 * @param x La Ville de depart.
+	 * @param y La ville d'arrivee. 
 	 */
 	public void addRoute(String x, String y) {
-		Agglomeration depart=getVille(x);//On récupère la ville de départ.
-		Agglomeration arrivee = getVille(y);//On récupère la ville d'arrivée.
-		if((commune.get(depart).contains(arrivee))&&(commune.get(arrivee).contains(depart))) //On vérifie si il existe une route de la ville de départ à la ville d'arriver.il me semble que l'on peut tester seulement dans un sens
-			System.out.println("La route de la ville "+depart+" à la ville "+arrivee+" existe déjà donc on ne peut pas en ajouter une.");
+		Agglomeration depart=getVille(x);//On recupere la ville de depart.
+		Agglomeration arrivee = getVille(y);//On recupere la ville d'arrivee.
+		if((commune.get(depart).contains(arrivee))&&(commune.get(arrivee).contains(depart))) //On verifie si il existe une route de la ville de depart Ã  la ville d'arriver.il me semble que l'on peut tester seulement dans un sens
+			System.out.println("La route de la ville "+depart+" a la ville "+arrivee+" existe deja donc on ne peut pas en ajouter une.");
 		else {
 			commune.get(depart).add(arrivee);
 			commune.get(arrivee).add(depart);
-			System.out.println("Vous avez ajouté une route entre la ville "+x+" et la ville "+y+".");
+			System.out.println("Vous avez ajoute une route entre la ville "+x+" et la ville "+y+".");
 		}
 		afficherlaHashMap();//Ici pour check les ArrayList lors des test
 	}
 	
 	/**
 	 * Supprime une route entre deux villes (de x vers y et de y vers x ).
-	 * @param x La ville de départ.
-	 * @param y La ville d'arrivée.
+	 * @param x La ville de depart.
+	 * @param y La ville d'arrivee.
 	 */
 	public void supprimerRoute (String x, String y) {
-		Agglomeration depart=getVille(x);//On récupère la ville de départ.
-		Agglomeration arrivee = getVille(y);//On récupère la ville d'arrivée.
+		Agglomeration depart=getVille(x);//On recupere la ville de depart.
+		Agglomeration arrivee = getVille(y);//On recupere la ville d'arrivee.
 		if(!(commune.get(depart).contains(arrivee))||!(commune.get(arrivee).contains(depart)))	//Dans le cas ou il n'existe pas de route.il me semble que l'on peut tester seulement dans un sens
-			System.out.println("Il n'y a pas de route de la ville "+depart+" à la ville "+arrivee+" donc elle ne peut pas être supprimée.");
+			System.out.println("Il n'y a pas de route de la ville "+depart+" a la ville "+arrivee+" donc elle ne peut pas etre supprimee.");
 		else {
-			commune.get(depart).remove(arrivee);//Supprime la ville d'arrivée de l'ArrayList de la ville de départ, c'est à dire qu'on supprime la route de la ville de départ vers la route d'arrivée
-			commune.get(arrivee).remove(depart);//Supprime la ville de départ de l'ArrayList de la ville d'arrivée, c'est à dire qu'on supprime la route de la ville d'arrivée vers la route de départ
-			System.out.print("Vous avez supprimé une route entre la ville "+x+" et la ville "+y+".\n");
+			commune.get(depart).remove(arrivee);//Supprime la ville d'arrivee de l'ArrayList de la ville de depart, c'est a dire qu'on supprime la route de la ville de depart vers la route d'arrivee
+			commune.get(arrivee).remove(depart);//Supprime la ville de depart de l'ArrayList de la ville d'arrivee, c'est a dire qu'on supprime la route de la ville d'arrivee vers la route de depart
+			System.out.print("Vous avez supprime une route entre la ville "+x+" et la ville "+y+".\n");
 		}
 		afficherlaHashMap();//Ici pour check les ArrayList lors des test
 	}
 	
 	/**
-	 * Affiche les routes liées à une ville.
+	 * Affiche les routes liees a une ville.
 	 * @param x la ville choisie.
 	 */
 	public void afficheRoute(String x) {
-		Agglomeration depart=getVille(x);//On récupère la ville
-		if(commune.containsKey(depart)) {//On vérifie si la ville existe dans la commune
+		Agglomeration depart=getVille(x);//On recupere la ville
+		if(commune.containsKey(depart)) {//On verifie si la ville existe dans la commune
 			System.out.println(commune.get(depart));
 		}
 		else
 			System.out.println("La ville "+x+" n'existe pas.");
 		}
 	/*
-	 * Permet d'afficher la liste d'adjacence c'est à dire qu'elle affiche les villes qui sont liées entre elles.
-	 * La méthode se trouve dans verifieVilleExiste, Addroute, SupprimerRoute
-	 * (et je viens d'y penser il faudra choisir si on met les nom de méthodes en anglais ou francais et aussi pour les variable je pense)
+	 * Permet d'afficher la liste d'adjacence c'est a dire qu'elle affiche les villes qui sont liees entre elles.
+	 * La methode se trouve dans verifieVilleExiste, Addroute, SupprimerRoute
+	 * (et je viens d'y penser il faudra choisir si on met les nom de methodes en anglais ou francais et aussi pour les variable je pense)
 	 * 
 	 */
 	public void afficherlaHashMap() {
 		for(Entry<Agglomeration,ArrayList<Agglomeration>> element : commune.entrySet()) {
-			System.out.println("La ville "+element.getKey()+" est liée aux villes"+element.getValue());	
+			System.out.println("La ville "+element.getKey()+" est liee aux villes"+element.getValue());	
 		}	
 		System.out.println();
-	}	
+	}
+	/**
+	 * Retire une ecole si cela est possible.
+	 */
+	public void retireEcole(String x) {
+		Agglomeration ville;
+		if ((ville=getVille(x))==null) {
+			System.out.println("La ville "+x+" n'existe pas.");
+		} else if (!contientEcole(commune.get(ville))) {
+			System.out.println("Aucun voisin de "+x+" ne contient d'ecole.");
+		} else {
+			/* Parcour des adjacent de ville pur verifier que l'ecole de ville n'est pas la seul
+			 * ecole a laquelle ils ont acces. */
+			boolean retireOk = true;
+			for (Agglomeration b : commune.get(ville)) {
+				if (!accesAutreEcole(b,ville)) {
+					System.out.println("L'ecole de "+x+" est la seul ecole a laquelle "+
+						b+" a acces.");
+					retireOk = false;
+				}
+			}
+			if (retireOk) {
+				ville.retireEcole();
+			} else {
+				System.out.println("On ne retire donc pas l'ecole.");
+			}
+		}
+	}
 }
