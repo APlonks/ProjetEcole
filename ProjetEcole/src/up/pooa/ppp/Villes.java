@@ -13,8 +13,16 @@ public class Villes {
 		//Scanner permettant a l'utilisateur de choisir le nombre de villes.
 		Scanner scan= new Scanner(System.in);
 		do {
-			System.out.println("Entrez le nombre de villes de la communaute d'agglomeration.");
-			nombreVilles = scan.nextInt();
+			System.out.print("Entrez le nombre de villes de la communaute d'agglomeration "+
+				"(entre 1 et 26).");
+			try {
+				nombreVilles = Scan.lireEntier();
+				if (nombreVilles<1 || nombreVilles>26) {
+					System.out.println("Nombre invalide.");
+				}
+			} catch (ScanException e) {
+				System.out.println(e.getMessage());
+			}
 		}
 		while(nombreVilles < 1 || nombreVilles > 26);//Le nombre de villes est pour l'instant compris entre 1 et 26
 		
