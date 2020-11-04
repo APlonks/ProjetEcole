@@ -75,14 +75,14 @@ public class Villes {
 			case "1" :
 				String x;//Ville de départ
 				String y;//Ville d'arrivée
-
+				
 				System.out.println("Votre ville départ ?");
 				x = Character.toString(scan.next().charAt(0));//L'utilisateur entre le nom de la ville de départ.
 				System.out.println("Votre ville d'arrivée ?");
 				y = Character.toString(scan.next().charAt(0));//L'utilisateur entre le nom de la ville d'arrivee.
-				commune.addRoute(x,y);//Appel la méthode pour creer une route de la ville de départ vers la ville d'arrivee
-				commune.addRouteInversee(x,y);//Appel la méthode pour creer une route de la ville d'arrivee vers la ville de depart
-				System.out.println("Vous avez ajouter une route entre la ville "+x+" et la ville "+y+".");
+				if(commune.verifieVilleexiste(x, y)){//Si la route n'existe pas on l'a crée
+					commune.addRoute(x,y);//Appel la méthode pour creer une route de la ville de départ vers la ville d'arrivee
+				}
 			break;
 			case "fin" : 
 			case "f" :
@@ -99,13 +99,14 @@ public class Villes {
 			case "supprimer" :
 			case "s" :
 			case "4" :
-				System.out.println("Sélectionner les deux villes liées à la route que vous voulez supprimer");
+				System.out.println("Sélectionner les deux villes liées à la route que vous voulez supprimer :");
 				System.out.println("Votre ville départ ?");
 				x = Character.toString(scan.next().charAt(0));//L'utilisateur entre le nom de la ville de départ.
 				System.out.println("Votre ville d'arrivée ?");
-				y = Character.toString(scan.next().charAt(0));//L'utilisateur entre le nom de la ville d'arrivee.	
-				commune.supprimerRoute(x,y);
-				commune.supprimerRouteInverse(x,y);
+				y = Character.toString(scan.next().charAt(0));//L'utilisateur entre le nom de la ville d'arrivee.
+				if(commune.verifieVilleexiste(x, y)) {
+				commune.supprimerRoute(x,y);//Appel la méthode pour supprimer une route de la ville de départ à la ville d'arrivee et dans l'autre sens
+				}
 			break;
 			}
 		} while(arretMenu1 == false);
