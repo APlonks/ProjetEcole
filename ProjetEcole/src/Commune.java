@@ -1,5 +1,8 @@
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Set;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 /**
  * Class represantant un groupement d'Agglomeration relier entre elle.
@@ -65,83 +68,88 @@ public class Commune {
 		}
 		return null;
 	}
+	/**
+	 * Cette méthode vérifie si les villes entrées par l'utilisateur existent ou non.
+	 * @param x La Ville de départ
+	 * @param y La ville d'arrivée
+	 * @return
+	 */
+	public boolean verifieVilleexiste(String x, String y) {
+		boolean existe =true;
+		Agglomeration depart=getVille(x);//On récupère la ville de départ.
+		Agglomeration arrivee = getVille(y);//On récupère la ville d'arrivée.
+		if(!commune.containsKey(depart)) { //On vérifie si la la ville de départ existe.
+			System.out.println("La ville "+x+" n'existe pas.");
+			existe = false;
+		}
+		if(!commune.containsKey(arrivee)) {//On vérifie si la la ville d'arrivée existe.
+			System.out.println("La ville "+y+" n'existe pas.");
+			existe = false;
+		}
+		System.out.println("Avant l'ajout ou le retrait d'une route : ");	//Ces trois lignes
+		afficherlaHashMap();												//sont ici pour check les ArrayList 
+		System.out.println("--------------------\n");						//lors des test
+		return(existe);
+	}
 	
 	/**
-	 * Ajoute une route entre deux villes (de x vers y).
-	 * @param x La Ville de départ
-	 * @param y La ville d'arrivée 
+	 * Ajoute une route entre deux villes (de x vers y et de y vers x ).
+	 * @param x La Ville de départ.
+	 * @param y La ville d'arrivée. 
 	 */
 	public void addRoute(String x, String y) {
 		Agglomeration depart=getVille(x);//On récupère la ville de départ.
 		Agglomeration arrivee = getVille(y);//On récupère la ville d'arrivée.
-		//if(!commune.containsValue(arrivee))//Vérifier si l'ArrayList de la ville ne contient pas la ville d'arrivee, j'arrive pas à y accéder
-			if(commune.containsKey(depart)) {//On vérifie si la commune la ville de départ existe.
-				commune.get(depart).add(arrivee);
-			}
-			else {
-				System.out.println("La ville "+x+" n'existe pas.");
-			}
-			System.out.println("L'ArrayList de la ville "+x+" pour check :"+commune.get(depart));//Simplement pour retourner l'ArrayList de la ville de départ à la fin de la fonction pour tester, on peut l'enlever
+		if((commune.get(depart).contains(arrivee))&&(commune.get(arrivee).contains(depart))) //On vérifie si il existe une route de la ville de départ à la ville d'arriver.il me semble que l'on peut tester seulement dans un sens
+			System.out.println("La route de la ville "+depart+" à la ville "+arrivee+" existe déjà donc on ne peut pas en ajouter une.");
+		else {
+			commune.get(depart).add(arrivee);
+			commune.get(arrivee).add(depart);
+			System.out.println("Vous avez ajouté une route entre la ville "+x+" et la ville "+y+".");
+		}
+		afficherlaHashMap();//Ici pour check les ArrayList lors des test
 	}
 	
 	/**
-	 * Ajoute la route inverse entre deux villes (de y vers x).
-	 * @param x La Ville de départ
-	 * @param y La ville d'arrivée 
+	 * Supprime une route entre deux villes (de x vers y et de y vers x ).
+	 * @param x La ville de départ.
+	 * @param y La ville d'arrivée.
 	 */
-	public void addRouteInversee(String x, String y) {
-		Agglomeration depart=getVille(x);//On récupère la ville de départ
-		Agglomeration arrivee = getVille(y);//On récupère la ville d'arrivée
-		//if(!commune.containsValue(depart));//Vérifier si l'ArrayList de la ville de départ ne contient pas la ville de départ, j'arrive pas à y accéder
-			if(commune.containsKey(arrivee)) {//On vérifie si dans la commune la ville d'arrivée existe
-				commune.get(arrivee).add(depart);
-			}
-			else {
-				System.out.println("La ville "+y+" n'existe pas.");
-			}
-		System.out.println("L'ArrayList de la ville "+y+" pour check :"+commune.get(arrivee));//Simplement pour retourner l'ArrayList de la ville de arrivee à la fin de la fonction pour tester, on peut l'enlever
-	}
-	
-	public void supprimerRoute(String x, String y) {
+	public void supprimerRoute (String x, String y) {
 		Agglomeration depart=getVille(x);//On récupère la ville de départ.
 		Agglomeration arrivee = getVille(y);//On récupère la ville d'arrivée.
-		if(commune.containsKey(depart)) {//On vérifie si la commune la ville de départ existe.
-			//if(commune.containsValue(d'arrivée))//Verifier si l'ArrayList detient la ville d'arrivée avant de la supprimée mais je n'arrive pas à y accèder
-				commune.get(depart).remove(arrivee);
-		}
+		if(!(commune.get(depart).contains(arrivee))||!(commune.get(arrivee).contains(depart)))	//Dans le cas ou il n'existe pas de route.il me semble que l'on peut tester seulement dans un sens
+			System.out.println("Il n'y a pas de route de la ville "+depart+" à la ville "+arrivee+" donc elle ne peut pas être supprimée.");
 		else {
-			System.out.println("La ville "+x+" n'existe pas.");
+			commune.get(depart).remove(arrivee);//Supprime la ville d'arrivée de l'ArrayList de la ville de départ, c'est à dire qu'on supprime la route de la ville de départ vers la route d'arrivée
+			commune.get(arrivee).remove(depart);//Supprime la ville de départ de l'ArrayList de la ville d'arrivée, c'est à dire qu'on supprime la route de la ville d'arrivée vers la route de départ
+			System.out.print("Vous avez supprimé une route entre la ville "+x+" et la ville "+y+".\n");
 		}
-		System.out.println("L'ArrayList de la ville "+x+" pour check :"+commune.get(depart));//Simplement pour retourner l'ArrayList de la ville de départ à la fin de la fonction pour tester, on peut l'enlever
-	}
-	
-	public void supprimerRouteInverse(String x, String y) {
-		Agglomeration depart=getVille(x);//On récupère la ville de départ.
-		Agglomeration arrivee = getVille(y);//On récupère la ville d'arrivée.
-		if(commune.containsKey(arrivee)) {//On vérifie si la commune la ville de départ existe.
-			//if(commune.containsValue(depart))Vérifier si l'ArrayList détient la ville de départ avant de la supprimée mais je n'arrive pas à y accéder
-				commune.get(arrivee).remove(depart);
-		}
-		else {
-			System.out.println("La ville "+y+" n'existe pas.");
-		}
-		System.out.println("L'ArrayList de la ville "+y+" pour check :"+commune.get(arrivee));//Simplement pour retourner l'ArrayList de la ville de arrivee à la fin de la fonction pour tester, on peut l'enlever
+		afficherlaHashMap();//Ici pour check les ArrayList lors des test
 	}
 	
 	/**
-	 * Affiche les routes liées à une ville.//Elle n'est pas impllémentée
-	 * @param x la ville choisie
+	 * Affiche les routes liées à une ville.
+	 * @param x la ville choisie.
 	 */
 	public void afficheRoute(String x) {
 		Agglomeration depart=getVille(x);//On récupère la ville
-		if(commune.containsKey(depart)) {//On vérifie si dans la commune la ville d'arrivée existe
-			System.out.println(commune.remove(depart));
+		if(commune.containsKey(depart)) {//On vérifie si la ville existe dans la commune
+			System.out.println(commune.get(depart));
 		}
 		else
 			System.out.println("La ville "+x+" n'existe pas.");
-	}
-	
-	
-	
-	
+		}
+	/*
+	 * Permet d'afficher la liste d'adjacence c'est à dire qu'elle affiche les villes qui sont liées entre elles.
+	 * La méthode se trouve dans verifieVilleExiste, Addroute, SupprimerRoute
+	 * (et je viens d'y penser il faudra choisir si on met les nom de méthodes en anglais ou francais et aussi pour les variable je pense)
+	 * 
+	 */
+	public void afficherlaHashMap() {
+		for(Entry<Agglomeration,ArrayList<Agglomeration>> element : commune.entrySet()) {
+			System.out.println("La ville "+element.getKey()+" est liée aux villes"+element.getValue());	
+		}	
+		System.out.println();
+	}	
 }
