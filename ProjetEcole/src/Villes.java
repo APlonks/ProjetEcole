@@ -64,21 +64,49 @@ public class Villes {
 		}
 
 		System.out.println("Vous avez choisi " + nombreVilles + " Villes.");
-		Commune.affiche();//Affiche la liste de villes, A RETIRER PLUS TARD!!
+		commune.affiche();//Affiche la liste de villes, A RETIRER PLUS TARD!!
 
 		//Affiche le menu1 et effectue une action en fonction du choix de l'option de l'utilisateur
 		do {
-			switch(Scan.questionReponse("Sélectionner une option :\n\t1) Ajouter une route (ajouter)\n\t2) Fin (fin)\n",
-				"ajouter","fin","a","f","1","2")) {
+			switch(Scan.questionReponse("Sélectionner une option :\n\t1) Ajouter une route (ajouter)\n\t2) Fin (fin)\n\t3) Afficher les routes d'une ville (afficher)\n\t4) Supprimer une route\n",
+				"ajouter","fin","afficher","supprimer","a","f","af","s","1","2","3","4")) {
 			case "ajouter" :
 			case "a" :
 			case "1" :
-				System.out.println("Vous avez ajouter une route.");
+				String x;//Ville de départ
+				String y;//Ville d'arrivée
+
+				System.out.println("Votre ville départ ?");
+				x = Character.toString(scan.next().charAt(0));//L'utilisateur entre le nom de la ville de départ.
+				System.out.println("Votre ville d'arrivée ?");
+				y = Character.toString(scan.next().charAt(0));//L'utilisateur entre le nom de la ville d'arrivee.
+				commune.addRoute(x,y);//Appel la méthode pour creer une route de la ville de départ vers la ville d'arrivee
+				commune.addRouteInversee(x,y);//Appel la méthode pour creer une route de la ville d'arrivee vers la ville de depart
+				System.out.println("Vous avez ajouter une route entre la ville "+x+" et la ville "+y+".");
 			break;
 			case "fin" : 
 			case "f" :
 			case "2" :
 				arretMenu1 = true;
+			break;
+			case "afficher" :
+			case "af" :
+			case "3" :
+				System.out.println("La ville dont vous voulez connaître les routes ?");
+				x = Character.toString(scan.next().charAt(0));
+				commune.afficheRoute(x);
+			break;
+			case "supprimer" :
+			case "s" :
+			case "4" :
+				System.out.println("Sélectionner les deux villes liées à la route que vous voulez supprimer");
+				System.out.println("Votre ville départ ?");
+				x = Character.toString(scan.next().charAt(0));//L'utilisateur entre le nom de la ville de départ.
+				System.out.println("Votre ville d'arrivée ?");
+				y = Character.toString(scan.next().charAt(0));//L'utilisateur entre le nom de la ville d'arrivee.	
+				commune.supprimerRoute(x,y);
+				commune.supprimerRouteInverse(x,y);
+			break;
 			}
 		} while(arretMenu1 == false);
 
@@ -104,7 +132,7 @@ public class Villes {
 				else {
 					commune.getVille(nomVille).addEcole();
 				}
-				Commune.afficheEcole();
+				commune.afficheEcole();
 			break;
 			
 			case "retirer" : //Permet de retirer une ecole d'une ville.
@@ -125,7 +153,7 @@ public class Villes {
 				else {
 					commune.getVille(nomVille).retireEcole();
 				}
-				Commune.afficheEcole();
+				commune.afficheEcole();
 			break;
 			
 			case "fin" :
