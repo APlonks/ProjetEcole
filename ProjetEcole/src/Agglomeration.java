@@ -18,6 +18,9 @@ public class Agglomeration {
 		this.nom = Character.toString(nom);
 		this.ecole = ecole;
 	}
+	public Agglomeration (String nom) {
+		this.nom = nom;
+	}
 
 	/**
 	 * Getter.
