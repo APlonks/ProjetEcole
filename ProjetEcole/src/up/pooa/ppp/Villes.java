@@ -1,5 +1,4 @@
 package up.pooa.ppp;
-import java.util.HashMap;
 import java.util.Scanner;
 
 public class Villes {
@@ -10,7 +9,6 @@ public class Villes {
 		boolean arretMenu2 = false;
 		char codeAscii = (int) 'A';
 		String nomVille;
-		char nomVilleAscii = (int) 'A';
 
 		//Scanner permettant a l'utilisateur de choisir le nombre de villes.
 		Scanner scan= new Scanner(System.in);
@@ -135,7 +133,7 @@ public class Villes {
 			}
 		}
 		while(arretMenu2 == false);
-		
+		scan.close();
 		Scan.fermer();
 	}
 

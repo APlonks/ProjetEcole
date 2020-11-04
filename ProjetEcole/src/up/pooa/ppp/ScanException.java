@@ -4,7 +4,6 @@ package up.pooa.ppp;
  * @param ereur Message d'ereur.
  */
 public class ScanException extends Exception {
-	private String ereur;
 
 	/**
 	 * Constructeur.

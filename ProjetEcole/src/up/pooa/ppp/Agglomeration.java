@@ -50,7 +50,7 @@ public class Agglomeration {
 		this.ecole = false;
 	}
 	/**
-	 * Redéfinition de hashCode pour pouvoir redifinir equals et sont utilisation dans les
+	 * Redefinition de hashCode pour pouvoir redifinir equals et sont utilisation dans les
 	 * fonctions de hashMap.
 	 * @return hashCode(nom)
 	 */
