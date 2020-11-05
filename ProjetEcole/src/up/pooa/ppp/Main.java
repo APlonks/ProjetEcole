@@ -121,7 +121,7 @@ public class Main {
 				do {
 					System.out.println("Dans quel ville voulez-vous ajouter une ecole ?");
 					try {
-						/* Entrer de la ville dans laquelle on veut une ecole */
+						/* Entrer de la ville dans laquelle on veut une ecole. */
 						nomVille = (Scan.lireMot());
 						} catch (ScanException e) {
 							System.out.println(e.getMessage());
