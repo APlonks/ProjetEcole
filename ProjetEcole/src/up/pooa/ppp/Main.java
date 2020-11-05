@@ -7,8 +7,7 @@ public class Main {
 		boolean arretMenu = false;
 		char codeAscii = (int) 'A';
 		String nomVille = null;
-		String x = null;//Ville de depart
-		String y = null;//Ville d'arrivee
+		String x = null, y = null; //Varriable pour le parrametrage des villes.
 
 		//Scanner permettant a l'utilisateur de choisir le nombre de villes.
 		do {
@@ -59,9 +58,7 @@ public class Main {
 						 * ville d'arrivee. */
 					} else {
 						do {
-							x = Scan.motDelimiter('|');
-							y = Scan.motSuivant();
-							commune.addRoute(x,y);
+							commune.addRoute(Scan.motDelimiter('|'),Scan.motSuivant());
 						} while (!Scan.estVide());
 					}
 				} catch (Exception e) {
@@ -105,9 +102,7 @@ public class Main {
 						 * ville d'arrivee. */
 					} else {
 						do {
-							x = Scan.motDelimiter('|');
-							y = Scan.motSuivant();
-							commune.supprimerRoute(x,y);
+							commune.supprimerRoute(Scan.motDelimiter('|'),Scan.motSuivant());
 						} while (!Scan.estVide());
 					}
 				} catch (Exception e) {
