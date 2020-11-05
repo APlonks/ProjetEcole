@@ -47,26 +47,30 @@ public class Main {
 			case "ajouter" :
 			case "a" :
 			case "1" :
-				System.out.println("Votre ville depart ?");
 				try {
-				x = (Scan.lireMot());//L'utilisateur entre le nom de la ville de depart.
-				} catch (ScanException e) {
+					if (Scan.estVide()) {
+						System.out.println("Votre ville depart ?");
+						x = (Scan.lireMot());//L'utilisateur entre le nom de la ville de depart.
+						System.out.println("Votre ville d'arrivee ?");
+						y = (Scan.lireMot());//L'utilisateur entre le nom de la ville d'arrivee.
+						commune.addRoute(x,y);//Appel la methode pour creer une route de la ville de depart vers la ville d'arrivee
+					} else {
+						do {
+							x = Scan.motDelimiter('|');
+							y = Scan.motSuivant();
+							commune.addRoute(x,y);
+						} while (!Scan.estVide());
+					}
+				} catch (Exception e) {
 					System.out.println(e.getMessage());
-				}
-				System.out.println("Votre ville d'arrivee ?");
-				try {
-				y = (Scan.lireMot());//L'utilisateur entre le nom de la ville d'arrivee.
-				} catch (ScanException e) {
-					System.out.println(e.getMessage());
-				}
-				if(commune.verifieVilleExiste(x, y)){//Si la route n'existe pas on l'a cree
-					commune.addRoute(x,y);//Appel la methode pour creer une route de la ville de depart vers la ville d'arrivee
-				}
+				}				
 			break;
 			case "fin" :
 			case "f" :
 			case "2" :
-				arretMenu1 = true;
+				if (commune.estConnexe()) {
+					arretMenu1 = true;
+				}				
 			break;
 			case "afficher" :
 			case "af" :
@@ -95,9 +99,8 @@ public class Main {
 				y = (Scan.lireMot());//L'utilisateur entre le nom de la ville d'arrivee.
 				} catch (ScanException e) {
 					System.out.println(e.getMessage());
-				}				if(commune.verifieVilleExiste(x, y)) {
-				commune.supprimerRoute(x,y);//Appel la methode pour supprimer une route de la ville de depart a la ville d'arrivee et dans l'autre sens
 				}
+				commune.supprimerRoute(x,y);//Appel la methode pour supprimer une route de la ville de depart a la ville d'arrivee et dans l'autre sens
 			break;
 			case "aide" :
 			case "h" :
@@ -106,8 +109,11 @@ public class Main {
 						+ "son nom entre parenthèse ou son initial ('af' pour afficher, 'h' pour help).\n"
 					+ "Il est possible d'ajouter ou retirer plusieurs routes d'un coup. Exemple :\n"
 					+ "Pour ajouter 2 routes, entre A - B et C - D, il suffit au moment de la selection de l'option d'ecrire 'ajouter A|B C|D'");
+			break;
 			}
 		} while(arretMenu1 == false);
+		commune.afficherHashMap();
+		commune.estConnexe();
 
 		//Affiche le menu2 et effectue une action en fonction du choix de l'option de
 		//l'utilisateur.
@@ -171,7 +177,7 @@ public class Main {
 						+ "son nom entre parenthèse ou son initial('h' pour help).\n"
 					+ "Il est possible d'ajouter ou retirer plusieurs ecoles d'un coup. Exemple :\n"
 					+ "Pour ajouter 2 ecoles, dans les villes A et B par exemple, "
-					+ "il suffit au moment de la selection de l'option d'ecrire 'ajouter A B'.");
+					+ "il suffit au moment de la selection de l'option d'ecrire 'ajouter A B'");
 			break;
 			}
 		}

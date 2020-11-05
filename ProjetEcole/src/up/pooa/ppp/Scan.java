@@ -6,6 +6,7 @@ import java.lang.StringBuilder;
  * Classe static et final du scanner. Sera utiliser pour faire les entrers claviers.
  * @param s (Scanner) Scanner de la class.
  * @param ligne (StringBuilder) Entrer utilisateur que l'on traite.
+ * 		R'ajout d'un espace en fin de ligne pour les traitement.
  */
 public class Scan {
 	private static final Scanner s = new Scanner(System.in);
@@ -14,13 +15,14 @@ public class Scan {
 	/**
 	 * Update ligne.
 	 */
-	private static void updateLigne() throws ScanException, java.util.InputMismatchException {
+	private static void updateLigne() throws ScanException {
 		ligne.setLength(0);
 		try {
 			ligne.append(s.nextLine());
 		} catch(Exception e) {
 			throw new ScanException("Entrer vide.");
 		}
+		ligne.append(' ');
 		retireEspc();
 	}
 	/**
@@ -32,15 +34,60 @@ public class Scan {
 		}
 	}
 	/**
+	 * On retire de la ligne jusqu'a un carractere special inclus.
+	 * @param key charactere de fin de suppression.
+	 */
+	private static void deleteTo(char key) {
+		while (!estVide() && ligne.charAt(0)!=key) {
+			ligne.delete(0,1);
+		}
+		if (!estVide()) {
+			ligne.delete(0,1);
+		}
+	}
+	/**
 	 * On retire de ligne se qui est considerer comme la premiere entre utilisateur.
 	 */
 	private static void deleteFirtInput() {
-		while (!estVide() && ligne.charAt(0)!=' ') {
-			ligne.delete(0,1);
-		}
+		deleteTo(' ');
 		retireEspc();
 	}
+	/**
+	 * @param c char rechercher.
+	 * @return la position du charactere c ou -1.
+	 */
+	private static int indexChar(char key) {
+		if (estVide()) {
+			return -1;
+		} else {
+			/* Parcour le mot jusqu'a trouver le charractere que l'on cherche. */
+			for (int pos=0; pos<ligne.length(); pos++) {
+				if (ligne.charAt(pos) == key) {
+					return pos;
+				}
+			}
+			/* Pas trouver -> n'existe pas. */
+			return -1;
+		}
+	}
 
+	/**
+	 * @param str char qui marque la fin du l'entre souhaiter.
+	 * @return Le debut du String jusqu'au charactere donner (non inclus).
+	 */
+	public static String motDelimiter(char str) throws ScanException {
+		String retour;
+		int pos = indexChar(str);
+		if (estVide()) {
+			throw new ScanException("Entrer vide.");
+		} else if (pos<0 || pos>indexChar(' ')) {
+			throw new ScanException("Convension de saisie non respecter.");
+		} else {
+			retour = ligne.substring(0,pos);
+			deleteTo(str);
+			return retour;
+		}
+	}
 	/**
 	 * Ferme le Scanner, on ne peut plus utiliser la class Scan.
 	 */
@@ -63,39 +110,21 @@ public class Scan {
 	 */
 	public static String lireMot() throws ScanException {
 		/* Mise a jour de l'entrer utilisateur. */
+		try {
 		updateLigne();
-		String retour;
-		int fin = ligne.indexOf(" ");
-		if (estVide()) {
-			throw new ScanException("Entrer vide.");
-		} else if (fin != -1) {
-			/* Il y a un espace dans la ligne. */
-			retour = ligne.subSequence(0,fin).toString();
-		} else {
-			/* On retourne l'entrer entiere qui est constituer d'un seul mot. */
-			retour = ligne.toString();
-		}
-		/* Retire l'entrer que l'on vient de retourner. */
-		deleteFirtInput();
+		String retour = motDelimiter(' ');
+		retireEspc();
 		return retour;
+		} catch (ScanException e) {
+			throw e;
+		}
 	}
 	/**
 	 * @return Lis le premier mot qu'il reste dans le buffer ligne.
 	 */
 	public static String motSuivant() throws ScanException {
-		if (estVide()) {
-			/* Ereur, il n'y as plus rien a lire. */
-			throw new ScanException("Plus rien a lire.");
-		}
-		String retour;
-		int fin = ligne.indexOf(" ");
-		if (fin != -1) {
-			retour = ligne.subSequence(0,fin).toString();
-		} else {
-			retour = ligne.toString();
-		}
-		/* Retire de la ligne se que l'on vient vas retourner. */
-		deleteFirtInput();
+		String retour = motDelimiter(' ');
+		retireEspc();
 		return retour;
 	}
 	/**
@@ -155,6 +184,7 @@ public class Scan {
 	}
 	/**
 	 * Pose une question a l'utilisateur jusqu'a que ce dernier donne une reponse correcte.
+	 * N'est pas optimal surtout si le nombre de mot cle est consequant.
 	 * @param question Question poser a l'utilisateur.
 	 * @param rA Reponse accepter, permet d'etre sure qu'il y a aux moins une reponse.
 	 * @param ...a Ensemble des mot cles accepter.
@@ -166,7 +196,7 @@ public class Scan {
 		/* Lis l'entrer utilisateur. */
 		try {
 			reponse = lireMot();
-		} catch (Exception e) {
+		} catch (ScanException e) {
 			/* Enonce l'ereur de l'utilisateur et attend une nouvelle reponse. */
 			System.out.println(e.getMessage());
 			return questionReponse(question,rA,a);
