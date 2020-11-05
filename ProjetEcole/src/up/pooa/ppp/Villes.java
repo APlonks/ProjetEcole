@@ -1,7 +1,27 @@
 package up.pooa.ppp;
 import java.util.Scanner;
+import java.lang.StringBuilder;
 
 public class Villes {
+	public static void getArgRoute(Commune commune) {
+		try {
+			int pos;
+			StringBuilder entrer = new StringBuilder();
+			do {
+				entrer.setLength(0);
+				entrer.append(Scan.motSuivant());
+				if ((pos=entrer.indexOf("|")) > -1) {
+					commune.addRoute(entrer.substring(0,pos).toString(),
+						 entrer.substring(pos+1).toString());
+				} else {
+					System.out.println("Parrametre non reconnue.");
+				}
+			} while (!Scan.estVide());
+		} catch (ScanException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
 	public static void main(String[] args) {
 		//Initialisation des variables
 		int nombreVilles = 0;
@@ -51,7 +71,7 @@ public class Villes {
 			case "1" :
 				String x;//Ville de depart
 				String y;//Ville d'arrivee
-				
+				if (Scan.estVide()) {
 				System.out.println("Votre ville depart ?");
 				x = Character.toString(scan.next().charAt(0));
 				//L'utilisateur entre le nom de la ville de depart.
@@ -61,11 +81,17 @@ public class Villes {
 				/* Appel la methode pour creer une route de la ville de depart vers la ville
 				 * d'arrivee. */
 				commune.addRoute(x,y);
+				} else {
+					getArgRoute(commune);
+				}
+					
 			break;
 			case "fin" :
 			case "f" :
 			case "2" :
-				arretMenu1 = true;
+				if (commune.estConnexe()) {
+					arretMenu1 = true;
+				}
 			break;
 			case "afficher" :
 			case "af" :
@@ -91,6 +117,8 @@ public class Villes {
 			break;
 			}
 		} while(arretMenu1 == false);
+		commune.afficherHashMap();
+		commune.estConnexe();
 
 		//Affiche le menu2 et effectue une action en fonction du choix de l'option de
 		//l'utilisateur.

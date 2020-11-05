@@ -156,16 +156,16 @@ public class Commune {
 			" incoherente.");
 		} else if ((commune.get(depart).contains(arriver)) &&
 			(commune.get(arriver).contains(depart))) {
-			/* On verifie si il existe une route de la ville de depart à la ville d'arriver.
-			 * On ne verifie qu'un sens de la route car la liste d'adjacence est symetrique. */
-			System.out.println("Il n'y a pas de route de la ville "+depart+" a la ville "+arriver
-				+" donc elle ne peut pas etre supprimee.");
-		} else {
 			/* Retire chaque ville de la liste d'adjacence de l'autre. */
 			commune.get(depart).remove(arriver);
 			commune.get(arriver).remove(depart);
 			System.out.println("Vous avez supprime une route entre la ville "+x+" et la ville "
 				+y+".");
+		} else {
+			/* On verifie si il existe une route de la ville de depart à la ville d'arriver.
+			 * On ne verifie qu'un sens de la route car la liste d'adjacence est symetrique. */
+			System.out.println("Il n'y a pas de route de la ville "+depart+" a la ville "+arriver
+				+" donc elle ne peut pas etre supprimee.");
 		}
 	}
 	/**
@@ -223,6 +223,41 @@ public class Commune {
 	 * On considere une commune vide comme etant non connexe.
 	 */
 	public boolean estConnexe() {
-		return true;
+		if (commune.size() < 1) {
+			System.out.println("Il n'y as pas de ville dans la communaute d'agglomeration.");
+			return false;
+		}
+		ArrayList<Agglomeration> ssGrapheConnexe, lstAgglo;
+		ssGrapheConnexe = new ArrayList<Agglomeration>();
+		lstAgglo = new ArrayList<Agglomeration>();
+		/* lstAgglo contient toutes les Villes qui non pas déjà été visité. Elle est initialser
+		 * a l'aide de toutes les key de commune.
+		 * ssGrapheConnexe correspond a un ensemble d'Agglomeration appartenant aux meme sous
+		 * graphe connexe. */
+		for (Agglomeration k : commune.keySet()) {
+			lstAgglo.add(k);
+		}
+		ssGrapheConnexe.add(lstAgglo.get(0));
+		Agglomeration tampon = lstAgglo.get(0);
+		lstAgglo.remove(tampon);
+		/* Tant qu'il y a des Agglomeration dans la liste ssGrapheConnexe, on y ajoute si cela
+		 * est possible leurs adjacent que l'on retire de lstAgglo dans ce cas. */
+		while (!ssGrapheConnexe.isEmpty()) {
+			tampon = ssGrapheConnexe.get(0);
+			ssGrapheConnexe.remove(0);
+			for (Agglomeration v : commune.get(tampon)) {
+				if (lstAgglo.contains(v)) {
+					ssGrapheConnexe.add(v);
+					lstAgglo.remove(v);
+				}
+			}
+		}
+		if (!lstAgglo.isEmpty()) {
+			System.out.println("Les villes "+tampon+" et "+lstAgglo.get(0)+" n'appartiennet pas "+
+			"la meme communaute d'agglomeration.");
+			return false;
+		} else {
+			return true;
+		}
 	}
 }

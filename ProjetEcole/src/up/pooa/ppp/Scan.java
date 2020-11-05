@@ -155,6 +155,7 @@ public class Scan {
 	}
 	/**
 	 * Pose une question a l'utilisateur jusqu'a que ce dernier donne une reponse correcte.
+	 * N'est pas optimal surtout si le nombre de mot cle est consequant.
 	 * @param question Question poser a l'utilisateur.
 	 * @param rA Reponse accepter, permet d'etre sure qu'il y a aux moins une reponse.
 	 * @param ...a Ensemble des mot cles accepter.
