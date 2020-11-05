@@ -258,4 +258,16 @@ public class Commune {
 			return true;
 		}
 	}
+	
+	public void addEcole(String nomVille) {
+		Agglomeration ville;
+		if ((ville=getVille(nomVille)) == null ) {
+			System.out.println("La ville " + nomVille + " n'existe pas.");
+		} else if (ville.getEcole() == true) {
+			System.out.println("La ville " + nomVille + " possede deja une ecole");
+		} else {
+			ville.addEcole();
+		}
+		
+	}
 }

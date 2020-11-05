@@ -137,13 +137,11 @@ public class Main {
 				try {
 					if (Scan.estVide()) {
 						System.out.println("Dans quel ville voulez-vous ajouter une ecole ?");
-// 						commune.addEcole(Scan.lireMot());
-						Scan.lireMot();
+ 						commune.addEcole(Scan.lireMot());
 					} else {
 						do {
 							System.out.println("Dans quel ville voulez-vous ajouter une ecole ?");
-//							commune.addEcole(Scan.motSuivant());
-							Scan.motSuivant();
+							commune.addEcole(Scan.motSuivant());
 						} while (!Scan.estVide());
 					}
 				} catch (ScanException e) {
