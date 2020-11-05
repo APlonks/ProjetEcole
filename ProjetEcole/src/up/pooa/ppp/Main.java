@@ -171,7 +171,7 @@ public class Main {
 						+ "son nom entre parenthèse ou son initial('h' pour help).\n"
 					+ "Il est possible d'ajouter ou retirer plusieurs ecoles d'un coup. Exemple :\n"
 					+ "Pour ajouter 2 ecoles, dans les villes A et B par exemple, "
-					+ "il suffit au moment de la selection de l'option d'ecrire 'ajouter A B'");
+					+ "il suffit au moment de la selection de l'option d'ecrire 'ajouter A B'.");
 			break;
 			}
 		}
