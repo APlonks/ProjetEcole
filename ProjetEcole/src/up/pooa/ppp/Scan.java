@@ -15,15 +15,15 @@ public class Scan {
 	/**
 	 * Update ligne.
 	 */
-	private static void updateLigne() throws ScanException, java.util.InputMismatchException {
+	private static void updateLigne() throws ScanException {
 		ligne.setLength(0);
 		try {
 			ligne.append(s.nextLine());
 		} catch(Exception e) {
-			throw e;
+			throw new ScanException("Entrer vide.");
 		}
-		retireEspc();
 		ligne.append(' ');
+		retireEspc();
 	}
 	/**
 	 * Retire les espace en debut de ligne.
@@ -35,6 +35,7 @@ public class Scan {
 	}
 	/**
 	 * On retire de la ligne jusqu'a un carractere special inclus.
+	 * @param key charactere de fin de suppression.
 	 */
 	private static void deleteTo(char key) {
 		while (!estVide() && ligne.charAt(0)!=key) {
@@ -53,17 +54,20 @@ public class Scan {
 	}
 	/**
 	 * @param c char rechercher.
-	 * @return la position du charactere c.
+	 * @return la position du charactere c ou -1.
 	 */
 	private static int indexChar(char key) {
 		if (estVide()) {
 			return -1;
 		} else {
-			int pos=0;
-			while (ligne.charAt(pos) != key) {
-				pos++;
+			/* Parcour le mot jusqu'a trouver le charractere que l'on cherche. */
+			for (int pos=0; pos<ligne.length(); pos++) {
+				if (ligne.charAt(pos) == key) {
+					return pos;
+				}
 			}
-			return pos;
+			/* Pas trouver -> n'existe pas. */
+			return -1;
 		}
 	}
 
@@ -71,7 +75,7 @@ public class Scan {
 	 * @param str char qui marque la fin du l'entre souhaiter.
 	 * @return Le debut du String jusqu'au charactere donner (non inclus).
 	 */
-	public static String motDelimiter(char str) throws  ScanException{
+	public static String motDelimiter(char str) throws ScanException {
 		String retour;
 		int pos = indexChar(str);
 		if (estVide()) {
@@ -107,9 +111,11 @@ public class Scan {
 	public static String lireMot() throws ScanException {
 		/* Mise a jour de l'entrer utilisateur. */
 		try {
-			updateLigne();
-			return motDelimiter(' ');
-		} catch (Exception e) {
+		updateLigne();
+		String retour = motDelimiter(' ');
+		retireEspc();
+		return retour;
+		} catch (ScanException e) {
 			throw e;
 		}
 	}
@@ -117,7 +123,9 @@ public class Scan {
 	 * @return Lis le premier mot qu'il reste dans le buffer ligne.
 	 */
 	public static String motSuivant() throws ScanException {
-		return motDelimiter(' ');
+		String retour = motDelimiter(' ');
+		retireEspc();
+		return retour;
 	}
 	/**
 	 * Realise une nouvelle entrer utilisateur.
@@ -125,12 +133,12 @@ public class Scan {
 	 */
 	public static int lireEntier() throws ScanException {
 		String mot;
-		int retour=0;
+		int retour=0;d
 		char lettre;
 		try {
 			/* Utilise lireMot pour obtenir la premiere entrer utilisateur. */
 			mot = lireMot();
-		} catch (Exception e) {
+		} catch (ScanException e) {
 			/* On récupére une ereur dans la fonction lireMot(), on l'a transmet. */
 			throw e;
 		}
@@ -188,7 +196,7 @@ public class Scan {
 		/* Lis l'entrer utilisateur. */
 		try {
 			reponse = lireMot();
-		} catch (Exception e) {
+		} catch (ScanException e) {
 			/* Enonce l'ereur de l'utilisateur et attend une nouvelle reponse. */
 			System.out.println(e.getMessage());
 			return questionReponse(question,rA,a);

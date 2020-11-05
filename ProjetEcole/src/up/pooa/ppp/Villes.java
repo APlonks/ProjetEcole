@@ -52,26 +52,26 @@ public class Villes {
 			case "1" :
 				String x;//Ville de depart
 				String y;//Ville d'arrivee
-				if (Scan.estVide()) {
-				System.out.println("Votre ville depart ?");
-				x = Character.toString(scan.next().charAt(0));
-				//L'utilisateur entre le nom de la ville de depart.
-				System.out.println("Votre ville d'arrivee ?");
-				y = Character.toString(scan.next().charAt(0));
-				//L'utilisateur entre le nom de la ville d'arrivee.
-				/* Appel la methode pour creer une route de la ville de depart vers la ville
-				 * d'arrivee. */
-				commune.addRoute(x,y);
-				} else {
-					try {
+				try {
+					if (Scan.estVide()) {
+						System.out.println("Votre ville depart ?");
+						x = Scan.lireMot();
+						//L'utilisateur entre le nom de la ville de depart.
+						System.out.println("Votre ville d'arrivee ?");
+						y = Character.toString(scan.next().charAt(0));
+						//L'utilisateur entre le nom de la ville d'arrivee.
+						/* Appel la methode pour creer une route de la ville de depart vers la
+						 * ville d'arrivee. */
+						commune.addRoute(x,y);
+					} else {
 						do {
 							x = Scan.motDelimiter('|');
 							y = Scan.motSuivant();
 							commune.addRoute(x,y);
 						} while (!Scan.estVide());
-					} catch (Exception e) {
-						System.out.println(e.getMessage());
 					}
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
 				}
 					
 			break;
