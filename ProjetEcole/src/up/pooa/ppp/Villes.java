@@ -3,25 +3,6 @@ import java.util.Scanner;
 import java.lang.StringBuilder;
 
 public class Villes {
-	public static void getArgRoute(Commune commune) {
-		try {
-			int pos;
-			StringBuilder entrer = new StringBuilder();
-			do {
-				entrer.setLength(0);
-				entrer.append(Scan.motSuivant());
-				if ((pos=entrer.indexOf("|")) > -1) {
-					commune.addRoute(entrer.substring(0,pos).toString(),
-						 entrer.substring(pos+1).toString());
-				} else {
-					System.out.println("Parrametre non reconnue.");
-				}
-			} while (!Scan.estVide());
-		} catch (ScanException e) {
-			System.out.println(e.getMessage());
-		}
-	}
-
 	public static void main(String[] args) {
 		//Initialisation des variables
 		int nombreVilles = 0;
@@ -82,7 +63,15 @@ public class Villes {
 				 * d'arrivee. */
 				commune.addRoute(x,y);
 				} else {
-					getArgRoute(commune);
+					try {
+						do {
+							x = Scan.motDelimiter('|');
+							y = Scan.motSuivant();
+							commune.addRoute(x,y);
+						} while (!Scan.estVide());
+					} catch (Exception e) {
+						System.out.println(e.getMessage());
+					}
 				}
 					
 			break;
