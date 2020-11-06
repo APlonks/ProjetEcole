@@ -50,14 +50,14 @@ public class Scan {
 	}
 	/**
 	 * Donne la position d'un charactere dans le buffer.
-	 * @param c char rechercher.
-	 * @return la position du charactere c ou -1.
+	 * @param key char rechercher.
+	 * @return la position du charactere key ou -1.
 	 */
 	private static int indexChar(char key) {
 		if (estVide()) {
 			return -1;
 		} else {
-			/* Parcour le mot jusqu'a trouver le charractere que l'on cherche. */
+			/* Parcour le mot jusqu'a trouver le charactere que l'on cherche. */
 			for (int pos=0; pos<ligne.length(); pos++) {
 				if (ligne.charAt(pos) == key) {
 					return pos;
@@ -70,7 +70,7 @@ public class Scan {
 
 	/**
 	 * Lis le mot premier du buffer ayant pour charactere de fin str.
-	 * @param str char qui marque la fin du l'entre souhaiter.
+	 * @param str char qui marque la fin du l'entrer souhaiter.
 	 * @throws ScanException Exception d'entre clavier.
 	 * @return Le debut du String jusqu'au charactere donner (non inclus).
 	 */
@@ -143,7 +143,7 @@ public class Scan {
 			/* Utilise lireMot pour obtenir la premiere entrer utilisateur. */
 			mot = lireMot();
 		} catch (ScanException e) {
-			/* On récupére une ereur dans la fonction lireMot(), on l'a transmet. */
+			/* On recupere une erreur dans la fonction lireMot(), on l'a transmet. */
 			throw e;
 		}
 		/* Lettre de l'entier taper.
@@ -172,7 +172,7 @@ public class Scan {
 			/* Utilise motSuivant pour obtenir l'entrer utilisateur suivante. */
 			mot = motSuivant();
 		} catch (ScanException e) {
-			/* On récupére une ereur dans la fonction entierSuivant(), on l'a transmet. */
+			/* On recupere une erreur dans la fonction entierSuivant(), on l'a transmet. */
 			throw e;
 		}
 		/* Lettre de l'entier taper.
@@ -203,7 +203,7 @@ public class Scan {
 		try {
 			reponse = lireMot();
 		} catch (ScanException e) {
-			/* Enonce l'ereur de l'utilisateur et attend une nouvelle reponse. */
+			/* Enonce l'erreur de l'utilisateur et attend une nouvelle reponse. */
 			System.out.println(e.getMessage());
 			return questionReponse(question,rA,a);
 		}
