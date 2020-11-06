@@ -1,12 +1,17 @@
 package up.pooa.ppp;
 
+/**
+ * 
+ * @author Pinto, Poirier, Planque
+ * @version 1.0
+ */
+
 public class Main {
 	public static void main(String[] args) {
 		//Initialisation des variables
 		int nombreVilles = 0;
 		boolean arretMenu = false;
 		char codeAscii = (int) 'A';
-		String nomVille = null;
 		String x = null, y = null; //Variable pour le parrametrage des villes.
 
 		do {

@@ -5,22 +5,19 @@ import java.util.Map.Entry;
 
 /**
  * Class represantant un groupement d'Agglomeration relier entre elle.
- * On utiliserat les listes d'adjacence pour le relier.
+ * On utilisera les listes d'adjacence pour le relier.
  * @param commune Liste d'adjacence des Agglomeration.
  * @param nombresVilles Nombres de villes.
  */
 public class Commune {
 	private HashMap<Agglomeration,ArrayList<Agglomeration>> commune;
-	private int nombresVilles;
 
 	 //Constructeurs.
 	public Commune() {
 		commune = new HashMap<Agglomeration,ArrayList<Agglomeration>>();
-		nombresVilles = 0;
 	}
 	public Commune(int nombresVilles) {
 		commune = new HashMap<Agglomeration,ArrayList<Agglomeration>>();
-		this.nombresVilles = nombresVilles;
 	}
 
 	/**
