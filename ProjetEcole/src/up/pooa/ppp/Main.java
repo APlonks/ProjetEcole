@@ -7,9 +7,8 @@ public class Main {
 		boolean arretMenu = false;
 		char codeAscii = (int) 'A';
 		String nomVille = null;
-		String x = null, y = null; //Varriable pour le parrametrage des villes.
+		String x = null, y = null; //Variable pour le parrametrage des villes.
 
-		//Scanner permettant a l'utilisateur de choisir le nombre de villes.
 		do {
 			System.out.print("Entrez le nombre de villes de la communaute d'agglomeration "+
 				"(entre 1 et 26): ");
@@ -112,8 +111,8 @@ public class Main {
 			case "aide" :
 			case "h" :
 			case "5" :
-				System.out.println("Vous pouvez selectioner une option en tapant le numero de"+
-				" l'option, son nom entre parenthese ou son initial ('af' pour afficher, 'h' pour"+
+				System.out.println("Vous pouvez selectionner une option en tapant le numero de"+
+				" l'option, son nom entre parenthese ou son initiale ('af' pour afficher, 'h' pour"+
 				" help).\nIl est possible d'ajouter ou retirer plusieurs routes d'un coup."+
 				" Exemple :\nPour ajouter 2 routes, entre A - B et C - D, il suffit au moment de"+
 				" la selection de l'option d'ecrire 'ajouter A|B C|D'");
@@ -140,7 +139,6 @@ public class Main {
  						commune.addEcole(Scan.lireMot());
 					} else {
 						do {
-							System.out.println("Dans quel ville voulez-vous ajouter une ecole ?");
 							commune.addEcole(Scan.motSuivant());
 						} while (!Scan.estVide());
 					}
@@ -177,8 +175,8 @@ public class Main {
 			case "aide" :
 			case "h" :
 			case "4" :
-				System.out.println("Vous pouvez selectioner une option en tapant le numero de"+
-					" l'option, son nom entre parenthese ou son initial('h' pour help).\n"
+				System.out.println("Vous pouvez selectionner une option en tapant le numero de"+
+					" l'option, son nom entre parenthese ou son initiale('h' pour help).\n"
 					+ "Il est possible d'ajouter ou retirer plusieurs ecoles d'un coup."+
 					" Exemple :\nPour ajouter 2 ecoles, dans les villes A et B par exemple, "
 					+ "il suffit au moment de la selection de l'option d'ecrire 'ajouter A B'.");
