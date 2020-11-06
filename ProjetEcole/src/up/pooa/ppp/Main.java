@@ -1,12 +1,18 @@
 package up.pooa.ppp;
 
 /**
- * 
  * @author Pinto, Poirier, Planque
  * @version 1.0
  */
 
+/**
+ * Class principale d'execution.
+ */
 public class Main {
+	/**
+	 * Methode main.
+	 * @param args Entre parametrage ligne de commande.
+	 */
 	public static void main(String[] args) {
 		//Initialisation des variables
 		int nombreVilles = 0;
@@ -33,7 +39,7 @@ public class Main {
 		 * l'utilisateur.
 		 * De plus chaque ville sera nommee en fonction d'une lettre de l'alphabet commeneant par
 		 * 'A' et initialiser avec une ecole. */
-		Commune commune = new Commune(nombreVilles);
+		Commune commune = new Commune();
 		for(int i=0; i<nombreVilles; i++) {
 			commune.addVille(new Agglomeration(codeAscii,true));
 			codeAscii++;

@@ -1,38 +1,58 @@
 package up.pooa.ppp;
 /**
- * Creation de la classe aglomeration.
- * @param nom Nom de la ville.
- * @param ecole Boolean representant la presence d'ecole.
- * 		Initialiser a true.
+ * Agglomeration representer par un nom et la presence ou nom d'une ecole.
  */
 public class Agglomeration {
+	/**
+	 * @param nom Nom de l'Agglomeration.
+	 * @param ecole boolean representant la presence d'ecole.
+	 */
 	private String nom;
 	private boolean ecole;
 
 	/**
 	 * Constructeur.
+	 * @param nom Nom de l'Agglomeration.
 	 */
 	public Agglomeration(char nom) {
 		this.nom = Character.toString(nom);
 	}
+	/**
+	 * Constructeur.
+	 * @param nom Nom de l'Agglomeration.
+	 * @param ecole True si possede une ecole, false sinon.
+	 */
 	public Agglomeration(char nom, boolean ecole) {
 		this.nom = Character.toString(nom);
 		this.ecole = ecole;
 	}
+	/**
+	 * Constructeur
+	 * @param nom Nom de l'Agglomeration.
+	 */
 	public Agglomeration (String nom) {
 		this.nom = nom;
 	}
 
 	/**
 	 * Getter.
+	 * @return Champs variable nom.
 	 */
 	public String getNomVille() {
 		return this.nom;
 	}
+	/**
+	 * Getter
+	 * @return Champs variable ecole.
+	 */
 	public boolean getEcole() {
 		return this.ecole;
 	}
 
+	/**
+	 * Convertie en string.
+	 * @return Le string de notre object.
+	 */
 	@Override
 	public String toString() {
 		return nom;
@@ -59,7 +79,8 @@ public class Agglomeration {
 		return nom.hashCode();
 	}
 	/**
-	 * @param Agglomeration
+	 * Fonction equals avec un autre object.
+	 * @param v Object v avec lequel on compare.
 	 * @return Agglomeration.getNomVille() == this.getNomVille()
 	 */
 	@Override

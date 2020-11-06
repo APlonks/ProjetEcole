@@ -3,17 +3,20 @@ import java.util.Scanner;
 import java.lang.StringBuilder;
 
 /**
- * Classe static et final du scanner. Sera utiliser pour faire les entrers claviers.
- * @param s (Scanner) Scanner de la class.
- * @param ligne (StringBuilder) Entrer utilisateur que l'on traite.
- * 		R'ajout d'un espace en fin de ligne pour les traitement.
+ * Classe static et final du scanner.
+ * Sera utiliser pour faire les entrers claviers.
  */
 public class Scan {
+	/**
+	 * @param s Scanner general de la class.
+	 * @param ligne Buffer d'entre general de la class.
+	 */
 	private static final Scanner s = new Scanner(System.in);
 	private static StringBuilder ligne = new StringBuilder("");
 
 	/**
 	 * Update ligne.
+	 * @throws ScanException Exception d'entre clavier.
 	 */
 	private static void updateLigne() throws ScanException {
 		ligne.setLength(0);
@@ -46,13 +49,7 @@ public class Scan {
 		}
 	}
 	/**
-	 * On retire de ligne se qui est considerer comme la premiere entre utilisateur.
-	 */
-	private static void deleteFirtInput() {
-		deleteTo(' ');
-		retireEspc();
-	}
-	/**
+	 * Donne la position d'un charactere dans le buffer.
 	 * @param c char rechercher.
 	 * @return la position du charactere c ou -1.
 	 */
@@ -72,7 +69,9 @@ public class Scan {
 	}
 
 	/**
+	 * Lis le mot premier du buffer ayant pour charactere de fin str.
 	 * @param str char qui marque la fin du l'entre souhaiter.
+	 * @throws ScanException Exception d'entre clavier.
 	 * @return Le debut du String jusqu'au charactere donner (non inclus).
 	 */
 	public static String motDelimiter(char str) throws ScanException {
@@ -96,6 +95,7 @@ public class Scan {
 	}
 	/**
 	 * Permet de savoir si le buffer de l'entrer utilisateur est vide.
+	 * @return true si le buffer est vide, false sinon.
 	 */
 	public static boolean estVide() {
 		if (ligne.length() == 0) {
@@ -106,6 +106,7 @@ public class Scan {
 	}
 	/**
 	 * Realise une nouvelle entrer utilisateur.
+	 * @throws ScanException Exception d'entre clavier.
 	 * @return Le premier mot de l'entrer realiser.
 	 */
 	public static String lireMot() throws ScanException {
@@ -120,6 +121,8 @@ public class Scan {
 		}
 	}
 	/**
+	 * Lis le mot suivant du buffer d'entrer.
+	 * @throws ScanException Exception d'entre clavier.
 	 * @return Lis le premier mot qu'il reste dans le buffer ligne.
 	 */
 	public static String motSuivant() throws ScanException {
@@ -129,6 +132,7 @@ public class Scan {
 	}
 	/**
 	 * Realise une nouvelle entrer utilisateur.
+	 * @throws ScanException Exception d'entre clavier.
 	 * @return La valeur de l'entier taper par l'utilisateur.
 	 */
 	public static int lireEntier() throws ScanException {
@@ -156,6 +160,8 @@ public class Scan {
 		return retour;
 	}
 	/**
+	 * Lis l'entier suivant dans le buffer d'entrer.
+	 * @throws ScanException Exception d'entre clavier.
 	 * @return La valeur de l'entier suivant dans le buffer ligne.
 	 */
 	public static int entierSuivant() throws ScanException {
@@ -187,7 +193,7 @@ public class Scan {
 	 * N'est pas optimal surtout si le nombre de mot cle est consequant.
 	 * @param question Question poser a l'utilisateur.
 	 * @param rA Reponse accepter, permet d'etre sure qu'il y a aux moins une reponse.
-	 * @param ...a Ensemble des mot cles accepter.
+	 * @param a Ensemble des mot cles accepter.
 	 * @return String mot cle reconnue.
 	 */
 	public static String questionReponse(String question, String rA, String ... a) {

@@ -5,22 +5,22 @@ import java.util.Map.Entry;
 
 /**
  * Class represantant un groupement d'Agglomeration relier entre elle.
- * On utilisera les listes d'adjacence pour le relier.
- * @param commune Liste d'adjacence des Agglomeration.
- * @param nombresVilles Nombres de villes.
  */
 public class Commune {
+	/**
+	 * @param commune Liste d'adjacence de la commune d'agglomeration.
+	 */
 	private HashMap<Agglomeration,ArrayList<Agglomeration>> commune;
 
-	 //Constructeurs.
+	/**
+	 * Constructeur.
+	 */
 	public Commune() {
-		commune = new HashMap<Agglomeration,ArrayList<Agglomeration>>();
-	}
-	public Commune(int nombresVilles) {
 		commune = new HashMap<Agglomeration,ArrayList<Agglomeration>>();
 	}
 
 	/**
+	 * Regarde si une Agglomeration contient une ecole.
 	 * @param lst Liste des villes adjacentes (Lie par une route)
 	 * @return true si il existe 'a' dans lst avec 'a' possedant une ecole.
 	 * 		false sinon.
@@ -34,6 +34,7 @@ public class Commune {
 		return false;
 	}
 	/**
+	 * Regarde si une Agglomeration a acces a une ecole.
 	 * @param agA 1 ville de depart.
 	 * @param agB 1 ville adjacente a agA.
 	 * @return true si agA contient une ecole ou si une ville adjacence a agA autre que
@@ -53,8 +54,8 @@ public class Commune {
 	}
 
 	/**
-	 * @param v Une nouvelle ville
 	 * Ajoute une ville a l'agglomeration
+	 * @param v Une nouvelle ville
 	 */
 	public void addVille(Agglomeration v) {
 		if (!(commune.containsKey(v))) {
@@ -66,8 +67,8 @@ public class Commune {
 		}
 	}
 	/**
-	 * @param nom Une nouvelle ville
 	 * Ajoute une ville a l'aglomeration
+	 * @param nom Une nouvelle ville
 	 */
 	public void addVille(String nom) {
 		Agglomeration v = new Agglomeration(nom);
@@ -214,8 +215,8 @@ public class Commune {
 		}
 	}
 	/**
-	 * @return true si commune est connexe false sinon.
 	 * On considere une commune vide comme etant non connexe.
+	 * @return true si commune est connexe false sinon.
 	 */
 	public boolean estConnexe() {
 		if (commune.size() < 1) {
@@ -255,7 +256,10 @@ public class Commune {
 			return true;
 		}
 	}
-	
+	/**
+	 * Ajoute une ecole.
+	 * @param nomVille Agglomeration ou l'on veut ajouter une ecole.
+	 */
 	public void addEcole(String nomVille) {
 		Agglomeration ville;
 		if ((ville=getVille(nomVille)) == null ) {
