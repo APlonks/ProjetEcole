@@ -1,40 +1,106 @@
-﻿                  Reflexion :
+﻿---------------------------------------------------------------------------------------------------
+								Recap rendu 1
+---------------------------------------------------------------------------------------------------
 
-class Villes {
-  Variable:
-    String nom; /* Nom de la ville qui est unique. */
-    boolean ecole; /* Si posséde ou non une école. */
+Class :
+	- Agglomeration
+	- Commune
+	- Main
+	- Scan
+	- ScanException
 
-  Fonction:
-    set ecole;
-    get ecole;
-    /* Normalement on n'as pas besoin du nom. */
-    comparableTo; /* Utiliser le comparable des String, même nom, même ville. */
-}
+Agglomeration :
+	- Variable
+		nom (String)
+		Ecole (boolean)
+	- Methode Public
+		toString
+		retireEcole															*Exc
+		hashCode
+		equals
 
-class CA {
-  Variable:
-    Villes[] aglo; /* Permet de liste toutes les villes de l'aglo et leurs indice serat l'indice
-     * utiliser pour la matrice. */
-    boolean [][]matrice; /* Matrice d'adjacence. */
+Commune :
+	- Variable
+		commune (HashMap<Agglomeration,ArrayList<Agglomeration>>)
+	- Methode Public
+		addVille															Exc
+		affiche
+		afficheEcole
+		getVille
+		addRoute															Exc
+		supprimerRoute														Exc
+		afficheRoute														Exc
+		afficherHashMap
+		retireEcole															Exc
+		estConnexe															Exc
+		addEcole															Exc
+	- Methode Private
+		contientEcole
+		accesAutreEcole														Exc
 
-  Fonction:
-    retireEcole/ajouteEcole; /* Appel aux fonction de villes. */
-    ajouteRoute; /* Ajoute sur la matrice d'adjacence. */
+Scan :
+	- Variable
+		s (Scanner)
+		ligne (StringBuilder)
+	- Methode Public
+		motDelimiter
+		fermer
+		estVide
+		lireMot
+		motSuivant
+		lireEntier
+		entierSuivant
+		questionReponse
+	- Methode Private
+		updateLigne
+		retireEspc
+		deleteTo
+		indexChar
 
-  Constructeur:
-    Demande le nombre de ville comme cela on ignitialise le tableau.
-    Puis demande demande a l'utilisateur de nommer les villes. /* Peut être que cela n'est pas
-     * necessaire actuellement. Mais après serat primordiale car devrat verifier que les noms des
-     * villes soit diff et plus ou moins long. */
-}
+---------------------------------------------------------------------------------------------------
+								Modification Code
+---------------------------------------------------------------------------------------------------
 
-class Scanner {
-  Variable:
-    static Scanner; /* On creer un scanner qu'on utilise tout le long du programme.
-     * le même partour, pour tout. Et on le ferme uniquement a la fin. */
+(Exc) Ajouter la gestion d'exception :
+	- Agglomeration et Commune conserner.
+		Aucun message d'erreur ne doit être afficher a l'interieur de la fonction car en local car
+			par execution par fichier, il faut faire remonté l'erreur.
 
-  Fonction:
-    lireInt;
-    lireString;
-}
+(Dbg) Retirer les fonction de debug :
+	- Si des fonctions de débug doivent être réaliser, on les créer dans un package a part en
+	 en static. Ce serat un fichier personnel qui ne serat pas remit au prof.
+
+---------------------------------------------------------------------------------------------------
+								Modification Structure
+---------------------------------------------------------------------------------------------------
+
+Creer package :
+	- Debug
+		Perso pour nous.
+	- Coeur Projet
+		Agglone + Commune + Exc
+	- Entre utilisateur
+		Scan + Exc
+	- Entre fichier
+		Gestion des fichier + Exc
+	- Main
+		Fichier main + class de main qui execute les sous programmes
+
+Il y a une discussion a avoir entre nous sur le fait de faire moins de package différent
+et par exemple de regrouper les Exception ensemble.
+
+---------------------------------------------------------------------------------------------------
+								Gestion fichier
+---------------------------------------------------------------------------------------------------
+
+Avant de gerer les fichiers il y a qlq question a se poser :
+	- li-t-on d'un coup un fichier puis on le ferme ou le garde-t-on ouvert ?
+	- peut-on lire dans plusieurs fichier en meme temps ?
+	- peut-on modifier un fichier ?
+	- que faire si l'ordre du fichier n'est pas respecter ?
+
+Pour la gestion des fichiers il faut :
+	- lire et ecrire des lignes dans un fichier text
+	- retourner dans un trableau de String :
+		le premier mot de la ligne "fonction"
+		les parrametres
