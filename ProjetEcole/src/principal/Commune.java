@@ -1,4 +1,4 @@
-package up.pooa.principal;
+package principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;

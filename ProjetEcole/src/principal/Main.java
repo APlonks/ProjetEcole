@@ -1,4 +1,4 @@
-package up.pooa.principal;
+package principal;
 
 import gestion.Scan;
 import gestion.ScanException;
