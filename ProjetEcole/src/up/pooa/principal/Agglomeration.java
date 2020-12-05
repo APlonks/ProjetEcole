@@ -1,4 +1,4 @@
-package up.pooa.ppp;
+package up.pooa.principal;
 /**
  * Agglomeration representer par un nom et la presence ou nom d'une ecole.
  */

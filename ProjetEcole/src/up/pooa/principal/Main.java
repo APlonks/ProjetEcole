@@ -1,4 +1,7 @@
-package up.pooa.ppp;
+package up.pooa.principal;
+
+import gestion.Scan;
+import gestion.ScanException;
 
 /**
  * @author Pinto, Poirier, Planque

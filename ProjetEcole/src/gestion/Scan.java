@@ -1,4 +1,5 @@
-package up.pooa.ppp;
+package gestion;
+
 import java.util.Scanner;
 import java.lang.StringBuilder;
 
