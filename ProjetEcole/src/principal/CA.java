@@ -1,6 +1,9 @@
 package principal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 import java.util.Map.Entry;
 
 /**
@@ -18,13 +21,6 @@ public class CA {
 	 */
 	public CA() {
 		communaute = new HashMap<Ville,ArrayList<Ville>>();
-	}
-
-	/**
-	 * Getter.
-	 */
-	public HashMap<Ville,ArrayList<Ville>> getCommunaute() {
-		return communaute;
 	}
 
 	/**
@@ -287,5 +283,54 @@ public class CA {
 		} else {
 			ville.addEcole();
 		}
+	}
+	
+	/**********************************************************************************/
+	
+	
+	public String random(HashMap<Ville,ArrayList<Ville>> communaute) {
+		Set<Ville> keySet = communaute.keySet();
+        List<Ville> keyList = new ArrayList<>(keySet);
+        
+        int size = keyList.size();
+        int randIdx = new Random().nextInt(size);
+        
+        Ville randomKey = keyList.get(randIdx);
+        return randomKey.toString();
+		
+	}
+	
+	public int score(HashMap<Ville,ArrayList<Ville>> communaute) {
+		Ville ville = null;
+		int score = 0;;
+		for (Ville b : communaute.get(ville)) {
+			if (contientEcole(communaute.get(ville))) {
+				score++;
+			}
+		}
+		return score;
+	}
+	
+	
+	
+	public HashMap<Ville, ArrayList<Ville>> algoNaif1(HashMap<Ville,ArrayList<Ville>> communaute, int k) {
+		Ville ville;
+		int i = 0;
+		int scoreCourant = score(communaute);
+		
+		while (i<k) {
+			ville = getVille(random(communaute));
+			if (ville.getEcole() == true) {
+				retireEcole(ville.toString());
+			}
+			else addEcole(ville.toString());
+			
+			if (score(communaute)< scoreCourant) {
+				i=0;
+				scoreCourant = score(communaute);
+			}
+			else i++;
+		}
+		return communaute;
 	}
 }
