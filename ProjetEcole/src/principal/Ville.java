@@ -1,37 +1,31 @@
 package principal;
 /**
- * Agglomeration representer par un nom et la presence ou nom d'une ecole.
+ * Ville representer par un nom et la presence ou nom d'une ecole.
  */
-public class Agglomeration {
+public class Ville {
 	/**
-	 * @param nom Nom de l'Agglomeration.
+	 * @param nom Nom de la ville.
 	 * @param ecole boolean representant la presence d'ecole.
 	 */
 	private String nom;
 	private boolean ecole;
 
 	/**
-	 * Constructeur.
-	 * @param nom Nom de l'Agglomeration.
+	 * Constructeur
+	 * @param nom Nom de la ville.
 	 */
-	public Agglomeration(char nom) {
-		this.nom = Character.toString(nom);
+	public Ville (String nom) {
+		this.nom = nom;
+		ecole = false;
 	}
 	/**
 	 * Constructeur.
-	 * @param nom Nom de l'Agglomeration.
+	 * @param nom Nom de la ville.
 	 * @param ecole True si possede une ecole, false sinon.
 	 */
-	public Agglomeration(char nom, boolean ecole) {
-		this.nom = Character.toString(nom);
+	public Ville(String nom, boolean ecole) {
+		this(nom);
 		this.ecole = ecole;
-	}
-	/**
-	 * Constructeur
-	 * @param nom Nom de l'Agglomeration.
-	 */
-	public Agglomeration (String nom) {
-		this.nom = nom;
 	}
 
 	/**
@@ -81,16 +75,16 @@ public class Agglomeration {
 	/**
 	 * Fonction equals avec un autre object.
 	 * @param v Object v avec lequel on compare.
-	 * @return Agglomeration.getNomVille() == this.getNomVille()
+	 * @return Ville.getNomVille() == this.getNomVille()
 	 */
 	@Override
 	public boolean equals(Object v) {
-		if (v==null && !(v instanceof Agglomeration)) {
+		if (v==null && !(v instanceof Ville)) {
 			return false;
 		} else if (v == this) {
 			return true;
 		} else {
-			Agglomeration trans = (Agglomeration) v;
+			Ville trans = (Ville) v;
 			return nom.equals(trans.getNomVille());
 		}
 	}
