@@ -1,4 +1,7 @@
 package principal;
+
+import java.lang.Comparable;
+
 /**
  * Ville representer par un nom et la presence ou nom d'une ecole.
  */
@@ -18,6 +21,7 @@ public class Ville {
 		this.nom = nom;
 		ecole = false;
 	}
+
 	/**
 	 * Constructeur.
 	 * @param nom Nom de la ville.
@@ -35,6 +39,7 @@ public class Ville {
 	public String getNomVille() {
 		return this.nom;
 	}
+
 	/**
 	 * Getter
 	 * @return Champs variable ecole.
@@ -51,18 +56,21 @@ public class Ville {
 	public String toString() {
 		return nom;
 	}
+
 	/**
 	 * Set ecole to true.
 	 */
 	public void addEcole() {
 		this.ecole = true;
 	}
+
 	/**
 	 * Set ecole to false.
 	 */
 	public void retireEcole() {
 		this.ecole = false;
 	}
+
 	/**
 	 * Redefinition de hashCode pour pouvoir redifinir equals et sont utilisation dans les
 	 * fonctions de hashMap.
@@ -72,6 +80,7 @@ public class Ville {
 	public int hashCode() {
 		return nom.hashCode();
 	}
+
 	/**
 	 * Fonction equals avec un autre object.
 	 * @param v Object v avec lequel on compare.
@@ -87,5 +96,14 @@ public class Ville {
 			Ville trans = (Ville) v;
 			return nom.equals(trans.getNomVille());
 		}
+	}
+
+	/**
+	 * Ajoute de la fonction compareTo.
+	 * @param villeB Second ville avec laquelle se fait la comparaison.
+	 * @return compareTo entre les deux nom des villes.
+	 */
+	public int compareTo(Ville villeB) {
+		return getNomVille().compareTo(villeB.getNomVille());
 	}
 }
