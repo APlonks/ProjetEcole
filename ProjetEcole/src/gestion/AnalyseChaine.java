@@ -27,14 +27,53 @@ public class AnalyseChaine {
 	 * @param chaine que l'on vas analyser
 	 */
 	public void updateTab(String chaine) {
-		tabMot = UtilAnalyseChaine.splitIgnoreVoid(chaine,regex);
+		tabMot = UtilAnalyseChaine.separationIgnoreVide(chaine,regex);
 		lecture = 0;
 	}
 
-	public void debug() {
-		System.out.println("Taille : "+tabMot.length);
-		for (int i=0; i<tabMot.length; i++) {
-			System.out.println('.'+tabMot[i]+'.');
+	/**
+	 * Verifie si il y a encore quelque chose a lire dans le tableau.
+	 * @return true si lecture plus petit tabMot.length, false sinon.
+	 */
+	public boolean hasNext() {
+		return lecture < tabMot.length;
+	}
+
+	/**
+	 * Lecture du String suivant dans le tableau.
+	 * @return tabMot[lecture] s'il existe, null sinon.
+	 */
+	public String motSuivant() {
+		if (hasNext()) {
+			return tabMot[lecture++];
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * Lecture sous forme d'un entier du String suivant.
+	 * @return L'entier compris dans le mots suivant, null si cela n'est
+	 * pas possible.
+	 */
+	public Integer intSuivant() {
+		String mot = motSuivant();
+		if (mot == null) {
+			return null;
+		} else {
+			return UtilAnalyseChaine.stringEnInt(mot);
+		}
+	}
+
+	/**
+	 * @return String precedent lorsque cela est possible, null sinon.
+	 */
+	public String motPrecedent() {
+		if (lecture > 0) {
+			lecture--;
+			return motSuivant();
+		} else {
+			return null;
 		}
 	}
 }

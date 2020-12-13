@@ -1,7 +1,5 @@
 package gestion;
 
-import gestion.AnalyseChaine;
-
 import java.util.Scanner;
 
 /**
@@ -41,7 +39,7 @@ public class Scan {
 	 * @return true si le buffer est vide, false sinon.
 	 */
 	public static boolean estVide() {
-		return ligneLu.hasNext();
+		return !ligneLu.hasNext();
 	}
 
 	/**
@@ -50,7 +48,7 @@ public class Scan {
 	 * @return Lis le premier mot qu'il reste dans le buffer ligne.
 	 */
 	public static String motSuivant() throws ScanException {
-		if (ligneLu.hasNext()) {
+		if (!estVide()) {
 			return ligneLu.motSuivant();
 		} else {
 			throw new ScanException("Entre attendu non presente");
@@ -76,7 +74,7 @@ public class Scan {
 		Integer valeur;
 		/* On verifie qu'il y a un mot suivant puis on essaye de lire
 		 * l'entier de ligneLu. */
-		if (!ligneLu.hasNext()) {
+		if (estVide()) {
 			throw new ScanException("Aucune entre disponible");
 		} else if ((valeur=ligneLu.intSuivant()) == null) {
 			throw new ScanException("L'entre "+ligneLu.motPrecedent()+
@@ -98,36 +96,15 @@ public class Scan {
 	}
 
 	/**
-	 * Pose une question a l'utilisateur jusqu'a que ce dernier donne une reponse correcte.
-	 * N'est pas optimal surtout si le nombre de mot cle est consequant.
-	 * @param question Question poser a l'utilisateur.
-	 * @param rA Reponse accepter, permet d'etre sure qu'il y a aux moins une reponse.
-	 * @param a Ensemble des mot cles accepter.
-	 * @return String mot cle reconnue.
+	 * Retourne un string[] contenant les parametrage d'une fonction.
+	 * @throws ScanException Exception d'entre clavier.
+	 * @return L'entre clavier dans un tableau pour differencier les arguments.
 	 */
-	public static String questionReponse(String question, String rA, String ... a) {
-		System.out.print(question);
-		String reponse;
-		/* Lis l'entrer utilisateur. */
-		try {
-			reponse = lireMot();
-		} catch (ScanException e) {
-			/* Enonce l'erreur de l'utilisateur et attend une nouvelle reponse. */
-			System.out.println(e.getMessage());
-			return questionReponse(question,rA,a);
+	public static String[] parametre() throws ScanException {
+		if (estVide()) {
+			throw new ScanException("Argument attendu non present");
+		} else {
+			return UtilAnalyseChaine.separationIgnoreVide(motSuivant(),"|");
 		}
-		/* Recherche d'un match. */
-		if (reponse.equals(rA)) {
-			return rA;
-		}
-		for (String i : a) {
-			if (reponse.equals(i)) {
-				return reponse;
-			}
-		}
-		/* Aucun match, annonce que l'entrer est invalide.
-		 * Demande une nouvelle reponse. */
-		System.out.println("Aucune reponse valide.");
-		return questionReponse(question,rA,a);
 	}
 }
