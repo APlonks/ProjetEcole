@@ -288,15 +288,15 @@ public class CA {
 	/**********************************************************************************/
 	
 	
-	public String random(HashMap<Ville,ArrayList<Ville>> communaute) {
+	public Ville random(HashMap<Ville,ArrayList<Ville>> communaute) {
 		Set<Ville> keySet = communaute.keySet();
         List<Ville> keyList = new ArrayList<>(keySet);
         
         int size = keyList.size();
         int randIdx = new Random().nextInt(size);
         
-        Ville randomKey = keyList.get(randIdx);
-        return randomKey.toString();
+        return keyList.get(randIdx);
+
 		
 	}
 	
@@ -315,22 +315,24 @@ public class CA {
 	
 	public HashMap<Ville, ArrayList<Ville>> algoNaif1(HashMap<Ville,ArrayList<Ville>> communaute, int k) {
 		Ville ville;
+		HashMap<Ville, ArrayList<Ville>> communauteOpti = new HashMap<Ville,ArrayList<Ville>>();
 		int i = 0;
 		int scoreCourant = score(communaute);
 		
 		while (i<k) {
-			ville = getVille(random(communaute));
+			ville = random(communaute);
 			if (ville.getEcole() == true) {
 				retireEcole(ville.toString());
 			}
-			else addEcole(ville.toString());
+			else ville.addEcole();
 			
-			if (score(communaute)< scoreCourant) {
+			if (score(communaute)<scoreCourant) {
+				communauteOpti = communaute;
 				i=0;
 				scoreCourant = score(communaute);
 			}
 			else i++;
 		}
-		return communaute;
+		return communauteOpti;
 	}
 }
