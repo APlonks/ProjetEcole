@@ -21,6 +21,13 @@ public class CA {
 	}
 
 	/**
+	 * Getter.
+	 */
+	public HashMap<Ville,ArrayList<Ville>> getCommunaute() {
+		return communaute;
+	}
+
+	/**
 	 * Regarde si une Ville contient une ecole.
 	 * @param lst Liste des villes adjacentes (Lie par une route)
 	 * @return true si il existe 'a' dans lst avec 'a' possedant une ecole.
