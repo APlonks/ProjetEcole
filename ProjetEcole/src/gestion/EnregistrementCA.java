@@ -21,32 +21,23 @@ public class EnregistrementCA {
 	 * @return 1 si il y a eut une ereur dans l'ouverture du fichier. 0 sinon.
 	 */
 	public static int enregister(CA communaute) {
-		String nomFichier = new String("");;
+		String nomFichier = new String("");
 		int choix=0;
 		do {
 			/* Tant que l'utilisateur n'as pas fait de choix on lui demande. */
 			try {
 				System.out.print("Nom du fichier : ");
 				nomFichier = Scan.lireMot();
-				choix = 1;
-				File testExist = new File(nomFichier);
-				if (testExist.exists()) {
-					/* Si le fichier exist ou lui demande de confirmer sont choix. */
-					System.out.print("Ce fichier existe deja, l'ecraser : ");
-					do {
-						switch (Scan.lireMot()) {
-							case "oui":
-							case "o":
-								break;
-							case "non":
-							case "n":
-								choix = 0;
-								break;
-							default :
-								System.out.println("Reponse incorecte.");
-								break;
-						}
-					} while (choix==0);
+				/* Verifie l'extension du fichier. */
+				if (extensionTXT(nomFichier)) {
+					choix = 1;
+					File testExist = new File(nomFichier);
+					if (testExist.exists()) {
+						/* Si le fichier exist ou lui demande de confirmer sont choix. */
+						choix = ecraser();
+					}
+				} else {
+					System.out.println("Fichier '.txt' attendue.");
 				}
 			} catch (ScanException e) {
 				System.out.println(e.getMessage());
@@ -60,6 +51,54 @@ public class EnregistrementCA {
 			return 1;
 		}
 		return 0;
+	}
+
+	/**
+	 * Demande a L'utilisateur si il veut ecraser le fichier cite.
+	 * @return 1 si oui 0 si non.
+	 */
+	private static int ecraser() {
+		String nomFichier = new String("");
+		int choix = 0;
+		System.out.print("Ce fichier existe deja, l'ecraser : ");
+		do {
+			try {
+				/* Verifie le retour. */
+				switch (Scan.lireMot()) {
+					case "oui":
+					case "o":
+						choix = 1;
+					case "non":
+					case "n":
+						return -1;
+					default :
+						System.out.println("Reponse incorecte.");
+						break;
+				}
+			} catch (ScanException e) {
+				System.out.println(e.getMessage());
+			}
+		} while (choix==0);
+		if (choix == 1) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+
+	/**
+	 * Verifie que le fichier donner contient l'extension '.txt'.
+	 * @param String nom du fichier.
+	 * @return true Si '.txt' false finon.
+	 */
+	private static boolean extensionTXT(String nomFichier) {
+		if (nomFichier.length() < 4) {
+			return false;
+		} else if (nomFichier.substring(nomFichier.length()-4).compareTo(".txt") != 0) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	/**
