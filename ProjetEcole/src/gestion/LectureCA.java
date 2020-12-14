@@ -1,6 +1,7 @@
 package gestion;
 
 import principal.CA;
+import principal.CAException;
 
 import java.io.IOException;
 
@@ -28,7 +29,7 @@ public class LectureCA {
 	 * @throws LectureException Exception de lecture.
 	 * @return CA lu dans le fichier.
 	 */
-	public static CA chargement() throws LectureException, ScanException, Exception {
+	public static CA chargement() throws LectureException, ScanException, IOException {
 		String nomFichier = "";
 		File testExist;
 		BufferedReader fichier;
@@ -42,7 +43,6 @@ public class LectureCA {
 			}
 			testExist = new File(nomFichier);
 			if (testExist.exists()) {
-				System.out.println("Le fichier exist next.");
 				fichier = ouvertureFichier(testExist);
 				return creationCA(fichier);
 			}
@@ -57,7 +57,6 @@ public class LectureCA {
 		}
 		testExist = new File(nomFichier);
 		if (testExist.exists()) {
-			System.out.println("Le fichier exist next.");
 			fichier = ouvertureFichier(testExist);
 			return creationCA(fichier);
 		} else {
@@ -139,49 +138,56 @@ public class LectureCA {
 	private static int corresondanceTxtFnct(CA communaute, int fonctionMax)
 		throws LectureException {
 		String args[];
-		switch (ligneLu.motSuivant()) {
-			/* Correspondance de la fonction.
-			 * 
-			 * Pour chaque cas, on recupere les arguments de la fonction et on verifie leurs
-			 * nombres. */
+		int fonctionChoisie;
+		try {
+			switch (ligneLu.motSuivant()) {
+				/* Correspondance de la fonction.
+				 * 
+				 * Pour chaque cas, on recupere les arguments de la fonction et on verifie leurs
+				 * nombres. */
 
-			case "ville" :
-				args = parametre();
-				if (args.length != 1) {
-					throw new LectureException("Arguments invalide pour la fonction ville, "+
-						args.length+" recue, 1 attendue",numLgn);
-				} else {
-					communaute.addVille(args[0]);
-				}
-				/* Verifie l'ordre des appeles. */
-				warningOrdre(0,fonctionMax);
-				return fonctionMax;
+				case "ville" :
+					args = parametre();
+					if (args.length != 1) {
+						throw new LectureException("Arguments invalide pour la fonction ville, "+
+							args.length+" recue, 1 attendue",numLgn);
+					} else {
+						communaute.addVille(args[0]);
+					}
+					fonctionChoisie = 0;
+					break;
 
-			case "route" :
-				args = parametre();
-				if (args.length != 2) {
-					throw new LectureException("Arguments invalide pour la fonction route, "+
-						args.length+" recue, 2 attendue",numLgn);
-				} else {
-					communaute.addRoute(args[0],args[1]);
-				}
-				/* Verifie l'ordre des appeles. */
-				warningOrdre(1,fonctionMax);
-				return (fonctionMax>1)?(fonctionMax):(1);
+				case "route" :
+					args = parametre();
+					if (args.length != 2) {
+						throw new LectureException("Arguments invalide pour la fonction route, "+
+							args.length+" recue, 2 attendue",numLgn);
+					} else {
+						communaute.addRoute(args[0],args[1]);
+					}
+					fonctionChoisie = 1;
+					break;
 
-			case "ecole" :
-				args = parametre();
-				if (args.length != 1) {
-					throw new LectureException("Arguments invalide pour la fonction ecole, "+
-						args.length+" recue, 1 attendue",numLgn);
-				} else {
-					communaute.addEcole(args[0]);
-				}
-				return 2;
+				case "ecole" :
+					args = parametre();
+					if (args.length != 1) {
+						throw new LectureException("Arguments invalide pour la fonction ecole, "+
+							args.length+" recue, 1 attendue",numLgn);
+					} else {
+						communaute.addEcole(args[0]);
+					}
+					fonctionChoisie = 2;
+					break;
 
-			default :
-				throw new LectureException("Action non reconnue",numLgn);
+				default :
+					throw new LectureException("Action non reconnue",numLgn);
+			}
+		} catch (CAException e) {
+			throw new LectureException(e.getMessage(),numLgn);
 		}
+		/* Verifie l'ordre des appeles. */
+		warningOrdre(fonctionChoisie,fonctionMax);
+		return (fonctionMax>fonctionChoisie)?(fonctionMax):(fonctionChoisie);
 	}
 
 	/**
@@ -190,7 +196,6 @@ public class LectureCA {
 	 * @param nivMax plus haute fonction appeler.
 	 */
 	private static void warningOrdre(int nivFonction, int nivMax) {
-		System.out.println(nivFonction+" "+nivMax);
 		if (nivMax > nivFonction) {
 			System.out.print("Warning ligne "+numLgn+" : fonction ");
 			/* Nom fonction appeler.
