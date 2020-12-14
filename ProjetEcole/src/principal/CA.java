@@ -1,4 +1,5 @@
 package principal;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -67,23 +68,24 @@ public class CA {
 
 	/**
 	 * Ajoute une ville a la Communaute d'Agglomeration.
+	 * @throws CAException Si la ville existe deja.
 	 * @param v Une nouvelle ville
 	 */
-	public void addVille(Ville v) {
+	public void addVille(Ville v) throws CAException{
 		if (!(communaute.containsKey(v))) {
 			/* Ville nom deja presente. */
 			communaute.put(v,new ArrayList<Ville>());
 		} else {
-			/* Affichage pour qu'on pense a l'enlever. */
-			System.out.println("Ville deja existante.");
+			throw new CAException(v.getNomVille()+" existe deja");
 		}
 	}
 
 	/**
 	 * Ajoute une ville a la Communaute d'Agglomeration.
+	 * @throws CAException Si la ville existe deja.
 	 * @param nom Une nouvelle ville
 	 */
-	public void addVille(String nom) {
+	public void addVille(String nom) throws CAException {
 		addVille(new Ville(nom));
 	}
 
@@ -125,70 +127,65 @@ public class CA {
 
 	/**
 	 * Ajoute une route entre deux villes (de x vers y et de y vers x ).
+	 * @throws CAException si les villes n'existe pas ou que la route existe deja.
 	 * @param x La Ville de depart.
 	 * @param y La ville d'arrivee. 
 	 */
-	public void addRoute(String x, String y) {
+	public void addRoute(String x, String y) throws CAException {
 		Ville depart, arriver;
 		if ((depart=getVille(x))==null) {
-			System.out.println("La ville "+x+" n'existe pas.");
+			throw new CAException(x+" n'existe pas");
 		} else if ((arriver=getVille(y))==null) {
-			System.out.println("La ville "+y+" n'existe pas.");
+			throw new CAException(y+" n'existe pas");
 		} else if (arriver.equals(depart)) {
-			System.out.println("Les villes d'arriver et de depart sont les meme. Demande"+
-				" incoherente.");
+			throw new CAException("Ville identique, parametre invalide");
 		} else if ((communaute.get(depart).contains(arriver)) &&
 			(communaute.get(arriver).contains(depart))) {
 			/* On verifie si il existe une route de la ville de depart à la ville d'arriver.
 			 * On ne verifie qu'un sens de la route car la liste d'adjacence est symetrique. */
-			System.out.println("La route de la ville "+depart+" a la ville "+arriver+
-				" existe deja donc on ne peut pas en ajouter une.");
+			throw new CAException("la route existe deja");
 		} else {
 			/* Ajoute chaque ville a la liste d'adjacence de l'autre. */
 			communaute.get(depart).add(arriver);
 			communaute.get(arriver).add(depart);
-			System.out.println("Vous avez ajoute une route entre la ville "+x
-				+" et la ville "+y+".");
 		}
 	}
 
 	/**
 	 * Supprime une route entre deux villes (de x vers y et de y vers x ).
+	 * @throws CAException si les villes n'existe pas ou que la route n'existe pas.
 	 * @param x La ville de depart.
 	 * @param y La ville d'arrivee.
 	 */
-	public void supprimerRoute (String x, String y) {
+	public void supprimerRoute (String x, String y) throws CAException{
 		Ville depart, arriver;
 		if ((depart=getVille(x))==null) {
-			System.out.println("La ville "+x+" n'existe pas.");
+			throw new CAException(x+" n'existe pas");
 		} else if ((arriver=getVille(y))==null) {
-			System.out.println("La ville "+y+" n'existe pas.");
+			throw new CAException(y+" n'existe pas");
 		} else if (arriver.equals(depart)) {
-			System.out.println("Les villes d'arriver et de depart sont les meme. Demande"+
-			" incoherente.");
+			throw new CAException("Ville identique, parametre invalide");
 		} else if ((communaute.get(depart).contains(arriver)) &&
 			(communaute.get(arriver).contains(depart))) {
 			/* Retire chaque ville de la liste d'adjacence de l'autre. */
 			communaute.get(depart).remove(arriver);
 			communaute.get(arriver).remove(depart);
-			System.out.println("Vous avez supprime une route entre la ville "+x+" et la ville "
-				+y+".");
 		} else {
 			/* On verifie si il existe une route de la ville de depart à la ville d'arriver.
 			 * On ne verifie qu'un sens de la route car la liste d'adjacence est symetrique. */
-			System.out.println("Il n'y a pas de route de la ville "+depart+" a la ville "+arriver
-				+" donc elle ne peut pas etre supprimee.");
+			throw new CAException("la route n'existe pas");
 		}
 	}
 
 	/**
 	 * Affiche les routes liees a une ville.
+	 * @throws CAException Si la ville n'existe pas.
 	 * @param x la ville choisie.
 	 */
-	public void afficheRoute(String x) {
+	public void afficheRoute(String x) throws CAException{
 		Ville depart;
 		if ((depart=getVille(x))==null) {
-			System.out.println("La ville "+x+" n'existe pas.");
+			throw new CAException(x+" n'existe pas");
 		} else {
 			System.out.println(communaute.get(depart));
 		}
@@ -207,30 +204,26 @@ public class CA {
 
 	/**
 	 * Retire une ecole si cela est possible.
+	 * @throws CAException Si la ville n'existe pas.
 	 * @param x une Ville
+	 * @return true si on as put retirer l'ecole false sinon.
 	 */
-	public void retireEcole(String x) {
+	public boolean retireEcole(String x) throws CAException {
 		Ville ville;
 		if ((ville=getVille(x))==null) {
-			System.out.println("La ville "+x+" n'existe pas.");
+			throw new CAException(x+" n'existe pas");
 		} else if (!contientEcole(communaute.get(ville))) {
-			System.out.println("Aucun voisin de "+x+" ne contient d'ecole.");
+			return false;
 		} else {
 			/* Parcour des adjacent de ville pur verifier que l'ecole de ville n'est pas la seul
 			 * ecole a laquelle ils ont acces. */
-			boolean retireOk = true;
 			for (Ville b : communaute.get(ville)) {
 				if (!accesAutreEcole(b,ville)) {
-					System.out.println("L'ecole de "+x+" est la seul ecole a laquelle "+
-						b+" a acces.");
-					retireOk = false;
+					return false;
 				}
 			}
-			if (retireOk) {
-				ville.retireEcole();
-			} else {
-				System.out.println("On ne retire donc pas l'ecole.");
-			}
+			ville.retireEcole();
+			return true;
 		}
 	}
 
@@ -240,7 +233,6 @@ public class CA {
 	 */
 	public boolean estConnexe() {
 		if (communaute.size() < 1) {
-			System.out.println("Il n'y as pas de ville dans la communaute d'agglomeration.");
 			return false;
 		}
 		ArrayList<Ville> ssGrapheConnexe, lstVille;
@@ -269,8 +261,6 @@ public class CA {
 			}
 		}
 		if (!lstVille.isEmpty()) {
-			System.out.println("Les villes "+tampon+" et "+lstVille.get(0)+" n'appartiennet pas "+
-			"la meme communaute d'agglomeration.");
 			return false;
 		} else {
 			return true;
@@ -279,67 +269,17 @@ public class CA {
 
 	/**
 	 * Ajoute une ecole.
+	 * @throws CAException Si la ville n'existe pas.
 	 * @param nomVille Ville ou l'on veut ajouter une ecole.
 	 */
-	public void addEcole(String nomVille) {
+	public void addEcole(String nomVille) throws CAException {
 		Ville ville;
 		if ((ville=getVille(nomVille)) == null ) {
-			System.out.println("La ville " + nomVille + " n'existe pas.");
+			throw new CAException(nomVille+" n'existe pas");
 		} else if (ville.getEcole() == true) {
-			System.out.println("La ville " + nomVille + " possede deja une ecole");
+			throw new CAException(nomVille+" possede deja une ecole");
 		} else {
 			ville.addEcole();
 		}
-	}
-	
-	/**********************************************************************************/
-	
-	
-	public Ville random(HashMap<Ville,ArrayList<Ville>> communaute) {
-		Set<Ville> keySet = communaute.keySet();
-        List<Ville> keyList = new ArrayList<>(keySet);
-        
-        int size = keyList.size();
-        int randIdx = new Random().nextInt(size);
-        
-        return keyList.get(randIdx);
-
-		
-	}
-	
-	public int score(HashMap<Ville,ArrayList<Ville>> communaute) {
-		Ville ville = null;
-		int score = 0;;
-		for (Ville b : communaute.get(ville)) {
-			if (contientEcole(communaute.get(ville))) {
-				score++;
-			}
-		}
-		return score;
-	}
-	
-	
-	
-	public HashMap<Ville, ArrayList<Ville>> algoNaif1(HashMap<Ville,ArrayList<Ville>> communaute, int k) {
-		Ville ville;
-		HashMap<Ville, ArrayList<Ville>> communauteOpti = new HashMap<Ville,ArrayList<Ville>>();
-		int i = 0;
-		int scoreCourant = score(communaute);
-		
-		while (i<k) {
-			ville = random(communaute);
-			if (ville.getEcole() == true) {
-				retireEcole(ville.toString());
-			}
-			else ville.addEcole();
-			
-			if (score(communaute)<scoreCourant) {
-				communauteOpti = communaute;
-				i=0;
-				scoreCourant = score(communaute);
-			}
-			else i++;
-		}
-		return communauteOpti;
 	}
 }

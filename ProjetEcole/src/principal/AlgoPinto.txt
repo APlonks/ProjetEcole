@@ -1,0 +1,50 @@
+	/**********************************************************************************/
+	
+	
+	public Ville random(HashMap<Ville,ArrayList<Ville>> communaute) {
+		Set<Ville> keySet = communaute.keySet();
+        List<Ville> keyList = new ArrayList<>(keySet);
+        
+        int size = keyList.size();
+        int randIdx = new Random().nextInt(size);
+        
+        return keyList.get(randIdx);
+
+		
+	}
+	
+	public int score(HashMap<Ville,ArrayList<Ville>> communaute) {
+		Ville ville = null;
+		int score = 0;;
+		for (Ville b : communaute.get(ville)) {
+			if (contientEcole(communaute.get(ville))) {
+				score++;
+			}
+		}
+		return score;
+	}
+	
+	
+	
+	public HashMap<Ville, ArrayList<Ville>> algoNaif1(HashMap<Ville,ArrayList<Ville>> communaute, int k) {
+		Ville ville;
+		HashMap<Ville, ArrayList<Ville>> communauteOpti = new HashMap<Ville,ArrayList<Ville>>();
+		int i = 0;
+		int scoreCourant = score(communaute);
+		
+		while (i<k) {
+			ville = random(communaute);
+			if (ville.getEcole() == true) {
+				retireEcole(ville.toString());
+			}
+			else ville.addEcole();
+			
+			if (score(communaute)<scoreCourant) {
+				communauteOpti = communaute;
+				i=0;
+				scoreCourant = score(communaute);
+			}
+			else i++;
+		}
+		return communauteOpti;
+	}
