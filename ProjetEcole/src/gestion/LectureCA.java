@@ -36,6 +36,10 @@ public class LectureCA {
 		 * d'un fichier. */
 		if (!Scan.estVide()) {
 			nomFichier = Scan.motSuivant();
+			/* On verifie l'extension. */
+			if (!extensionTXT(nomFichier)) {
+				throw new LectureException("Extension de fichier incorect, '.txt' attendu");
+			}
 			testExist = new File(nomFichier);
 			if (testExist.exists()) {
 				System.out.println("Le fichier exist next.");
@@ -47,6 +51,10 @@ public class LectureCA {
 		 * On demande le nom du fichier a l'utilisateur. */
 		System.out.print("Nom du fichier a charger : ");
 		nomFichier = Scan.lireMot();
+		/* On verifie l'extension. */
+		if (!extensionTXT(nomFichier)) {
+			throw new LectureException("Extension de fichier incorect, '.txt' attendu");
+		}
 		testExist = new File(nomFichier);
 		if (testExist.exists()) {
 			System.out.println("Le fichier exist next.");
@@ -56,6 +64,22 @@ public class LectureCA {
 			throw new LectureException("Fichier non trouver");
 		}
 	}
+
+	/**
+	 * Verifie que le fichier donner contient l'extension '.txt'.
+	 * @param String nom du fichier.
+	 * @return true Si '.txt' false finon.
+	 */
+	private static boolean extensionTXT(String nomFichier) {
+		if (nomFichier.length() < 4) {
+			return false;
+		} else if (nomFichier.substring(nomFichier.length()-4).compareTo(".txt") != 0) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 
 	/**
 	 * Ouverture du BufferedReader.
@@ -75,6 +99,8 @@ public class LectureCA {
 	 */
 	private static CA creationCA(BufferedReader lecture) throws IOException, LectureException {
 		String tmp;
+		int nivFonction=0;
+		CA communaute = new CA();
 		if (lecture.ready()) {
 			/* On lis l'integralite du document. */
 			while ((tmp=lecture.readLine()) != null) {
@@ -82,22 +108,116 @@ public class LectureCA {
 				ligneLu.updateTab(tmp);
 				/* On regarde la fonction demander. */
 				if (ligneLu.hasNext()) {
-					switch (ligneLu.motSuivant()) {
-						case "ville" :
-							System.out.println("Ville 1 arg attendu");
-							break;
-						case "route" :
-							System.out.println("Route 2 arg attendu");
-							break;
-						case "ecole" :
-							System.out.println("Ecole 1 arg attendu");
-							break;
-						default :
-							throw new LectureException("Action non reconnue",numLgn);
-					}
+					/* On utilise une fonction annexe pour appeler les fonctions
+					 * en fonction de ce qui as ete lues. */
+					nivFonction = corresondanceTxtFnct(communaute,nivFonction);
 				}
 			}
 		}
-		return new CA();
+		return communaute;
+	}
+
+	/**
+	 * Retourne un string[] contenant les parametrage d'une fonction.
+	 * @return Les arguments de la fonction dans un tableau.
+	 */
+	public static String[] parametre() {
+		if (ligneLu.hasNext()) {
+			return UtilAnalyseChaine.separationIgnoreVide(ligneLu.motSuivant(),",");
+		} else {
+			return new String[0];
+		}
+	}
+
+	/**
+	 * Fait correspondre ce qui est lu au fonction reciproque permettant de creer un CA.
+	 * @throws LectureException Retourne les ereurs de parametrage dans le fichier.
+	 * @param communaute que l'on lis.
+	 * @param fonctionMax Plus haut ordre des fonctions utiliser.
+	 * @return Plus haut ordre des fonction mise a jour.
+	 */
+	private static int corresondanceTxtFnct(CA communaute, int fonctionMax)
+		throws LectureException {
+		String args[];
+		switch (ligneLu.motSuivant()) {
+			/* Correspondance de la fonction.
+			 * 
+			 * Pour chaque cas, on recupere les arguments de la fonction et on verifie leurs
+			 * nombres. */
+
+			case "ville" :
+				args = parametre();
+				if (args.length != 1) {
+					throw new LectureException("Arguments invalide pour la fonction ville, "+
+						args.length+" recue, 1 attendue",numLgn);
+				} else {
+					communaute.addVille(args[0]);
+				}
+				/* Verifie l'ordre des appeles. */
+				warningOrdre(0,fonctionMax);
+				return fonctionMax;
+
+			case "route" :
+				args = parametre();
+				if (args.length != 2) {
+					throw new LectureException("Arguments invalide pour la fonction route, "+
+						args.length+" recue, 2 attendue",numLgn);
+				} else {
+					communaute.addRoute(args[0],args[1]);
+				}
+				/* Verifie l'ordre des appeles. */
+				warningOrdre(1,fonctionMax);
+				return (fonctionMax>1)?(fonctionMax):(1);
+
+			case "ecole" :
+				args = parametre();
+				if (args.length != 1) {
+					throw new LectureException("Arguments invalide pour la fonction ecole, "+
+						args.length+" recue, 1 attendue",numLgn);
+				} else {
+					communaute.addEcole(args[0]);
+				}
+				return 2;
+
+			default :
+				throw new LectureException("Action non reconnue",numLgn);
+		}
+	}
+
+	/**
+	 * Warning pour verifier que fonction sont bien dans le bonne ordre dans le fichier.
+	 * @param nivFonction fonction actuelle.
+	 * @param nivMax plus haute fonction appeler.
+	 */
+	private static void warningOrdre(int nivFonction, int nivMax) {
+		System.out.println(nivFonction+" "+nivMax);
+		if (nivMax > nivFonction) {
+			System.out.print("Warning ligne "+numLgn+" : fonction ");
+			/* Nom fonction appeler.
+			 * Seul les fonction ville et route peuvent ne pas respecter ce cas. */
+			switch (nivFonction) {
+				case 0 :
+					System.out.print("ville");
+					break;
+				case 1 :
+					System.out.print("route");
+					break;
+				default :
+					break;
+			}
+			System.out.print(" apres l'utilisation de ");
+			/* Nom fonction maximal.
+			 * Seul les fonction route et ecole peuvent ne pas respecter ce cas. */
+			switch (nivMax) {
+				case 1 :
+					System.out.println("route.");
+					break;
+				case 2 :
+					System.out.println("ecole.");
+					break;
+				default :
+					break;
+			}
+		}
 	}
 }

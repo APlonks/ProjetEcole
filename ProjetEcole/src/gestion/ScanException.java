@@ -1,4 +1,5 @@
 package gestion;
+
 /**
  * Exception de la class Scan.
  * @see Exception

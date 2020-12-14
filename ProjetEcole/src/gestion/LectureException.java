@@ -11,6 +11,13 @@ public class LectureException extends Exception {
 	private int ligne;
 
 	/**
+	 * Getter.
+	 */
+	public int getLigne() {
+		return ligne;
+	}
+
+	/**
 	 * Constructeur.
 	 * @param msg Message d'ereur.
 	 */
