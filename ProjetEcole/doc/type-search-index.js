@@ -1,1 +1,0 @@
-typeSearchIndex = [{"p":"up.pooa.ppp","l":"Agglomeration"},{"l":"All Classes","url":"allclasses-index.html"},{"p":"up.pooa.ppp","l":"Commune"},{"p":"up.pooa.ppp","l":"Main"},{"p":"up.pooa.ppp","l":"Scan"},{"p":"up.pooa.ppp","l":"ScanException"}]
