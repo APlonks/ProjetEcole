@@ -1,13 +1,12 @@
-package gestion;
+package principal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-
-import principal.Ville;
-
+import gestion.Scan;
+import gestion.ScanException;
 
 
 

@@ -2,7 +2,6 @@ package principal;
 
 import gestion.Scan;
 import gestion.ScanException;
-import gestion.UtilMethodeCA;
 
 /**
  * @author Pinto, Poirier, Planque
