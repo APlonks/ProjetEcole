@@ -2,6 +2,7 @@ package principal;
 
 import gestion.Scan;
 import gestion.ScanException;
+import gestion.UtilMethodeCA;
 
 /**
  * @author Pinto, Poirier, Planque
@@ -20,32 +21,26 @@ public class Main {
 		//Initialisation des variables
 		int nombreVilles = 0;
 		boolean arretMenu = false;
-		char codeAscii = (int) 'A';
+		String nomVille;
 		String x = null, y = null; //Variable pour le parrametrage des villes.
 
-		do {
-			System.out.print("Entrez le nombre de villes de la communaute d'agglomeration "+
-				"(entre 1 et 26): ");
+		
+			System.out.print("Entrez le nombre de villes de la communaute d'agglomeration");
 			try {
 				nombreVilles = Scan.lireEntier();
-				if (nombreVilles<1 || nombreVilles>26) {
-					System.out.println("Nombre invalide.");
-				}
 			} catch (ScanException e) {
 				System.out.println(e.getMessage());
 			}
-		}
-		while(nombreVilles < 1 || nombreVilles > 26);
 		//Le nombre de villes est pour l'instant compris entre 1 et 26
 		
 		/* Creation de la liste de villes en fonction du nombre de villes selectionner par
 		 * l'utilisateur.
 		 * De plus chaque ville sera nommee en fonction d'une lettre de l'alphabet commeneant par
 		 * 'A' et initialiser avec une ecole. */
-		Commune commune = new Commune();
+		CA commune = new CA();
 		for(int i=0; i<nombreVilles; i++) {
-			commune.addVille(new Agglomeration(codeAscii,true));
-			codeAscii++;
+			nomVille = UtilMethodeCA.nomVilleUtilisateur();
+			commune.addVille(new Ville(nomVille,true));
 		}
 
 		System.out.println("Vous avez choisi " + nombreVilles + " Villes.");

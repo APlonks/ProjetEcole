@@ -2,10 +2,10 @@ package principal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
 import java.util.Map.Entry;
+
+
+import gestion.UtilMethodeCA;
 
 /**
  * Class represantant un groupement de Ville relier entre elle.
@@ -37,7 +37,7 @@ public class CA {
 	 * @return true si il existe 'a' dans lst avec 'a' possedant une ecole.
 	 * 		false sinon.
 	 */
-	private boolean contientEcole(ArrayList<Ville> lst) {
+	public static boolean contientEcole(ArrayList<Ville> lst) {
 		for (Ville a : lst) {
 			if (a.getEcole()) {
 				return true;
@@ -281,5 +281,32 @@ public class CA {
 		} else {
 			ville.addEcole();
 		}
+	}
+	
+	public HashMap<Ville, ArrayList<Ville>> algoApproximation(HashMap<Ville,ArrayList<Ville>> communaute, int k) {
+		Ville ville;
+		HashMap<Ville, ArrayList<Ville>> communauteOpti = new HashMap<Ville,ArrayList<Ville>>();
+		int i = 0;
+		int scoreCourant = UtilMethodeCA.score(communaute);
+		
+		while (i<k) {
+			ville = UtilMethodeCA.random(communaute);
+			if (ville.getEcole() == true) {
+				try {
+					retireEcole(ville.toString());
+				} catch (CAException e) {
+					e.printStackTrace();
+				}
+			}
+			else ville.addEcole();
+			
+			if (UtilMethodeCA.score(communaute)<scoreCourant) {
+				communauteOpti = communaute;
+				i=0;
+				scoreCourant = UtilMethodeCA.score(communaute);
+			}
+			else i++;
+		}
+		return communauteOpti;
 	}
 }
