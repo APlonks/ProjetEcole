@@ -1,17 +1,18 @@
 package principal;
 
+import gestion.Scan;
+import gestion.ScanException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-import gestion.Scan;
-import gestion.ScanException;
-
+import java.lang.StringBuilder;
 
 
 public class UtilMethodeCA {
-	
+
 	public static Ville random(HashMap<Ville,ArrayList<Ville>> communaute) {
 		Set<Ville> keySet = communaute.keySet();
         List<Ville> keyList = new ArrayList<>(keySet);
@@ -45,5 +46,18 @@ public class UtilMethodeCA {
 		}
 		
 		return nomVille;
+	}
+
+	/** Fonction temporaire que fournie un nom automatiquement.
+	 * @param num Numero permettant de generer le nom.
+	 * @return Le numero en String.
+	 */
+	public static String nomAuto(int num) {
+		StringBuilder nom = new StringBuilder("");
+		while (num != 0) {
+			nom.append(num%10);
+			num /= 10;
+		}
+		return nom.reverse().toString();
 	}
 }
