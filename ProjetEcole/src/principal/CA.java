@@ -280,7 +280,7 @@ public class CA {
 		}
 	}
 	
-	public CA algoApproximation(CA communauteUtilisateur, int k) {
+	public CA algoApproximation(CA communauteUtilisateur, int k) throws CAException {
 		Ville ville;
 		CA communauteOpti = new CA();
 		int i = 0;
@@ -289,11 +289,7 @@ public class CA {
 		while (i<k) {
 			ville = UtilMethodeCA.random(communauteUtilisateur);
 			if (ville.getEcole() == true) {
-				try {
-					retireEcole(ville.toString());
-				} catch (CAException e) {
-					e.printStackTrace();
-				}
+				retireEcole(ville.toString()); 
 			}
 			else ville.addEcole();
 			

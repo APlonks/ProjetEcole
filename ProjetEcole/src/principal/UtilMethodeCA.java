@@ -37,14 +37,10 @@ public class UtilMethodeCA {
 		return score;
 	}
 
-	public static String nomVilleUtilisateur() {
+	public static String nomVilleUtilisateur() throws ScanException {
 		String nomVille = null;
 		System.out.println("Veuillez donner un nom a la prochaine ville : ");
-		try {
-			nomVille = Scan.lireMot();
-		} catch (ScanException e) {
-			System.out.println(e.getMessage());
-		}
+		nomVille = Scan.lireMot();
 		
 		return nomVille;
 	}
