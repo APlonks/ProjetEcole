@@ -77,14 +77,12 @@ Scan :
 Creer package :
 	- Debug
 		Perso pour nous.
-	- Coeur Projet
+	- Coeur Projet + Main
 		Agglone + Commune + Exc
-	- Entre utilisateur
-		Scan + Exc
-	- Entre fichier
-		Gestion des fichier + Exc
-	- Main
 		Fichier main + class de main qui execute les sous programmes
+	- Entre utilisateur + fichier
+		Scan + Exc
+		Gestion des fichier + Exc
 
 Il y a une discussion a avoir entre nous sur le fait de faire moins de package différent
 et par exemple de regrouper les Exception ensemble.
@@ -95,12 +93,50 @@ et par exemple de regrouper les Exception ensemble.
 
 Avant de gerer les fichiers il y a qlq question a se poser :
 	- li-t-on d'un coup un fichier puis on le ferme ou le garde-t-on ouvert ?
+		ferme
 	- peut-on lire dans plusieurs fichier en meme temps ?
+		non
 	- peut-on modifier un fichier ?
+		oui
 	- que faire si l'ordre du fichier n'est pas respecter ?
+		pour l'instant juste une ereur
 
 Pour la gestion des fichiers il faut :
 	- lire et ecrire des lignes dans un fichier text
 	- retourner dans un trableau de String :
 		le premier mot de la ligne "fonction"
 		les parrametres
+
+---------------------------------------------------------------------------------------------------
+								Menu
+---------------------------------------------------------------------------------------------------
+
+M1 :
+	Creer -> M2
+	Charger -> M3
+
+M2 :
+	Route
+		-ajouter
+		-enlever
+		-fin
+	Ville
+	Ecole
+		-ajouter
+		-retirer
+		-fin
+	Suivant
+
+M3 :
+	Modifier -> M2
+	Enregistrer
+	Resoudre 
+		-auto
+		-manuelle -> M4
+	Quitter
+
+M4 :
+	Ajoute ecole
+	Retirer ecole
+	fin
+
