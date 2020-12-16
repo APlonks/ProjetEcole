@@ -34,7 +34,7 @@ public class CA {
 	 * @return true si il existe 'a' dans lst avec 'a' possedant une ecole.
 	 * 		false sinon.
 	 */
-	public static boolean contientEcole(ArrayList<Ville> lst) {
+	private static boolean contientEcole(ArrayList<Ville> lst) {
 		for (Ville a : lst) {
 			if (a.getEcole()) {
 				return true;
@@ -280,14 +280,14 @@ public class CA {
 		}
 	}
 	
-	public HashMap<Ville, ArrayList<Ville>> algoApproximation(HashMap<Ville,ArrayList<Ville>> communaute, int k) {
+	public CA algoApproximation(CA communauteUtilisateur, int k) {
 		Ville ville;
-		HashMap<Ville, ArrayList<Ville>> communauteOpti = new HashMap<Ville,ArrayList<Ville>>();
+		CA communauteOpti = new CA();
 		int i = 0;
-		int scoreCourant = UtilMethodeCA.score(communaute);
+		int scoreCourant = UtilMethodeCA.score(communauteUtilisateur);
 		
 		while (i<k) {
-			ville = UtilMethodeCA.random(communaute);
+			ville = UtilMethodeCA.random(communauteUtilisateur);
 			if (ville.getEcole() == true) {
 				try {
 					retireEcole(ville.toString());
@@ -297,13 +297,15 @@ public class CA {
 			}
 			else ville.addEcole();
 			
-			if (UtilMethodeCA.score(communaute)<scoreCourant) {
-				communauteOpti = communaute;
+			if (UtilMethodeCA.score(communauteUtilisateur)<scoreCourant) {
+				communauteOpti = communauteUtilisateur;
 				i=0;
-				scoreCourant = UtilMethodeCA.score(communaute);
+				scoreCourant = UtilMethodeCA.score(communauteUtilisateur);
 			}
 			else i++;
 		}
 		return communauteOpti;
 	}
+	
+	
 }

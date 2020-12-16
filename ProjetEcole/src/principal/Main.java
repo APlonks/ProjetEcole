@@ -19,6 +19,7 @@ public class Main {
 	public static void main(String[] args) {
 		//Initialisation des variables
 		int nombreVilles = 0;
+		int nommerAuto;
 		boolean arretMenu = false;
 		String nomVille;
 		String x = null, y = null; //Variable pour le parrametrage des villes.
@@ -37,7 +38,21 @@ public class Main {
 		 * De plus chaque ville sera nommee en fonction d'une lettre de l'alphabet commeneant par
 		 * 'A' et initialiser avec une ecole. */
 		CA commune = new CA();
-		for(int i=0; i<nombreVilles; i++) {
+		
+		
+		System.out.println(" Combien de villes voulez vous nommez automatiquement ?");
+		try {
+			nommerAuto = Scan.lireEntier();
+		} catch (ScanException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		for(int i=1; i<nommerAuto + 1; i++) {
+			nomVille = UtilMethodeCA.nomAutomatique(i);
+			commune.addVille(new Ville(nomVille,true));
+		}
+		
+		for(int i=nommerAuto; i<nombreVilles; i++) {
 			nomVille = UtilMethodeCA.nomVilleUtilisateur();
 			commune.addVille(new Ville(nomVille,true));
 		}

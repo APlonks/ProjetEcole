@@ -13,8 +13,9 @@ import java.lang.StringBuilder;
 
 public class UtilMethodeCA {
 
-	public static Ville random(HashMap<Ville,ArrayList<Ville>> communaute) {
-		Set<Ville> keySet = communaute.keySet();
+	public static Ville random(CA communauteUtilisateur) {
+		communauteUtilisateur.getCommunaute();
+		Set<Ville> keySet = communauteUtilisateur.keySet();
         List<Ville> keyList = new ArrayList<>(keySet);
         
         int size = keyList.size();
@@ -25,11 +26,11 @@ public class UtilMethodeCA {
 		
 	}
 	
-	public static int score(HashMap<Ville,ArrayList<Ville>> communaute) {
-		Ville ville = null;
+	public static int score(CA communauteUtilisateur) {
+		communauteUtilisateur.getCommunaute();
 		int score = 0;;
-		for (Ville v : communaute.get(ville)) {
-			if (v.getEcole() == true) {
+		for (Ville key : communauteUtilisateur.keySet()) {
+			if (key.getEcole() == true) {
 				score++;
 			}
 		}
@@ -60,4 +61,13 @@ public class UtilMethodeCA {
 		}
 		return nom.reverse().toString();
 	}
+		
+	public static String nomAutomatique(int i) {
+	    String nom;
+	    if (i-- <= 0) nom="";
+	    else nom = nomAutomatique(i / 26) + (char) ('A' + i % 26);
+	    return nom;
+	}
+
+	
 }
