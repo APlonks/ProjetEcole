@@ -14,22 +14,16 @@ import java.lang.StringBuilder;
 public class UtilMethodeCA {
 
 	public static Ville random(CA communauteUtilisateur) {
-		communauteUtilisateur.getCommunaute();
-		Set<Ville> keySet = communauteUtilisateur.keySet();
-        List<Ville> keyList = new ArrayList<>(keySet);
-        
+        List<Ville> keyList =
+	        new ArrayList<Ville>(communauteUtilisateur.getCommunaute().keySet());
         int size = keyList.size();
         int randIdx = new Random().nextInt(size);
-        
         return keyList.get(randIdx);
-
-		
 	}
-	
+
 	public static int score(CA communauteUtilisateur) {
-		communauteUtilisateur.getCommunaute();
 		int score = 0;;
-		for (Ville key : communauteUtilisateur.keySet()) {
+		for (Ville key : communauteUtilisateur.getCommunaute().keySet()) {
 			if (key.getEcole() == true) {
 				score++;
 			}
@@ -41,7 +35,6 @@ public class UtilMethodeCA {
 		String nomVille = null;
 		System.out.println("Veuillez donner un nom a la prochaine ville : ");
 		nomVille = Scan.lireMot();
-		
 		return nomVille;
 	}
 
@@ -57,7 +50,7 @@ public class UtilMethodeCA {
 		}
 		return nom.reverse().toString();
 	}
-		
+
 	public static String nomAutomatique(int i) {
 	    String nom;
 	    if (i-- <= 0) nom="";
