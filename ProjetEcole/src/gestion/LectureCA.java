@@ -19,7 +19,7 @@ public class LectureCA {
 	 * @param numLgn Numero de la ligne lu.
 	 */
 	private static BufferedReader lecture = null;
-	private static AnalyseChaine ligneLu = new AnalyseChaine("()");
+	private static AnalyseChaine ligneLu = new AnalyseChaine("().");
 	private static int numLgn = 0;
 
 	/**
@@ -40,7 +40,7 @@ public class LectureCA {
 			nomFichier = Scan.motSuivant();
 			/* On verifie l'extension. */
 			if (!extensionTXT(nomFichier)) {
-				throw new LectureException("Extension de fichier incorect, '.txt' attendu");
+				throw new LectureException("Extension de fichier incorect, '.ca' attendu");
 			}
 			testExist = new File(nomFichier);
 			if (testExist.exists()) {
@@ -54,7 +54,7 @@ public class LectureCA {
 		nomFichier = Scan.lireMot();
 		/* On verifie l'extension. */
 		if (!extensionTXT(nomFichier)) {
-			throw new LectureException("Extension de fichier incorect, '.txt' attendu");
+			throw new LectureException("Extension de fichier incorect, '.ca' attendu");
 		}
 		testExist = new File(nomFichier);
 		if (testExist.exists()) {
@@ -71,9 +71,9 @@ public class LectureCA {
 	 * @return true Si '.txt' false finon.
 	 */
 	private static boolean extensionTXT(String nomFichier) {
-		if (nomFichier.length() < 4) {
+		if (nomFichier.length() < 3) {
 			return false;
-		} else if (nomFichier.substring(nomFichier.length()-4).compareTo(".txt") != 0) {
+		} else if (nomFichier.substring(nomFichier.length()-3).compareTo(".ca") != 0) {
 			return false;
 		} else {
 			return true;

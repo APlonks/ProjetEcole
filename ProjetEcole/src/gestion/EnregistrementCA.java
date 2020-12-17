@@ -37,7 +37,7 @@ public class EnregistrementCA {
 						choix = ecraser();
 					}
 				} else {
-					System.out.println("Fichier '.txt' attendue.");
+					System.out.println("Fichier '.ca' attendue.");
 				}
 			} catch (ScanException e) {
 				System.out.println(e.getMessage());
@@ -92,9 +92,9 @@ public class EnregistrementCA {
 	 * @return true Si '.txt' false finon.
 	 */
 	private static boolean extensionTXT(String nomFichier) {
-		if (nomFichier.length() < 4) {
+		if (nomFichier.length() < 3) {
 			return false;
-		} else if (nomFichier.substring(nomFichier.length()-4).compareTo(".txt") != 0) {
+		} else if (nomFichier.substring(nomFichier.length()-3).compareTo(".ca") != 0) {
 			return false;
 		} else {
 			return true;
@@ -111,7 +111,7 @@ public class EnregistrementCA {
 		Set<Ville> cle = listeAdjacence.keySet();
 		/* On ecrit d'abord toute les villes de notre CA. */
 		for (Ville v : cle) {
-			ecriture.println("ville("+v.getNomVille()+")");
+			ecriture.println("ville("+v.getNomVille()+").");
 		}
 		/* On ecrit ensuite les routes.
 		 * Comme il y a une symetrie pour les routes, on utilise compareTo entre deux
@@ -120,14 +120,14 @@ public class EnregistrementCA {
 			for (Ville vArriver : listeAdjacence.get(vDepart)) {
 				if (vDepart.compareTo(vArriver) > 0) {
 					ecriture.println("route("+vDepart.getNomVille()+","
-						+vArriver.getNomVille()+")");
+						+vArriver.getNomVille()+").");
 				}
 			}
 		}
 		/* On note ensuite la presence des ecoles. */
 		for (Ville v : cle) {
 			if (v.getEcole()) {
-				ecriture.println("ecole("+v.getNomVille()+")");
+				ecriture.println("ecole("+v.getNomVille()+").");
 			}
 		}
 		/* On ferme le PrintWriter pour que l'ecriture soit effective. */

@@ -99,6 +99,7 @@ public class UtilMethodeCA {
 			/* On met a jour l'accessibilite des Ecole. */
 			for (Ville v : cle) {
 				if (v.getEcole()) {
+					accesE.put(v,true);
 					majAccesE(communaute.get(v),accesE);
 				}
 			}

@@ -317,6 +317,7 @@ public class CA {
 	 */
 	public void algoQueue(int mode) {
 		HashMap<Ville,Boolean> accesE = UtilMethodeCA.creationAccesE(this,mode);
+		System.out.println(accesE);
 		PriorityQueue<SimpleEntry<Ville,Integer>> ordrePrio =
 					new PriorityQueue<>(queueCompare);
 		Set<Ville> cle = communaute.keySet();
@@ -327,6 +328,7 @@ public class CA {
 		for (Ville v : cle) {
 			if (!v.getEcole()) {
 				nbVoisinsDependant = UtilMethodeCA.compteNouvAccesE(communaute.get(v),accesE);
+				System.out.println(v+"-"+nbVoisinsDependant);
 				if (nbVoisinsDependant!=0 || accesE.get(v)==false) {
 					ordrePrio.add(new SimpleEntry<Ville,Integer>(v,nbVoisinsDependant));
 				}
@@ -342,12 +344,15 @@ public class CA {
 	private void analysteTeteQueue(PriorityQueue<SimpleEntry<Ville,Integer>> ordrePrio,
 									 HashMap<Ville,Boolean> accesE) {
 		SimpleEntry<Ville,Integer> tete = ordrePrio.remove();
-		int nbVoisinsUpdate;
+		int nbVoisinsUpdate = UtilMethodeCA.compteNouvAccesE(communaute.get(tete.getKey()),
+			accesE);
+		System.out.println(tete.getKey()+" "+nbVoisinsUpdate);
 		/* On verifie que les changement entre temps n'ont pas modifier l'acces des voisins. */
-		if ((nbVoisinsUpdate = UtilMethodeCA.compteNouvAccesE(communaute.get(tete.getKey()),
-			accesE)) == tete.getValue()) {
+		if (nbVoisinsUpdate == tete.getValue()) {
 			tete.getKey().addEcole();
 			UtilMethodeCA.majAccesE(communaute.get(tete.getKey()),accesE);
+			accesE.put(tete.getKey(),true);
+			System.out.println(accesE);
 		} else {
 			ordrePrio.add(new SimpleEntry<Ville,Integer>(tete.getKey(),nbVoisinsUpdate));
 		}
