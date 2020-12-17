@@ -413,8 +413,8 @@ public class UtilMenu {
 		do {
 			try {
 				System.out.println("Choix de l'algorithme de resolution :\n 1: Naif\n 2: Algo "+
-						"plus efficace sans garder les ecole\n"+
-						" 3: Algo plus efficace en gardant les ecole");
+						"approcher plus efficace sans garder les ecole\n"+
+						" 3: Algo approcher plus efficace en gardant les ecole");
 				switch(Scan.lireMot()) {
 					case "1":
 					case "naif":

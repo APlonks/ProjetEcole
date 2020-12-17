@@ -206,6 +206,30 @@ public class CA {
 	/**
 	 * Retire une ecole si cela est possible.
 	 * @throws CAException Si la ville n'existe pas.
+	 * @param v une Ville
+	 * @return true si on as put retirer l'ecole false sinon.
+	 */
+	public boolean retireEcole(Ville v) {
+		if (v.getEcole() == false) {
+			return false;
+		} if (!contientEcole(communaute.get(v))) {
+			return false;
+		} else {
+			/* Parcour des adjacent de ville pour verifier que l'ecole de ville n'est pas la seul
+			 * ecole a laquelle ils ont acces. */
+			for (Ville b : communaute.get(v)) {
+				if (!accesAutreEcole(b,v)) {
+					return false;
+				}
+			}
+			v.retireEcole();
+			return true;
+		}
+	}
+
+	/**
+	 * Retire une ecole si cela est possible.
+	 * @throws CAException Si la ville n'existe pas.
 	 * @param x une Ville
 	 * @return true si on as put retirer l'ecole false sinon.
 	 */
@@ -213,18 +237,8 @@ public class CA {
 		Ville ville;
 		if ((ville=getVille(x))==null) {
 			throw new CAException(x+" n'existe pas");
-		} else if (!contientEcole(communaute.get(ville))) {
-			return false;
 		} else {
-			/* Parcour des adjacent de ville pur verifier que l'ecole de ville n'est pas la seul
-			 * ecole a laquelle ils ont acces. */
-			for (Ville b : communaute.get(ville)) {
-				if (!accesAutreEcole(b,ville)) {
-					return false;
-				}
-			}
-			ville.retireEcole();
-			return true;
+			return retireEcole(ville);
 		}
 	}
 
@@ -283,20 +297,20 @@ public class CA {
 			ville.addEcole();
 		}
 	}
-	
+
 	public CA algoApproximation(CA communauteUtilisateur, int k) throws CAException {
 		Ville ville;
 		CA communauteOpti = new CA();
 		int i = 0;
 		int scoreCourant = UtilMethodeCA.score(communauteUtilisateur);
-		
+
 		while (i<k) {
 			ville = UtilMethodeCA.random(communauteUtilisateur);
 			if (ville.getEcole() == true) {
 				retireEcole(ville.toString()); 
 			}
 			else ville.addEcole();
-			
+
 			if (UtilMethodeCA.score(communauteUtilisateur)<scoreCourant) {
 				communauteOpti = communauteUtilisateur;
 				i=0;
@@ -336,6 +350,10 @@ public class CA {
 		/* Tant que toutes les ville non pas acces a une ecole. On cherche a en ajouter. */
 		while (!UtilMethodeCA.accesPartout(accesE)) {
 			analysteTeteQueue(ordrePrio,accesE);
+		}
+		/* Verifie qu'on ne puissent enlever aucune ecole. */
+		for (Ville v : cle) {
+			retireEcole(v);
 		}
 		afficheEcole();
 	}
