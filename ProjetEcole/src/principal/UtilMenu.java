@@ -19,7 +19,7 @@ public class UtilMenu {
 				System.out.println("Vous voulez créer ou charger un fichier ?");
 				choixUtilisateur = Scan.lireMot();
 				switch(choixUtilisateur){
-				case"créer":
+				case"creer":
 						do {
 							System.out.print("Entrez le nombre de villes de la communaute d'agglomeration");
 							try {
@@ -92,28 +92,6 @@ public class UtilMenu {
 			System.out.println(e.getMessage());
 		}
 		return choix;
-	}
-	
-	public static void menu2PremiereFois(CA commune) {
-		int choix;
-		boolean arretMenu = false;
-		do {
-			choix = choixMenu2();
-			switch(choix) {
-			case 1: route(commune);
-					break;
-			case 2: ecole(commune);
-					break;
-			case 3: ville(commune);
-					break;
-			case 4: arretMenu = true;
-					menu3(commune);
-					break;
-			default : System.out.println("Choix incorrect");
-					break;
-			} 
-		} while(arretMenu == false);
-		
 	}
 	
 	public static void menu2(CA commune) {
@@ -237,4 +215,5 @@ public class UtilMenu {
 		}
 		commune.affiche();
 	}
+	
 }
