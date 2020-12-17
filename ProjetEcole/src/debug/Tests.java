@@ -10,8 +10,8 @@ import java.lang.CharSequence;
 
 public class Tests {
 	public static void main (String[] args) {
+		CA ca = new CA();
 		try {
-			CA ca = new CA();
 			ca.addVille("A");
 			ca.addVille("B");
 			ca.addVille("C");
@@ -20,8 +20,6 @@ public class Tests {
 			ca.addEcole("B");
 			EnregistrementCA.enregister(ca);
 			ca = LectureCA.chargement();
-			ca.afficherHashMap();
-			ca.afficheEcole();
 		} catch (LectureException e) {
 			if (e.getLigne() != -1) {
 				System.out.println("Ereur ligne "+e.getLigne()+" : "+e.getMessage());
@@ -31,5 +29,10 @@ public class Tests {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		ca.algoQueue(1);
+		System.out.println("Supp tout");
+		ca.algoQueue(0);
+		System.out.println("Verifie");
+		ca.algoQueue(1);
 	}
 }

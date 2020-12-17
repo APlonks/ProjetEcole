@@ -39,7 +39,7 @@ public class LectureCA {
 		if (!Scan.estVide()) {
 			nomFichier = Scan.motSuivant();
 			/* On verifie l'extension. */
-			if (!extensionTXT(nomFichier)) {
+			if (!extension(nomFichier)) {
 				throw new LectureException("Extension de fichier incorect, '.ca' attendu");
 			}
 			testExist = new File(nomFichier);
@@ -53,7 +53,7 @@ public class LectureCA {
 		System.out.print("Nom du fichier a charger : ");
 		nomFichier = Scan.lireMot();
 		/* On verifie l'extension. */
-		if (!extensionTXT(nomFichier)) {
+		if (!extension(nomFichier)) {
 			throw new LectureException("Extension de fichier incorect, '.ca' attendu");
 		}
 		testExist = new File(nomFichier);
@@ -70,7 +70,7 @@ public class LectureCA {
 	 * @param String nom du fichier.
 	 * @return true Si '.txt' false finon.
 	 */
-	private static boolean extensionTXT(String nomFichier) {
+	private static boolean extension(String nomFichier) {
 		if (nomFichier.length() < 3) {
 			return false;
 		} else if (nomFichier.substring(nomFichier.length()-3).compareTo(".ca") != 0) {

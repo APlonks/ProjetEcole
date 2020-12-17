@@ -25,23 +25,13 @@ public class EnregistrementCA {
 		int choix=0;
 		do {
 			/* Tant que l'utilisateur n'as pas fait de choix on lui demande. */
-			try {
-				System.out.print("Nom du fichier : ");
-				nomFichier = Scan.lireMot();
-				/* Verifie l'extension du fichier. */
-				if (extensionTXT(nomFichier)) {
-					choix = 1;
-					File testExist = new File(nomFichier);
-					if (testExist.exists()) {
-						/* Si le fichier exist ou lui demande de confirmer sont choix. */
-						choix = ecraser();
-					}
-				} else {
-					System.out.println("Fichier '.ca' attendue.");
+				nomFichier = choixNom();
+				choix = 1;
+				File testExist = new File(nomFichier);
+				if (testExist.exists()) {
+					/* Si le fichier exist ou lui demande de confirmer sont choix. */
+					choix = ecraser();
 				}
-			} catch (ScanException e) {
-				System.out.println(e.getMessage());
-			}
 		} while (choix==0);
 		/* On ouvre le fichier et on appele la fonciton qui ecrit a l'interieur de ce dernier. */
 		try {
@@ -51,6 +41,41 @@ public class EnregistrementCA {
 			return 1;
 		}
 		return 0;
+	}
+
+	/**
+	 * Recupere le nom du fichier choix par l'utilisateur.
+	 * @return nom du fichier choisie.
+	 */
+	private static String choixNom() {
+		String nomFichier=null;
+		int choix = 0;
+		try {
+			if (!Scan.estVide()) {
+				nomFichier = Scan.motSuivant();
+				if (extension(nomFichier)) {
+					return nomFichier;
+				} else {
+					System.out.println("Extension de fichier incorrect, '.ca' attendu");
+				}
+			}
+		} catch (ScanException e) {
+			System.out.println(e.getMessage());
+		}
+		do {
+			try {
+				System.out.print("Nom du fichier : ");
+				nomFichier = Scan.lireMot();
+				if (extension(nomFichier)) {
+					choix = 1;
+				} else {
+					System.out.println("Extension de fichier incorrect, '.ca' attendu");
+				}
+			} catch (ScanException e) {
+				System.out.println(e.getMessage());
+			}
+		} while (choix == 0);
+		return nomFichier;
 	}
 
 	/**
@@ -68,9 +93,11 @@ public class EnregistrementCA {
 					case "oui":
 					case "o":
 						choix = 1;
+						break;
 					case "non":
 					case "n":
-						return -1;
+						choix = -1;
+						break;
 					default :
 						System.out.println("Reponse incorecte.");
 						break;
@@ -91,7 +118,7 @@ public class EnregistrementCA {
 	 * @param String nom du fichier.
 	 * @return true Si '.txt' false finon.
 	 */
-	private static boolean extensionTXT(String nomFichier) {
+	private static boolean extension(String nomFichier) {
 		if (nomFichier.length() < 3) {
 			return false;
 		} else if (nomFichier.substring(nomFichier.length()-3).compareTo(".ca") != 0) {
