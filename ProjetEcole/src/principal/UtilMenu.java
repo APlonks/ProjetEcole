@@ -44,7 +44,7 @@ public class UtilMenu {
 	public static int choixMenu2() {
 		int choix = 0;
 		try {
-			System.out.println(" 1: Route\n 2: Ecole\n 3: Ville\n 4: Menu Suivant\n");
+			System.out.println(" 1: Route\n 2: Ecole\n 3: Ville\n 4: Menu Suivant");
 			switch (Scan.lireMot()) {
 				case "1":
 				case "route":
@@ -81,7 +81,7 @@ public class UtilMenu {
 		int choix = 0;
 		try {
 			System.out.println(" 1: Modifier communaute d'agglomeration\n 2: Resoudre\n"+
-				" 3: Sauvegarder\n 4: Fin\n");
+				" 3: Sauvegarder\n 4: Fin");
 			switch (Scan.lireMot()) {
 				case "1":
 				case "modifier":
@@ -112,6 +112,41 @@ public class UtilMenu {
 		return choix;
 	}
 
+		/**
+	 * Demande a L'utilisateur si il veut ecraser le fichier cite.
+	 * @return 1 si oui 0 si non.
+	 */
+	private static int ignorer() {
+		String nomFichier = new String("");
+		int choix = 0;
+		System.out.print("La communaute d'agglomeration n'est pas connexe, ignorer : ");
+		do {
+			try {
+				/* Verifie le retour. */
+				switch (Scan.lireMot()) {
+					case "oui":
+					case "o":
+						choix = 1;
+						break;
+					case "non":
+					case "n":
+						choix = -1;
+						break;
+					default :
+						System.out.println("Reponse incorecte.");
+						break;
+				}
+			} catch (ScanException e) {
+				System.out.println(e.getMessage());
+			}
+		} while (choix==0);
+		if (choix == 1) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+
 	public static void menu2(CA commune) {
 		int choix;
 		boolean arretMenu = false;
@@ -125,7 +160,17 @@ public class UtilMenu {
 			case 3: ville(commune);
 					break;
 			case 4: arretMenu = true;
-					menu3(commune);
+					if (commune.estConnexe()) {
+						menu3(commune);
+					} else {
+						switch (ignorer()) {
+							case 1:
+								menu3(commune);
+								break;
+							default:
+								arretMenu = false;
+						}
+					}
 					break;
 			default : System.out.println("Choix incorrect");
 					break;
@@ -141,7 +186,7 @@ public class UtilMenu {
 			switch(choix) {
 			case 1: menu2(commune);
 					break;
-			case 2: //Resoudre(commune);
+			case 2: resoudre(commune);
 					break;
 			case 3: EnregistrementCA.enregister(commune);
 					break;
@@ -153,7 +198,7 @@ public class UtilMenu {
 		} while(arretMenu == false);
 	}
 
-	private static int routeAjSup (String choix) {
+	private static int choixAjSup (String choix) {
 		switch (choix) {
 			case "1":
 			case "ajouter":
@@ -212,7 +257,7 @@ public class UtilMenu {
 			try {
 				System.out.println("Voulez vous :\n 1 : ajouter une route\n"+
 						" 2 : retirer une route\n 3 : fin");
-				switch (routeAjSup(Scan.lireMot())) {
+				switch (choixAjSup(Scan.lireMot())) {
 					case 1:
 						if (Scan.estVide()) {
 							traitementRoute(commune,paramUnique(),1);
@@ -241,41 +286,74 @@ public class UtilMenu {
 		} while (option != 3);
 	}
 
+	private static void traitementEcole(CA communaute, int choix, String ville)
+					throws ScanException, CAException {
+		do {
+			if (choix == 1) {
+				communaute.addEcole(ville);
+			} else {
+				communaute.retireEcole(ville);
+			}
+			if (Scan.estVide()) {
+				ville = null;
+			} else {
+				ville = Scan.motSuivant();
+			}
+		} while (ville != null);
+	}
+
 	public static void ecole(CA commune) {
-		int option;
-		boolean arretMenu = false;
+		int option = 0;
 		do {
 			try {
 				System.out.println("Voulez vous :\n 1 : ajouter une ecole\n"+
 							" 2 : retirer une ecole\n 3 : fin");
-				option = Scan.lireEntier();
-				switch (option) {
+				switch (choixAjSup(Scan.lireMot())) {
 					case 1:
+						if (Scan.estVide()) {
 							System.out.println("Dans quel ville voulez-vous ajouter une ecole ?");
-							commune.addEcole(Scan.lireMot());
-							break;
-					case 2: 
+							traitementEcole(commune,1,Scan.lireMot());
+						} else {
+							traitementEcole(commune,1,Scan.motSuivant());
+						}
+						break;
+					case 2:
+						if (Scan.estVide()) {
 							System.out.println("Dans quel ville voulez-vous retirer une ecole ?");
-							commune.retireEcole(Scan.lireMot());
-							break;
+							traitementEcole(commune,0,Scan.lireMot());
+						} else {
+							traitementEcole(commune,0,Scan.motSuivant());
+						}
+						break;
 					case 3:
-							arretMenu = true;
-							break;	
+						option = 3;
+						break;
+					default : System.out.println("Choix incorrect");
+						break;
 				}
 			} catch (ScanException e) {
 				System.out.println(e.getMessage());
 			} catch (CAException e) {
 				System.out.println(e.getMessage());
 			}
-		} while (arretMenu == false);
+		} while (option != 3);
 	}
 
 	public static void ville(CA commune) {
 		String nomVille;
 		try {
-			nomVille = UtilMethodeCA.nomVilleUtilisateur();
-			commune.addVille(new Ville(nomVille,true));
+			if (Scan.estVide()) {
+				nomVille = UtilMethodeCA.nomVilleUtilisateur();
+				commune.addVille(new Ville(nomVille,true));
+			} else {
+				do {
+					nomVille = Scan.motSuivant();
+					commune.addVille(new Ville(nomVille,true));
+				} while (!Scan.estVide());
+			}
 		} catch (CAException e) {
+			System.out.println(e.getMessage());
+		} catch (ScanException e) {
 			System.out.println(e.getMessage());
 		}
 		commune.affiche();
@@ -285,14 +363,19 @@ public class UtilMenu {
 		int nombreVilles = 0;
 		String nomVille;
 		do {
-			System.out.print("Entrez le nombre de villes de la communaute d'agglomeration");
 			try {
-				nombreVilles = Scan.lireEntier();
+				if (Scan.estVide()) {
+					System.out.print("Entrez le nombre de villes de la communaute"+
+								" d'agglomeration : ");
+					nombreVilles = Scan.lireEntier();
+				} else {
+					nombreVilles = Scan.entierSuivant();
+				}
 			} catch (ScanException e) {
 				System.out.println(e.getMessage());
 			}
 		} while (nombreVilles < 1);
-	
+
 		for(int i=1; i<nombreVilles + 1; i++) {
 			nomVille = UtilMethodeCA.nomAutomatique(i);
 			try {
@@ -323,5 +406,49 @@ public class UtilMenu {
 			}
 		} while (choix == 0);
 		return commune;
+	}
+
+	public static int choixResoudre() {
+		int option = 0;
+		do {
+			try {
+				System.out.println("Choix de l'algorithme de resolution :\n 1: Naif\n 2: Algo "+
+						"plus efficace sans garder les ecole\n"+
+						" 3: Algo plus efficace en gardant les ecole");
+				switch(Scan.lireMot()) {
+					case "1":
+					case "naif":
+						option = 1;
+						break;
+					case "2":
+					case "sans":
+						option = 2;
+						break;
+					case "3":
+					case "avec":
+						option = 3;
+						break;
+					default : System.out.println("Choix incorrect");
+						break;
+				}
+			} catch (ScanException e) {
+				System.out.println(e.getMessage());
+			}
+		} while (option == 0);
+		return option;
+	}
+
+	public static void resoudre(CA commune) {
+		switch(choixResoudre()) {
+			case 1:
+				/* Ya des truc byzarre. */
+				break;
+			case 2:
+				commune.algoQueue(0);
+				break;
+			default:
+				commune.algoQueue(1);
+				break;
+		}
 	}
 }

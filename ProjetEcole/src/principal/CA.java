@@ -317,18 +317,17 @@ public class CA {
 	 */
 	public void algoQueue(int mode) {
 		HashMap<Ville,Boolean> accesE = UtilMethodeCA.creationAccesE(this,mode);
-		System.out.println(accesE);
 		PriorityQueue<SimpleEntry<Ville,Integer>> ordrePrio =
 					new PriorityQueue<>(queueCompare);
 		Set<Ville> cle = communaute.keySet();
 		int nbVoisinsDependant;
+
 		/* On initialise la queue.
 		 * On y ajoute que les villes qui n'ont pas d'ecole, dont aux moins un voisins n'as pas
 		 * d'acces a une ecole ou lui meme. */
 		for (Ville v : cle) {
 			if (!v.getEcole()) {
 				nbVoisinsDependant = UtilMethodeCA.compteNouvAccesE(communaute.get(v),accesE);
-				System.out.println(v+"-"+nbVoisinsDependant);
 				if (nbVoisinsDependant!=0 || accesE.get(v)==false) {
 					ordrePrio.add(new SimpleEntry<Ville,Integer>(v,nbVoisinsDependant));
 				}
@@ -346,13 +345,11 @@ public class CA {
 		SimpleEntry<Ville,Integer> tete = ordrePrio.remove();
 		int nbVoisinsUpdate = UtilMethodeCA.compteNouvAccesE(communaute.get(tete.getKey()),
 			accesE);
-		System.out.println(tete.getKey()+" "+nbVoisinsUpdate);
 		/* On verifie que les changement entre temps n'ont pas modifier l'acces des voisins. */
 		if (nbVoisinsUpdate == tete.getValue()) {
 			tete.getKey().addEcole();
 			UtilMethodeCA.majAccesE(communaute.get(tete.getKey()),accesE);
 			accesE.put(tete.getKey(),true);
-			System.out.println(accesE);
 		} else {
 			ordrePrio.add(new SimpleEntry<Ville,Integer>(tete.getKey(),nbVoisinsUpdate));
 		}
