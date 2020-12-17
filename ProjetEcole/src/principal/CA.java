@@ -320,15 +320,36 @@ public class CA {
 		PriorityQueue<SimpleEntry<Ville,Integer>> ordrePrio =
 					new PriorityQueue<>(queueCompare);
 		Set<Ville> cle = communaute.keySet();
-		/* On initialise la queue en y ajoutant l'ensemble des villes qui n'ont pas d'ecole. */
+		int nbVoisinsDependant;
+		/* On initialise la queue.
+		 * On y ajoute que les villes qui n'ont pas d'ecole, dont aux moins un voisins n'as pas
+		 * d'acces a une ecole ou lui meme. */
 		for (Ville v : cle) {
 			if (!v.getEcole()) {
-				ordrePrio.add(new SimpleEntry<Ville,Integer>(v,
-							 UtilMethodeCA.compteNouvAccesE(communaute.get(v),accesE)));
+				nbVoisinsDependant = UtilMethodeCA.compteNouvAccesE(communaute.get(v),accesE);
+				if (nbVoisinsDependant!=0 || accesE.get(v)==false) {
+					ordrePrio.add(new SimpleEntry<Ville,Integer>(v,nbVoisinsDependant));
+				}
 			}
 		}
-		while (!ordrePrio.isEmpty()) {
-			System.out.println(ordrePrio.remove());
+		/* Tant que toutes les ville non pas acces a une ecole. On cherche a en ajouter. */
+		while (!UtilMethodeCA.accesPartout(accesE)) {
+			analysteTeteQueue(ordrePrio,accesE);
+		}
+		afficheEcole();
+	}
+
+	private void analysteTeteQueue(PriorityQueue<SimpleEntry<Ville,Integer>> ordrePrio,
+									 HashMap<Ville,Boolean> accesE) {
+		SimpleEntry<Ville,Integer> tete = ordrePrio.remove();
+		int nbVoisinsUpdate;
+		/* On verifie que les changement entre temps n'ont pas modifier l'acces des voisins. */
+		if ((nbVoisinsUpdate = UtilMethodeCA.compteNouvAccesE(communaute.get(tete.getKey()),
+			accesE)) == tete.getValue()) {
+			tete.getKey().addEcole();
+			UtilMethodeCA.majAccesE(communaute.get(tete.getKey()),accesE);
+		} else {
+			ordrePrio.add(new SimpleEntry<Ville,Integer>(tete.getKey(),nbVoisinsUpdate));
 		}
 	}
 
@@ -339,7 +360,7 @@ public class CA {
 				new Comparator<SimpleEntry<Ville,Integer>>(){
 		@Override
 		public int compare(SimpleEntry<Ville,Integer> c1, SimpleEntry<Ville,Integer> c2) {
-            return (int) (c2.getValue() - c1.getValue());
+            return c2.getValue() - c1.getValue();
         }
 	};
 }

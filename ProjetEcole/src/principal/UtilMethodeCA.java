@@ -121,4 +121,18 @@ public class UtilMethodeCA {
 		}
 		return sol;
 	}
+
+	/**
+	 * Retourne true si l'ensemble des valeur de la HashMap sont a true.
+	 * @param accesE HaspMap d'accessibilite des ecoles.
+	 * @return true si toute les villes ont acces a une ecole.
+	 */
+	public static boolean accesPartout(HashMap<Ville,Boolean> accesE) {
+		for (Ville v : accesE.keySet()) {
+			if (accesE.get(v) == false) {
+				return false;
+			}
+		}
+		return true;
+	}
 }

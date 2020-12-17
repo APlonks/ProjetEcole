@@ -30,6 +30,7 @@ public class LectureCA {
 	 * @return CA lu dans le fichier.
 	 */
 	public static CA chargement() throws LectureException, ScanException, IOException {
+		numLgn = 0;
 		String nomFichier = "";
 		File testExist;
 		BufferedReader fichier;
