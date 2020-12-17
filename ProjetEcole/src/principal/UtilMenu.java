@@ -10,8 +10,6 @@ public class UtilMenu {
 	public static void Menu1() {
 		String choixUtilisateur = new String();
 		int choix = 0;
-		int nombreVilles = 0;
-		String nomVille;
 		CA commune = new CA();
 		do {
 			/* Tant que l'utilisateur n'as pas fait de choix on lui demande. */
@@ -20,25 +18,7 @@ public class UtilMenu {
 				choixUtilisateur = Scan.lireMot();
 				switch(choixUtilisateur){
 				case"creer":
-						do {
-							System.out.print("Entrez le nombre de villes de la communaute d'agglomeration");
-							try {
-								nombreVilles = Scan.lireEntier();
-							} catch (ScanException e) {
-								System.out.println(e.getMessage());
-							}
-						} while (nombreVilles < 1);
-					
-						for(int i=1; i<nombreVilles + 1; i++) {
-							nomVille = UtilMethodeCA.nomAutomatique(i);
-							try {
-								commune.addVille(new Ville(nomVille,true));
-							} catch (CAException e) {
-								System.out.println(e.getMessage());
-							}
-						}
-						System.out.println("Vous avez choisi " + nombreVilles + " Villes.");
-						commune.affiche();//Affiche la liste de villes
+						creer(commune);
 						menu2(commune);
 						choix = 1;
 					break;
@@ -214,6 +194,30 @@ public class UtilMenu {
 			System.out.println(e.getMessage());
 		}
 		commune.affiche();
+	}
+	
+	public static void creer(CA commune) {
+		int nombreVilles = 0;
+		String nomVille;
+		do {
+			System.out.print("Entrez le nombre de villes de la communaute d'agglomeration");
+			try {
+				nombreVilles = Scan.lireEntier();
+			} catch (ScanException e) {
+				System.out.println(e.getMessage());
+			}
+		} while (nombreVilles < 1);
+	
+		for(int i=1; i<nombreVilles + 1; i++) {
+			nomVille = UtilMethodeCA.nomAutomatique(i);
+			try {
+				commune.addVille(new Ville(nomVille,true));
+			} catch (CAException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		System.out.println("Vous avez choisi " + nombreVilles + " Villes.");
+		commune.affiche();//Affiche la liste de villes
 	}
 	
 }
