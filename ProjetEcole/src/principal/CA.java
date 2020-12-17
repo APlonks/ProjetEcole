@@ -3,7 +3,10 @@ package principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
-
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+import java.util.Set;
 
 /**
  * Class represantant un groupement de Ville relier entre elle.
@@ -303,5 +306,40 @@ public class CA {
 		}
 		return communauteOpti;
 	}
-	
+
+	/**
+	 * Algo qui calcul le nombre d'ecole minimal a ajouter.
+	 * On y inclus 2 mode : 0 si on initialiser toutes les villes sans ecole, sinon on tient
+	 * compte de celle deja creer.
+	 * Pour cela on utilise les couple (ville , nombreVoisinsSansAccesEcole) en ajoutant petit
+	 * a petit des ecoles au ville ayant la plus grande valeur associer.
+	 * @param mode de resolution.
+	 */
+	public void algoQueue(int mode) {
+		HashMap<Ville,Boolean> accesE = UtilMethodeCA.creationAccesE(this,mode);
+		PriorityQueue<SimpleEntry<Ville,Integer>> ordrePrio =
+					new PriorityQueue<>(queueCompare);
+		Set<Ville> cle = communaute.keySet();
+		/* On initialise la queue en y ajoutant l'ensemble des villes qui n'ont pas d'ecole. */
+		for (Ville v : cle) {
+			if (!v.getEcole()) {
+				ordrePrio.add(new SimpleEntry<Ville,Integer>(v,
+							 UtilMethodeCA.compteNouvAccesE(communaute.get(v),accesE)));
+			}
+		}
+		while (!ordrePrio.isEmpty()) {
+			System.out.println(ordrePrio.remove());
+		}
+	}
+
+	/**
+	 * Definition local de la class Comparator car c'est le seul endroit ou l'on en as besoin.
+	 */
+	public static Comparator<SimpleEntry<Ville,Integer>> queueCompare =
+				new Comparator<SimpleEntry<Ville,Integer>>(){
+		@Override
+		public int compare(SimpleEntry<Ville,Integer> c1, SimpleEntry<Ville,Integer> c2) {
+            return (int) (c2.getValue() - c1.getValue());
+        }
+	};
 }

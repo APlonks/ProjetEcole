@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.lang.StringBuilder;
+import java.util.HashMap;
+import java.util.Set;
 
 
 public class UtilMethodeCA {
@@ -79,7 +81,7 @@ public class UtilMethodeCA {
 	 * @return accesE
 	 */
 	public static HashMap<Ville,Boolean> creationAccesE (CA ensembleVille, int mode) {
-		HashMap<Ville,ArrayList<Ville>> communaute = CA.getCommunaute();
+		HashMap<Ville,ArrayList<Ville>> communaute = ensembleVille.getCommunaute();
 		Set<Ville> cle = communaute.keySet();
 		HashMap<Ville,Boolean> accesE = new HashMap<Ville,Boolean>();
 		/* On commence par ajouter toute les villes a accesE avec false. */
@@ -88,14 +90,14 @@ public class UtilMethodeCA {
 		}
 		if (mode == 0) {
 			/* On retire toute les ecole des viles. */
-			for (Ville v : voisins) {
+			for (Ville v : cle) {
 				if (v.getEcole()) {
 					v.retireEcole();
 				}
 			}
 		} else {
 			/* On met a jour l'accessibilite des Ecole. */
-			for (Ville v : voisins) {
+			for (Ville v : cle) {
 				if (v.getEcole()) {
 					majAccesE(communaute.get(v),accesE);
 				}
@@ -110,10 +112,10 @@ public class UtilMethodeCA {
 	 * @param accesE HashMap d'accessibilite des ecoles pour les villes.
 	 * @return Le nombre de nouvelle ville qui ont acces a une ecole.
 	 */
-	public static int compteNouvAcces(ArrayList<Ville> voisins, HashMap<Ville,Boolean> accesE) {
-		int sol++;
+	public static int compteNouvAccesE(ArrayList<Ville> voisins, HashMap<Ville,Boolean> accesE) {
+		int sol=0;
 		for (Ville v : voisins) {
-			if (!accesE.get(c)) {
+			if (!accesE.get(v)) {
 				sol++;
 			}
 		}
