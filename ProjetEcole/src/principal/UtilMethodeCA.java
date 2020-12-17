@@ -4,10 +4,8 @@ import gestion.Scan;
 import gestion.ScanException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 import java.lang.StringBuilder;
 
 
@@ -31,10 +29,14 @@ public class UtilMethodeCA {
 		return score;
 	}
 
-	public static String nomVilleUtilisateur() throws ScanException {
+	public static String nomVilleUtilisateur() {
 		String nomVille = null;
 		System.out.println("Veuillez donner un nom a la prochaine ville : ");
-		nomVille = Scan.lireMot();
+		try {
+			nomVille = Scan.lireMot();
+		} catch (ScanException e) {
+			System.out.println(e.getMessage());
+		}
 		return nomVille;
 	}
 
@@ -57,6 +59,7 @@ public class UtilMethodeCA {
 	    else nom = nomAutomatique(i / 26) + (char) ('A' + i % 26);
 	    return nom;
 	}
+	
 
 	
 }

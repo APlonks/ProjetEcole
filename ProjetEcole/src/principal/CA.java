@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+
 /**
  * Class represantant un groupement de Ville relier entre elle.
  * Communaute d'Agglomeration.
@@ -302,6 +303,5 @@ public class CA {
 		}
 		return communauteOpti;
 	}
-	
 	
 }
