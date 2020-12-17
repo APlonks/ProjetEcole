@@ -144,7 +144,7 @@ public class CA {
 			(communaute.get(arriver).contains(depart))) {
 			/* On verifie si il existe une route de la ville de depart à la ville d'arriver.
 			 * On ne verifie qu'un sens de la route car la liste d'adjacence est symetrique. */
-			throw new CAException("la route existe deja");
+			throw new CAException("la route "+x+"|"+y+" existe deja");
 		} else {
 			/* Ajoute chaque ville a la liste d'adjacence de l'autre. */
 			communaute.get(depart).add(arriver);
@@ -174,7 +174,7 @@ public class CA {
 		} else {
 			/* On verifie si il existe une route de la ville de depart à la ville d'arriver.
 			 * On ne verifie qu'un sens de la route car la liste d'adjacence est symetrique. */
-			throw new CAException("la route n'existe pas");
+			throw new CAException("la route "+x+"|"+y+" n'existe pas");
 		}
 	}
 
