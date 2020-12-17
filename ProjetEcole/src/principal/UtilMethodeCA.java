@@ -59,7 +59,64 @@ public class UtilMethodeCA {
 	    else nom = nomAutomatique(i / 26) + (char) ('A' + i % 26);
 	    return nom;
 	}
-	
 
-	
+	/**
+	 * Mise a jout de accesE.
+	 * On ajoute l'acces a une ecole a l'ensemble des voisins d'une ville.
+	 * @param voisins de la ville.
+	 * @param accesE HashMap d'acces a une ecole.
+	 */
+	public static void majAccesE(ArrayList<Ville> voisins, HashMap<Ville,Boolean> accesE) {
+		for (Ville v : voisins) {
+			accesE.put(v,true);
+		}
+	}
+
+	/**
+	 * Creation d'une HashMap accesE qui permet de savoir si les Ville on acces ou non a une ecole.
+	 * @param ensembleVille Communaute d'Agglomeration.
+	 * @param mode 0 si on initialise toute les ecole a false, sinon on garde celle deja existante.
+	 * @return accesE
+	 */
+	public static HashMap<Ville,Boolean> creationAccesE (CA ensembleVille, int mode) {
+		HashMap<Ville,ArrayList<Ville>> communaute = CA.getCommunaute();
+		Set<Ville> cle = communaute.keySet();
+		HashMap<Ville,Boolean> accesE = new HashMap<Ville,Boolean>();
+		/* On commence par ajouter toute les villes a accesE avec false. */
+		for (Ville v : cle) {
+			accesE.put(v,false);
+		}
+		if (mode == 0) {
+			/* On retire toute les ecole des viles. */
+			for (Ville v : voisins) {
+				if (v.getEcole()) {
+					v.retireEcole();
+				}
+			}
+		} else {
+			/* On met a jour l'accessibilite des Ecole. */
+			for (Ville v : voisins) {
+				if (v.getEcole()) {
+					majAccesE(communaute.get(v),accesE);
+				}
+			}
+		}
+		return accesE;
+	}
+
+	/**
+	 * Calcul le nombre de ville voisine qui profiterait de l'ajout d'une ecole.
+	 * @param voisins Liste des villes vosines.
+	 * @param accesE HashMap d'accessibilite des ecoles pour les villes.
+	 * @return Le nombre de nouvelle ville qui ont acces a une ecole.
+	 */
+	public static int compteNouvAcces(ArrayList<Ville> voisins, HashMap<Ville,Boolean> accesE) {
+		int sol++;
+		for (Ville v : voisins) {
+			if (!accesE.get(c)) {
+				sol++;
+			}
+		}
+		return sol;
+	}
 }
