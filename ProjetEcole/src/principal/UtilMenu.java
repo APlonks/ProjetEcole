@@ -23,23 +23,10 @@ public class UtilMenu {
 						choix = 1;
 					break;
 				case "charger":
-					do {
-						choix = 1;
-						try {
-						commune = LectureCA.chargement();
-						} catch (LectureException e) {
-							if (e.getLigne() != -1) {
-								System.out.println("Erreur ligne "+e.getLigne()+" : "+e.getMessage());
-								choix = 0;
-							} else {
-								System.out.println(e.getMessage());
-							   	
-							}
-						} catch (Exception e) {
-								System.out.println(e.getMessage());
-						}
-					} while (choix == 0);
+					charger(commune);
+
 					menu3(commune);
+					choix = 1;
 					break;
 				default : 
 					System.out.println("Entrez créer ou charger.");
@@ -220,4 +207,23 @@ public class UtilMenu {
 		commune.affiche();//Affiche la liste de villes
 	}
 	
+	public static void charger(CA commune) {
+		int choix =0;
+		do {
+			choix = 1;
+			try {
+				commune = LectureCA.chargement();
+			} catch (LectureException e) {
+				if (e.getLigne() != -1) {
+					System.out.println("Erreur ligne "+e.getLigne()+" : "+e.getMessage());
+					choix = 0;
+				} else {
+					System.out.println(e.getMessage());
+					
+				}
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+		} while (choix == 0);
+	}
 }
