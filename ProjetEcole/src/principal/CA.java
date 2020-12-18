@@ -323,6 +323,8 @@ public class CA {
 
 	/**
 	 * Algo qui calcul le nombre d'ecole minimal a ajouter.
+	 * On choisie pour cela d'ajouter une ecole aux ville qui vont permettre l'acces a une ecole
+	 * au plus de nouvelle ville.
 	 * On y inclus 2 mode : 0 si on initialiser toutes les villes sans ecole, sinon on tient
 	 * compte de celle deja creer.
 	 * Pour cela on utilise les couple (ville , nombreVoisinsSansAccesEcole) en ajoutant petit
@@ -358,6 +360,11 @@ public class CA {
 		afficheEcole();
 	}
 
+	/**
+	 * On regarde la tete de la liste et determine si on y a joute une ecole.
+	 * @param ordrePrio Queue de priorite.
+	 * @param accesE HashMap d'accessibilite aux ecole.
+	 */
 	private void analysteTeteQueue(PriorityQueue<SimpleEntry<Ville,Integer>> ordrePrio,
 									 HashMap<Ville,Boolean> accesE) {
 		SimpleEntry<Ville,Integer> tete = ordrePrio.remove();
@@ -369,6 +376,8 @@ public class CA {
 			UtilMethodeCA.majAccesE(communaute.get(tete.getKey()),accesE);
 			accesE.put(tete.getKey(),true);
 		} else {
+			/* Si il y a eut un changemnet sur le nombre de voisins qui beneficieraient de
+			 * l'ajout d'une ecole, on recalcul cette valeur et remet dans le queue la ville. */
 			ordrePrio.add(new SimpleEntry<Ville,Integer>(tete.getKey(),nbVoisinsUpdate));
 		}
 	}
@@ -379,6 +388,12 @@ public class CA {
 	public static Comparator<SimpleEntry<Ville,Integer>> queueCompare =
 				new Comparator<SimpleEntry<Ville,Integer>>(){
 		@Override
+		/**
+		 * @param c1 premier element de comparaisons.
+		 * @param c2 seconde element a comparer.
+		 * @return un nombre qui vas permettre de trie les couple de selon un ordre decroissant
+		 * pour l'entier qu'il possede en second argument.
+		 */
 		public int compare(SimpleEntry<Ville,Integer> c1, SimpleEntry<Ville,Integer> c2) {
             return c2.getValue() - c1.getValue();
         }

@@ -7,6 +7,10 @@ import gestion.Scan;
 import gestion.ScanException;
 
 public class UtilMenu {
+	/**
+	 * Menu pour gere la creation d'une CA.
+	 * Possibilite de lire un fichier ou d'en creer une nouvelle.
+	 */
 	public static void Menu1() {
 		String choixUtilisateur = new String();
 		int choix = 0;
@@ -14,11 +18,13 @@ public class UtilMenu {
 		do {
 			/* Tant que l'utilisateur n'as pas fait de choix on lui demande. */
 			try {
-				System.out.println("Vous voulez creer ou charger un fichier ?");
+				System.out.println("1: creer\n 2: charger un fichier");
 				choixUtilisateur = Scan.lireMot();
 				switch(choixUtilisateur) {
 
 				case "creer":
+				case "1":
+					/* Creation d'une nouvelle. */
 						commune = new CA();
 						creer(commune);
 						menu2(commune);
@@ -26,6 +32,8 @@ public class UtilMenu {
 					break;
 
 				case "charger":
+				case "2":
+					/* Lecture d'un fichier. */
 					commune = charger();
 					menu3(commune);
 					choix = 1;
@@ -41,9 +49,14 @@ public class UtilMenu {
 		} while (choix==0);
 	}
 
+	/**
+	 * Menu qui gere l'entre clavier pour le menu2.
+	 * Ce menu permet de creer une CA.
+	 */
 	public static int choixMenu2() {
 		int choix = 0;
 		try {
+			/* Lecture de l'entre clavier. */
 			System.out.println(" 1: Route\n 2: Ecole\n 3: Ville\n 4: Menu Suivant");
 			switch (Scan.lireMot()) {
 				case "1":
@@ -77,6 +90,9 @@ public class UtilMenu {
 		return choix;
 	}
 
+	/**
+	 * Gestion du choix utilisateur pour le menu3.
+	 */
 	public static int choixMenu3() {
 		int choix = 0;
 		try {
@@ -112,8 +128,8 @@ public class UtilMenu {
 		return choix;
 	}
 
-		/**
-	 * Demande a L'utilisateur si il veut ecraser le fichier cite.
+	/**
+	 * Recupere la reponse oui on non a la questoin ignorer.
 	 * @return 1 si oui 0 si non.
 	 */
 	private static int ignorer() {
@@ -147,10 +163,14 @@ public class UtilMenu {
 		}
 	}
 
+	/** Action menu2.
+	 * @param commune CA qu'on travail.
+	 */
 	public static void menu2(CA commune) {
 		int choix;
 		boolean arretMenu = false;
 		do {
+			/* On recupere le choix utilisateur. */
 			choix = choixMenu2();
 			switch(choix) {
 			case 1: route(commune);
@@ -160,6 +180,8 @@ public class UtilMenu {
 			case 3: ville(commune);
 					break;
 			case 4: arretMenu = true;
+					/* On demande a l'utilisateur si il veut verifier la condition de connexesite
+					 * si cela n'est pas le cas. */
 					if (commune.estConnexe()) {
 						menu3(commune);
 					} else {
@@ -178,10 +200,14 @@ public class UtilMenu {
 		} while(arretMenu == false);
 	}
 
+	/** Actino menu3.
+	 * @param commune CA qu'on travail.
+	 */
 	public static void menu3(CA commune) {
 		int choix;
 		boolean arretMenu = false;
 		do {
+			/* Recupere chois utilisateur. */
 			choix = choixMenu3();
 			switch(choix) {
 			case 1: menu2(commune);
@@ -198,6 +224,10 @@ public class UtilMenu {
 		} while(arretMenu == false);
 	}
 
+	/** Analyse du choix utilisateur pour les choix ajouter/retirer/fin.
+	 * @param choix String entre par l'utilisateur.
+	 * @return L'entier correspondant a ce choix.
+	 */
 	private static int choixAjSup (String choix) {
 		switch (choix) {
 			case "1":
@@ -217,6 +247,10 @@ public class UtilMenu {
 		}
 	}
 
+	/** Demande a l'utilisateur une entre clavier l'orsqu'il n'y as pas de parametre pour
+	 * route dans le buffer.
+	 * @return String[] des parametre tapper.
+	 */
 	private static String[] paramUnique() {
 		String[] param = new String[2];
 		try {
@@ -230,9 +264,17 @@ public class UtilMenu {
 		return param;
 	}
 
+	/** Ajouter les route a la CA.
+	 * @throws ScanException Exception d'entre clavier.
+	 * @throws CAException Exception pour l'ajout/retrait des routes.
+	 * @param communaute CA a laquelle on ajoute les routes.
+	 * @param param Premier argument a appliquer a l'ajout/retrait route.
+	 * @param choix 1 si on ajoute les routes, sinon on les retires.
+	 */
 	private static void traitementRoute(CA communaute, String[] param, int choix)
 					throws ScanException, CAException {
 		do {
+			/* Verification du nombre de parametre pour les fonction de routes. */
 			if (param.length != 2) {
 				throw new CAException("Nombre d'argument invalide, 2 attendu, "+param.length+
 					" founie");
@@ -243,14 +285,20 @@ public class UtilMenu {
 					communaute.supprimerRoute(param[0],param[1]);
 				}
 			}
+			/* On recupere si possible des parametre supplementaire. */
 			if (Scan.estVide()) {
 				param = null;
 			} else {
 				param = Scan.parametre();
 			}
+			/* On continue tant qu'on as lu des parametres dans le buffer entre de
+			 * l'utilisateur. */
 		} while (param != null);
 	}
 
+	/** Menu qui gere les routes.
+	 * @param commune CA sur laquelle on travail.
+	 */
 	public static void route(CA commune) {
 		int option = 0;
 		do {
@@ -286,6 +334,13 @@ public class UtilMenu {
 		} while (option != 3);
 	}
 
+	/** Application des actions souhaiter pour les ecole.
+	 * @throws ScanException Ereur entre utilisateur.
+	 * @throws CAException Ereur dans les fonctions d'ecole.
+	 * @param communaute CA de travail.
+	 * @param choix 1 si on ajoute les ecoles, sinon on les retire.
+	 * @param ville nom de la ville.
+	 */
 	private static void traitementEcole(CA communaute, int choix, String ville)
 					throws ScanException, CAException {
 		do {
@@ -302,6 +357,9 @@ public class UtilMenu {
 		} while (ville != null);
 	}
 
+	/** Menu qui gere les ecole.
+	 * @param commune CA sur laquelle on travail.
+	 */
 	public static void ecole(CA commune) {
 		int option = 0;
 		do {
@@ -339,6 +397,9 @@ public class UtilMenu {
 		} while (option != 3);
 	}
 
+	/** menu qui ajoute les ville a la communaute d'agglomeration.
+	 * @param commune CA sur laquelle on travail.
+	 */
 	public static void ville(CA commune) {
 		String nomVille;
 		try {
@@ -359,9 +420,14 @@ public class UtilMenu {
 		commune.affiche();
 	}
 
+	/** Initialisation des ville dans la CA.
+	 * Demande a l'utilisateur combien de ville il veut, les ajoutes tous auto.
+	 * @param commune CA de travail.
+	 */
 	public static void creer(CA commune) {
 		int nombreVilles = 0;
 		String nomVille;
+		/* Demande a l'utilisateur le nombre de ville a ajouter. */
 		do {
 			try {
 				if (Scan.estVide()) {
@@ -375,7 +441,7 @@ public class UtilMenu {
 				System.out.println(e.getMessage());
 			}
 		} while (nombreVilles < 1);
-
+		/* Ajoute chacune de ces villes. */
 		for(int i=1; i<nombreVilles + 1; i++) {
 			nomVille = UtilMethodeCA.nomAutomatique(i);
 			try {
@@ -388,6 +454,8 @@ public class UtilMenu {
 		commune.affiche();//Affiche la liste de villes
 	}
 
+	/** Charge une CA a partir d'un fichier.
+	 */
 	public static CA charger() {
 		int choix =0;
 		CA commune = null;
@@ -408,13 +476,17 @@ public class UtilMenu {
 		return commune;
 	}
 
+	/** Menu qui gere l'entre utilisateur pour la resolution du probleme.
+	 */
 	public static int choixResoudre() {
 		int option = 0;
 		do {
 			try {
+				/* Fait l'entre utilisateur. */
 				System.out.println("Choix de l'algorithme de resolution :\n 1: Naif\n 2: Algo "+
 						"approcher plus efficace sans garder les ecole\n"+
 						" 3: Algo approcher plus efficace en gardant les ecole");
+				/* Regarde le resultat. */
 				switch(Scan.lireMot()) {
 					case "1":
 					case "naif":
@@ -438,6 +510,9 @@ public class UtilMenu {
 		return option;
 	}
 
+	/** Menu qui gere la resolution.
+	 * @param commune CA sur laquelle on travail.
+	 */
 	public static void resoudre(CA commune) {
 		switch(choixResoudre()) {
 			case 1:

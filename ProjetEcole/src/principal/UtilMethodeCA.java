@@ -13,6 +13,11 @@ import java.util.Set;
 
 public class UtilMethodeCA {
 
+	/**
+	 * Retourne une ville aleatoirement dans une CA.
+	 * @param communauteUtilisateur CA fournie.
+	 * @return Ville de la CA choisie aleatoirement.
+	 */
 	public static Ville random(CA communauteUtilisateur) {
         List<Ville> keyList =
 	        new ArrayList<Ville>(communauteUtilisateur.getCommunaute().keySet());
@@ -21,6 +26,12 @@ public class UtilMethodeCA {
         return keyList.get(randIdx);
 	}
 
+	/**
+	 * Calcule le score d'une communaute d'agglomeration.
+	 * C'est a dire le nombre d'ecole a l'interieur de cette derniere.
+	 * @param communauteUtilisateur CA dont on compte les ecoles.
+	 * @return nb d'ecole.
+	 */
 	public static int score(CA communauteUtilisateur) {
 		int score = 0;;
 		for (Ville key : communauteUtilisateur.getCommunaute().keySet()) {
@@ -31,6 +42,10 @@ public class UtilMethodeCA {
 		return score;
 	}
 
+	/**
+	 * Demande a l'utilisatuer de rentre le nom d'une ville.
+	 * @return nom choisie.
+	 */
 	public static String nomVilleUtilisateur() {
 		String nomVille = null;
 		System.out.println("Veuillez donner un nom a la prochaine ville : ");
@@ -42,19 +57,11 @@ public class UtilMethodeCA {
 		return nomVille;
 	}
 
-	/** Fonction temporaire que fournie un nom automatiquement.
-	 * @param num Numero permettant de generer le nom.
-	 * @return Le numero en String.
+	/**
+	 * Permet de nommmer automatiquement sequentiellement a la suite le ville.
+	 * @param i entier qui permet de trouver le nom de la ville.
+	 * @return nom obtenir a partir de l'entier.
 	 */
-	public static String nomAuto(int num) {
-		StringBuilder nom = new StringBuilder("");
-		while (num != 0) {
-			nom.append(num%10);
-			num /= 10;
-		}
-		return nom.reverse().toString();
-	}
-
 	public static String nomAutomatique(int i) {
 	    String nom;
 	    if (i-- <= 0) nom="";
@@ -108,7 +115,7 @@ public class UtilMethodeCA {
 	}
 
 	/**
-	 * Calcul le nombre de ville voisine qui profiterait de l'ajout d'une ecole.
+	 * Calcul le nombre de ville voisine qui profiteraidt de l'ajout d'une ecole.
 	 * @param voisins Liste des villes vosines.
 	 * @param accesE HashMap d'accessibilite des ecoles pour les villes.
 	 * @return Le nombre de nouvelle ville qui ont acces a une ecole.
