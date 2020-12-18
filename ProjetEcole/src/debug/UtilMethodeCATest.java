@@ -13,5 +13,4 @@ public class UtilMethodeCATest {
 		assertEquals("AB", UtilMethodeCA.nomAutomatique(28));
 		assertEquals("KN", UtilMethodeCA.nomAutomatique(300));
 	}
-	
 }

@@ -32,8 +32,56 @@ class CATest {
 
     @Test
     void testExcepVille() {
-        assertThrows(CAException.class, () -> {	
+        assertThrows(CAException.class, () -> {
         	comm.addVille("A");
         });
     }
+
+    @Test
+    void testExcepRoute() {
+		assertThrows(CAException.class, () -> {
+			comm.addRoute("A","B");
+		});
+	}
+
+	@Test
+	void testExcepRoute2() {
+		assertThrows(CAException.class, () -> {
+			comm.addRoute("A","A");
+		});
+	}
+
+	@Test
+	void testExcepRoute3() {
+		assertThrows(CAException.class, () -> {
+			comm.supprimerRoute("D","A");
+		});
+	}
+
+	@Test
+	void testExcepRoute4() {
+		assertThrows(CAException.class, () -> {
+			comm.supprimerRoute("C","A");
+		});
+	}
+
+	@Test
+	void testExcepAffiche() {
+		assertThrows(CAException.class, () -> {
+			comm.afficheRoute("E");
+		});
+	}
+
+	@Test
+	void testExcepEcole() {
+		assertThrows(CAException.class, () -> {
+			comm.retireEcole("D");
+		});
+	}
+
+	@Test
+	void testExcepEcole2() {
+		assertFalse(comm.retireEcole("B");
+	}
+
 }
