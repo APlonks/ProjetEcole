@@ -298,30 +298,47 @@ public class CA {
 		}
 	}
 
-	public static CA algoApproximation(CA communauteUtilisateur) throws CAException {
+	/**
+	 * Algorithme de resolution naif donner.
+	 */
+	public void algoApproximation() {
+		int k = 10*communaute.size(), i=0,
+			scoreCourant = UtilMethodeCA.score(this);
 		Ville ville;
-		CA communauteOpti = new CA();
-		int k = 10*communauteUtilisateur.getCommunaute().size();
-		int i = 0;
-		int scoreCourant = UtilMethodeCA.score(communauteUtilisateur);
-
+		ArrayList<Ville> villeEcole = new ArrayList<Ville>();
+		/* Initialisation des la liste des villes avec des ecoles. */
+		UtilMethodeCA.extractionVille(this,villeEcole);
 		while (i<k) {
-			ville = UtilMethodeCA.random(communauteUtilisateur);
+			ville = UtilMethodeCA.random(this);
+			/* Pour une ville, on essaye d'inverser le fait d'avoir une ville. */
 			if (ville.getEcole() == true) {
-				communauteUtilisateur.retireEcole(ville.toString()); 
+				retireEcole(ville);
+			} else {
+				ville.addEcole();
 			}
-			else ville.addEcole();
-
-			if (UtilMethodeCA.score(communauteUtilisateur)<scoreCourant) {
-				communauteOpti = communauteUtilisateur;
+			/* On regarde si on ameliore le score. Si ou on garde en memoire et remet i a 0. */
+			if (UtilMethodeCA.score(this)<scoreCourant) {
+				UtilMethodeCA.extractionVille(this,villeEcole);
 				i=0;
-				scoreCourant = UtilMethodeCA.score(communauteUtilisateur);
+				scoreCourant = villeEcole.size();
+			} else {
+				i++;
 			}
-			else i++;
 		}
-		communauteOpti.afficheEcole();
-		return communauteOpti;
-		
+		/* On comparer toute les ville de l'ArrayList de sauvegarde avec ceux de la map.
+		 * Comme Ville.equals est definie sur leur nom, il suffit de faire villeEcole.contains().
+		 * pour avoir ou non la presence. */
+		for (Ville v : communaute.keySet()) {
+			if (villeEcole.contains(v)) {
+				/* Possede une ecole. */
+				v.addEcole();
+			} else {
+				/* Ne possede pas d'ecole. */
+				v.retireEcole();
+			}
+		}
+		System.out.println("Ville ou il y a des ecoles apres resolution :");
+		afficheEcole();
 	}
 
 	/**
@@ -340,6 +357,11 @@ public class CA {
 					new PriorityQueue<>(queueCompare);
 		Set<Ville> cle = communaute.keySet();
 		int nbVoisinsDependant;
+		/* On affiche les ville ou des ecole sont deja presente. */
+		if (mode != 0) {
+			System.out.println("Ecole deja presente :");
+			afficheEcole();
+		}
 
 		/* On initialise la queue.
 		 * On y ajoute que les villes qui n'ont pas d'ecole, dont aux moins un voisins n'as pas
@@ -356,6 +378,7 @@ public class CA {
 		while (!UtilMethodeCA.accesPartout(accesE)) {
 			analysteTeteQueue(ordrePrio,accesE);
 		}
+		System.out.println("Ville ou il y a des ecoles apres resolution :");
 		afficheEcole();
 	}
 

@@ -492,14 +492,17 @@ public class UtilMenu {
 				switch(Scan.lireMot()) {
 					case "1":
 					case "naif":
+					case "n":
 						option = 1;
 						break;
 					case "2":
 					case "sans":
+					case "s":
 						option = 2;
 						break;
 					case "3":
 					case "avec":
+					case "a":
 						option = 3;
 						break;
 					default : System.out.println("Choix incorrect");
@@ -518,11 +521,7 @@ public class UtilMenu {
 	public static void resoudre(CA commune) {
 		switch(choixResoudre()) {
 			case 1:
-			try {
-				commune = CA.algoApproximation(commune);
-			} catch (CAException e) {
-				System.out.println(e.getMessage());
-			}
+				commune.algoApproximation();
 				break;
 			case 2:
 				commune.algoQueue(0);

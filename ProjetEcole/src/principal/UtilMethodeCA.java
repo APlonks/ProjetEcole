@@ -143,4 +143,21 @@ public class UtilMethodeCA {
 		}
 		return true;
 	}
+
+	/**
+	 * Retourne dans une ArrayList l'ensemble des ville qui ont une ecole.
+	 * Comme on veut dissocier les instances des villes de la CA et celle de la liste on creer de
+	 * nouvelle ville a chaque fois.
+	 * @param comm CA dont on extrait les villes avec routes.
+	 * @param list des villes avec une ecole.
+	 * @return List des villes avec ecoles.
+	 */
+	public static void extractionVille(CA comm, ArrayList<Ville> list) {
+		list.clear();
+		for(Ville v : comm.getCommunaute().keySet()) {
+			if (v.getEcole()) {
+				list.add(new Ville(v.toString()));
+			}
+		}
+	}
 }
