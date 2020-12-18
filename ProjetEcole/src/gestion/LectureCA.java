@@ -14,11 +14,9 @@ import java.io.FileReader;
  */
 public class LectureCA {
 	/**
-	 * @param lecture BufferedReader qui permet de lire le fichier.
 	 * @param ligneLu AnalyseChaine qui vas permettre d'analyse les lignes lues.
 	 * @param numLgn Numero de la ligne lu.
 	 */
-	private static BufferedReader lecture = null;
 	private static AnalyseChaine ligneLu = new AnalyseChaine("().");
 	private static int numLgn = 0;
 

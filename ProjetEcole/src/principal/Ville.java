@@ -1,6 +1,6 @@
 package principal;
 
-import java.lang.Comparable;
+
 
 /**
  * Ville representer par un nom et la presence ou nom d'une ecole.

@@ -1,7 +1,6 @@
 package gestion;
 
 import java.util.ArrayList;
-import java.lang.CharSequence;
 
 /**
  * Class utilitaire pour AnalyseChaine.

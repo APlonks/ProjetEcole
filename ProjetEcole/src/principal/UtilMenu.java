@@ -133,7 +133,6 @@ public class UtilMenu {
 	 * @return 1 si oui 0 si non.
 	 */
 	private static int ignorer() {
-		String nomFichier = new String("");
 		int choix = 0;
 		System.out.print("La communaute d'agglomeration n'est pas connexe, ignorer : ");
 		do {

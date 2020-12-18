@@ -316,7 +316,7 @@ public class CA {
 			} else {
 				ville.addEcole();
 			}
-			/* On regarde si on ameliore le score. Si ou on garde en memoire et remet i a 0. */
+			/* On regarde si on ameliore le score. Si oui on garde en memoire et remet i a 0. */
 			if (UtilMethodeCA.score(this)<scoreCourant) {
 				UtilMethodeCA.extractionVille(this,villeEcole);
 				i=0;

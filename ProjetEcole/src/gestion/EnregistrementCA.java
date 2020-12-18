@@ -83,7 +83,6 @@ public class EnregistrementCA {
 	 * @return 1 si oui 0 si non.
 	 */
 	private static int ecraser() {
-		String nomFichier = new String("");
 		int choix = 0;
 		System.out.print("Ce fichier existe deja, l'ecraser : ");
 		do {

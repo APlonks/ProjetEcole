@@ -90,7 +90,6 @@ public class Scan {
 	 * @return La valeur de l'entier taper par l'utilisateur.
 	 */
 	public static int lireEntier() throws ScanException {
-		int valeur;
 		updateLigne();
 		return entierSuivant();
 	}
