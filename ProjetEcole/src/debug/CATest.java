@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
-import gestion.LectureException;
 import principal.CA;
 import principal.CAException;
 
@@ -81,7 +80,11 @@ class CATest {
 
 	@Test
 	void testExcepEcole2() {
-		assertFalse(comm.retireEcole("B");
+		try {
+			assertFalse(comm.retireEcole("B"));
+		} catch (CAException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 }
