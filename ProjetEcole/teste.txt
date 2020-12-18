@@ -1,6 +1,24 @@
-ville(A)
-ville(B)
-ville(C)
-route(B,A)
-route(C,B)
-ecole(B)
+	public void algoApproximation() throws CAException {
+		Ville ville;
+		CA evolutionCommunaute = new CA(this);
+		int k = 10*evolutionCommunaute.getCommunaute().size();
+		int i = 0;
+		int scoreCourant = UtilMethodeCA.score(evolutionCommunaute);
+
+		while (i<k) {
+			ville = UtilMethodeCA.random(evolutionCommunaute);
+			if (ville.getEcole() == true) {
+				evolutionCommunaute.retireEcole(ville.toString()); 
+			}
+			else ville.addEcole();
+
+			if (UtilMethodeCA.score(evolutionCommunaute)<scoreCourant) {
+				communaute.putAll(evolutionCommunaute.getCommunaute());
+				i=0;
+				scoreCourant = UtilMethodeCA.score(evolutionCommunaute);
+				System.out.println(scoreCourant);
+			}
+			else i++;
+		}
+		afficheEcole();
+	}

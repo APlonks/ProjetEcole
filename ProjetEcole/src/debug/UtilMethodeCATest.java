@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import principal.UtilMethodeCA;
 
 
-public class TestUtilMethodeCA {
+public class UtilMethodeCATest {
 	@Test
 	void testNomAutomatique() {
 		assertEquals("E", UtilMethodeCA.nomAutomatique(5));
