@@ -1,0 +1,6 @@
+ville(A).
+ville(B).
+ville(C).
+route(B,A).
+route(C,B).
+ecole(B).
