@@ -18,7 +18,7 @@ public class UtilMenu {
 		do {
 			/* Tant que l'utilisateur n'as pas fait de choix on lui demande. */
 			try {
-				System.out.println("1: creer\n 2: charger un fichier");
+				System.out.println(" 1: creer\n 2: charger un fichier");
 				choixUtilisateur = Scan.lireMot();
 				switch(choixUtilisateur) {
 
@@ -211,6 +211,7 @@ public class UtilMenu {
 			choix = choixMenu3();
 			switch(choix) {
 			case 1: menu2(commune);
+					arretMenu = true;
 					break;
 			case 2: resoudre(commune);
 					break;
@@ -346,9 +347,10 @@ public class UtilMenu {
 		do {
 			if (choix == 1) {
 				communaute.addEcole(ville);
-			} else {
-				communaute.retireEcole(ville);
+			} else if (!communaute.retireEcole(ville)) {
+				throw new CAException("Impossible de retirer une ecole de " + ville);
 			}
+			
 			if (Scan.estVide()) {
 				ville = null;
 			} else {
@@ -516,7 +518,11 @@ public class UtilMenu {
 	public static void resoudre(CA commune) {
 		switch(choixResoudre()) {
 			case 1:
-				/* Ya des truc byzarre. */
+			try {
+				commune = CA.algoApproximation(commune);
+			} catch (CAException e) {
+				System.out.println(e.getMessage());
+			}
 				break;
 			case 2:
 				commune.algoQueue(0);

@@ -298,16 +298,17 @@ public class CA {
 		}
 	}
 
-	public CA algoApproximation(CA communauteUtilisateur, int k) throws CAException {
+	public static CA algoApproximation(CA communauteUtilisateur) throws CAException {
 		Ville ville;
 		CA communauteOpti = new CA();
+		int k = 10*communauteUtilisateur.getCommunaute().size();
 		int i = 0;
 		int scoreCourant = UtilMethodeCA.score(communauteUtilisateur);
 
 		while (i<k) {
 			ville = UtilMethodeCA.random(communauteUtilisateur);
 			if (ville.getEcole() == true) {
-				retireEcole(ville.toString()); 
+				communauteUtilisateur.retireEcole(ville.toString()); 
 			}
 			else ville.addEcole();
 
@@ -318,7 +319,9 @@ public class CA {
 			}
 			else i++;
 		}
+		communauteOpti.afficheEcole();
 		return communauteOpti;
+		
 	}
 
 	/**
@@ -352,10 +355,6 @@ public class CA {
 		/* Tant que toutes les ville non pas acces a une ecole. On cherche a en ajouter. */
 		while (!UtilMethodeCA.accesPartout(accesE)) {
 			analysteTeteQueue(ordrePrio,accesE);
-		}
-		/* Verifie qu'on ne puissent enlever aucune ecole. */
-		for (Ville v : cle) {
-			retireEcole(v);
 		}
 		afficheEcole();
 	}
